@@ -67,7 +67,7 @@ function realLife(root, gate) {
   function update() {
     tA._paint(); if (tB) tB._paint();
     const ins = one ? [a] : [a, b], y = gateEval(gate, ins);
-    clear(gateBox).append(gateSvg(gate, { ins, out: y, scale: 1.7 }));
+    clear(gateBox).append(gateSvg(gate, { ins, out: y, scale: 1.15 }));
     clear(outBox).append(h('span', { class: 'led big' + (y ? ' on' : '') }), h('div', null, h('div', { class: 'rl-outname' }, cfg.y.label), h('div', { class: 'rl-outstate' }, y ? cfg.y.on : cfg.y.off, h('b', null, ' = ' + y))));
     clear(ttBox).append(h('table', { class: 'tt' }, h('thead', null, h('tr', null, (one ? ['A'] : ['A', 'B']).map((x) => h('th', null, x)), h('th', null, 'Y'), h('th', { style: { textAlign: 'left' } }, 'In words'))),
       h('tbody', null, rows.map((r) => h('tr', { class: r[0] === a && (one || r[1] === b) ? 'act' : '' }, r.map((x) => h('td', null, x)), h('td', null, gateEval(gate, r)), h('td', { style: { textAlign: 'left', fontFamily: 'var(--f-head)' } }, words(r)))))));
@@ -76,7 +76,7 @@ function realLife(root, gate) {
     h('div', { class: 'rl-story' }, h('div', { class: 'rl-scene' }, cfg.scene), h('p', null, cfg.story),
       h('div', { class: 'rl-rule' }, h('b', null, cfg.expr), '   ', cfg.rule),
       h('h4', null, 'More places you meet it'), h('ul', null, cfg.more.map((m) => h('li', null, m)))),
-    h('div', { class: 'rl-play' }, h('h4', null, 'Try it: click the inputs'), h('div', { class: 'rl-inputs' }, tA, tB), gateBox, outBox, ttBox)));
+    h('div', { class: 'rl-play' }, h('h4', null, 'Try it: click the inputs'), h('div', { class: 'rl-row' }, h('div', { class: 'rl-inputs' }, tA, tB), gateBox, outBox), ttBox)));
   update();
 }
 

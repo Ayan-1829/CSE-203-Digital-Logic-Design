@@ -12,6 +12,7 @@ practice.html                  drills, all practice problems, link to Gate Forge
 reference.html                 searchable formulas and tables
 projects.html                  project checklists, 3x3 multiplier, viva questions
 css/style.css                  all styling (colour tokens are at the top of the file)
+img/                            images used on the homepage (companion-tool cards)
 js/core.js                     helpers, Boolean parser, Quine-McCluskey minimiser, gate shapes
 js/lab.js                      small circuit simulator used by the "circuit" slides
 js/kmap.js                     K-map component

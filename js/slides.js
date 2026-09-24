@@ -8,10 +8,6 @@
   var fsBtn = document.getElementById('btn-fs'), menuBtn = document.getElementById('btn-menu');
   var menu = document.getElementById('slide-menu'), live = document.getElementById('live');
   var menuCloseBtn = document.getElementById('btn-menu-close');
-  var key = 'dld-slide-' + (cfg.id || 'x');
-
-  function save(n) { try { localStorage.setItem(key, String(n)); } catch (e) { /* storage may be blocked */ } }
-  function saved() { try { return parseInt(localStorage.getItem(key), 10) || 1; } catch (e) { return 1; } }
 
   function go(n, fromHash) {
     n = Math.max(1, Math.min(total, n));
@@ -25,7 +21,6 @@
     nextBtn.textContent = n === total ? (cfg.next ? (cfg.nextLabel || 'Next topic') : 'Finish') : 'Next';
     nextBtn.disabled = n === total && !cfg.next;
     if (live) live.textContent = 'Slide ' + n + ' of ' + total + ': ' + (slides[cur].getAttribute('data-title') || '');
-    save(n);
     if (!fromHash) { try { history.replaceState(null, '', '#s=' + n); } catch (e) { location.hash = 's=' + n; } }
     document.querySelectorAll('#slide-menu a').forEach(function (a, i) { a.classList.toggle('cur', i === cur); });
   }
@@ -35,7 +30,7 @@
   function fromHash() {
     var m = /s=(\d+|last)/.exec(location.hash || '');
     if (m) return m[1] === 'last' ? total : parseInt(m[1], 10);
-    return saved();
+    return 1;
   }
 
   /* slide menu */

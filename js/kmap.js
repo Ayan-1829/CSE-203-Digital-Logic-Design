@@ -155,7 +155,7 @@ function mountKMap(root, opts = {}) {
     const cv = st.cells[cur];
     const outLed = led(val);
     const swRow = h('div', { class: 'row' }, vars.map((vn) => { const s = tsw(vn, st.env[vn], (x) => { st.env[vn] = x; st.showCur = true; render(); }); return s.el; }),
-      h('span', { class: 'row tight' }, outLed.el, h('span', { class: 'mono' }, 'F = ' + val)),
+      h('span', { class: 'row tight' }, outLed.el, h('span', { class: 'mono' }, 'F = ' + (val === null ? '–' : val))),
       h('span', { class: 'small muted' }, `Input ${bin(cur, n)} is cell m${cur}, which holds ${cv === 2 ? 'X (don\u2019t care)' : cv}.`));
     const tester = h('div', { style: { marginTop: '18px' } }, h('h3', null, 'Test the result with switches'),
       h('p', { class: 'small muted', style: { margin: '0 0 8px', maxWidth: '68ch' } }, 'Flip the input switches. The yellow outline shows which cell the inputs select, and the LED shows what the simplified expression outputs.'),

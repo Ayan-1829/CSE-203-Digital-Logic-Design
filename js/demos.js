@@ -188,7 +188,7 @@ DEMOS[3] = (root) => {
             h('div', null, 'Dual:  ', h('b', null, astStr(dualAst(ast)))),
             h('div', null, 'Complement (DeMorgan):  ', h('b', null, astStr(nnf(ast, true))))),
           h('p', { class: 'small muted', style: { margin: '8px 0' } }, ls < lo ? `The minimal SOP uses ${ls} literals, ${lo - ls} fewer than what you typed.` : 'Your expression is already as small as the minimal SOP.'),
-          h('div', { class: 'row tight' }, h('button', { type: 'button', class: 'btn sm pri', onclick: () => { showC = !showC; run(); } }, showC ? 'Hide the circuit' : 'Show minimal SOP as a circuit'), vars.length <= 4 ? h('a', { class: 'btn sm', href: '04-universal-gates-and-k-maps.html' }, 'Try it on a K-map') : null),
+          h('div', { class: 'row tight' }, h('button', { type: 'button', class: 'btn sm pri', onclick: () => { showC = !showC; run(); } }, showC ? 'Hide the circuit' : 'Show minimal SOP as a circuit'), vars.length <= 4 ? h('a', { class: 'btn sm', href: '04-universal-gates-and-k-maps.html#s=8' }, 'Try it on a K-map') : null),
           circ)));
     if (showC) { try { createLab(circ, { compact: true, locked: true, netlist: layoutExpr(parseExpr(m.sop.expr)) }); } catch (e) { circ.append(h('p', { class: 'bad' }, e.message)); } }
     eq();
