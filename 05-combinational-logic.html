@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Combinational Logic &amp; Arithmetic Circuits · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">5</span><span>Combinational Logic &amp; Arithmetic Circuits</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Combinational Logic &amp; Arithmetic Circuits" aria-label="Combinational Logic &amp; Arithmetic Circuits" tabindex="-1"><div class="slide-inner">
+<span class="badge big">5</span>
+<p class="kicker">Topic 5 of 13</p>
+<h1>Combinational Logic &amp; Arithmetic Circuits</h1>
+<p class="lead">Adders, subtractors, BCD adders and comparators: the arithmetic inside every ALU.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Combinational circuit characteristics</a></li><li><a href="#s=3">Circuit design and analysis procedure</a></li><li><a href="#s=4">Half adder</a></li><li><a href="#s=4">Full adder</a></li><li><a href="#s=4">Ripple/parallel carry adder</a></li><li><a href="#s=5">Half and full subtractor</a></li><li><a href="#s=5">Adder-subtractor</a></li><li><a href="#s=5">2&#x27;s complement arithmetic</a></li><li><a href="#s=5">Overflow</a></li><li><a href="#s=6">BCD adder</a></li><li><a href="#s=6">Magnitude comparator</a></li><li><a href="#s=6">ALU and arithmetic applications</a></li></ol>
+</div></section>
+<section class="slide " data-title="Combinational circuits" aria-label="Combinational circuits" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 4</p><div class="concept"><h2>Combinational circuits</h2><div><p>Outputs depend only on present inputs. There is no memory. Design procedure: read the specification, list inputs and outputs, write the truth table, derive expressions, simplify (Boolean algebra or K-map), implement, verify. Analysis runs the other way: label gate outputs, write expressions, combine, and check with a truth table.</p></div></div>
+</div></section>
+<section class="slide " data-title="Adders" aria-label="Adders" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 4</p><div class="concept"><h2>Adders</h2><div><div class="formula">Half adder:  S = A ⊕ B,  C = AB<br>Full adder:  S = A ⊕ B ⊕ Cin<br>             Cout = AB + ACin + BCin = AB + Cin(A ⊕ B)</div><p>A full adder can be built from two half adders and an OR gate. Chaining n full adders gives an n-bit <b>ripple-carry adder</b>: simple, but each stage waits for the carry from the one before, so delay grows with n.</p></div></div>
+</div></section>
+<section class="slide " data-title="Subtractors and the adder-subtractor" aria-label="Subtractors and the adder-subtractor" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 4</p><div class="concept"><h2>Subtractors and the adder-subtractor</h2><div><div class="formula">Half subtractor:  D = A ⊕ B,  Bout = A′B<br>Full subtractor:  D = A ⊕ B ⊕ Bin<br>                  Bout = A′B + A′Bin + B·Bin</div><p>Hardware usually subtracts with 2’s complement: A − B = A + B′ + 1. Put an XOR gate on each B input, controlled by a mode signal M, and use M as the carry-in. M = 0 adds, M = 1 subtracts. For signed numbers, <b>overflow</b> occurs when the carry into the MSB differs from the carry out of the MSB.</p></div></div>
+</div></section>
+<section class="slide " data-title="BCD adder and magnitude comparator" aria-label="BCD adder and magnitude comparator" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 4</p><div class="concept"><h2>BCD adder and magnitude comparator</h2><div><p>A BCD adder is a 4-bit binary adder followed by correction logic. The largest possible sum is 9 + 9 + 1 = 19. Add 0110 when the binary sum exceeds 9 or produces a carry.</p><p>A magnitude comparator outputs A&gt;B, A=B and A&lt;B. For one bit: G = AB′, E = (A ⊕ B)′, L = A′B. For several bits, compare from the MSB down: the first unequal pair decides.</p><p>These blocks combine with multiplexers and logic gates to form an <b>ALU</b>.</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (1 of 4): Half adder and Full adder" aria-label="Truth tables (1 of 4): Half adder and Full adder" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (1 of 4)</h2><div class="tgrid"><div class="tcard"><h4>Half adder</h4><div class="scrollx"><table class="tt"><thead><tr><th>A</th><th>B</th><th>Sum</th><th>Carry</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td></tr></tbody></table></div></div><div class="tcard"><h4>Full adder</h4><div class="scrollx"><table class="tt"><thead><tr><th>A</th><th>B</th><th>Cin</th><th>Sum</th><th>Cout</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (2 of 4): Half subtractor and Full subtractor" aria-label="Truth tables (2 of 4): Half subtractor and Full subtractor" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (2 of 4)</h2><div class="tgrid"><div class="tcard"><h4>Half subtractor</h4><div class="scrollx"><table class="tt"><thead><tr><th>A</th><th>B</th><th>Difference</th><th>Borrow</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td></tr></tbody></table></div></div><div class="tcard"><h4>Full subtractor</h4><div class="scrollx"><table class="tt"><thead><tr><th>A</th><th>B</th><th>Bin</th><th>Difference</th><th>Bout</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (3 of 4): 1-bit magnitude comparator" aria-label="Truth tables (3 of 4): 1-bit magnitude comparator" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (3 of 4)</h2><div class="tgrid"><div class="tcard"><h4>1-bit magnitude comparator</h4><div class="scrollx"><table class="tt"><thead><tr><th>A</th><th>B</th><th>A&gt;B</th><th>A=B</th><th>A&lt;B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (4 of 4): BCD adder correction" aria-label="Truth tables (4 of 4): BCD adder correction" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (4 of 4)</h2><div class="tgrid"><div class="tcard"><h4>BCD adder correction</h4><div class="scrollx"><table class="tt"><thead><tr><th>Binary sum</th><th>Add 0110?</th><th>BCD carry</th><th>BCD digit</th></tr></thead><tbody><tr><td>00000</td><td>no</td><td>0</td><td>0000</td></tr><tr><td>00001</td><td>no</td><td>0</td><td>0001</td></tr><tr><td>00010</td><td>no</td><td>0</td><td>0010</td></tr><tr><td>00011</td><td>no</td><td>0</td><td>0011</td></tr><tr><td>00100</td><td>no</td><td>0</td><td>0100</td></tr><tr><td>00101</td><td>no</td><td>0</td><td>0101</td></tr><tr><td>00110</td><td>no</td><td>0</td><td>0110</td></tr><tr><td>00111</td><td>no</td><td>0</td><td>0111</td></tr><tr><td>01000</td><td>no</td><td>0</td><td>1000</td></tr><tr><td>01001</td><td>no</td><td>0</td><td>1001</td></tr><tr><td>01010</td><td>yes</td><td>1</td><td>0000</td></tr><tr><td>01011</td><td>yes</td><td>1</td><td>0001</td></tr><tr><td>01100</td><td>yes</td><td>1</td><td>0010</td></tr><tr><td>01101</td><td>yes</td><td>1</td><td>0011</td></tr><tr><td>01110</td><td>yes</td><td>1</td><td>0100</td></tr><tr><td>01111</td><td>yes</td><td>1</td><td>0101</td></tr><tr><td>10000</td><td>yes</td><td>1</td><td>0110</td></tr><tr><td>10001</td><td>yes</td><td>1</td><td>0111</td></tr><tr><td>10010</td><td>yes</td><td>1</td><td>1000</td></tr><tr><td>10011</td><td>yes</td><td>1</td><td>1001</td></tr></tbody></table></div><p class="small muted" style="margin:6px 0 0">Sums above 9 need +6 (0110). The largest sum is 9 + 9 + 1 = 19.</p></div></div>
+</div></section>
+<section class="slide " data-title="Demo: 4-bit adder and subtractor" aria-label="Demo: 4-bit adder and subtractor" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: 4-bit adder and subtractor</h2><div data-demo="5" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Circuit: Half adder" aria-label="Circuit: Half adder" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>Half adder</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="half-adder"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: Full adder (two half adders + OR)" aria-label="Circuit: Full adder (two half adders + OR)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>Full adder (two half adders + OR)</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="full-adder"></div></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 3</p><h2>Worked example 1</h2><div class="ex"><div class="qq">Add 1011 + 0110 with a ripple-carry adder.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Bit 0: 1+0 = 1, carry 0</li><li>Bit 1: 1+1 = 0, carry 1</li><li>Bit 2: 0+1+1 = 0, carry 1</li><li>Bit 3: 1+0+1 = 0, carry 1</li></ol>Result <b>1 0001</b> = 17.</div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 3</p><h2>Worked example 2</h2><div class="ex"><div class="qq">Compute 0110 − 0011 with 2’s complement.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Invert B: 1100, add 1: 1101.</li><li>0110 + 1101 = 1 0011.</li><li>Discard the carry: <b>0011</b> = 3.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 3" aria-label="Worked example 3" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 3 of 3</p><h2>Worked example 3</h2><div class="ex"><div class="qq">Add 7 + 8 in BCD.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>0111 + 1000 = 1111 (greater than 1001).</li><li>Add 0110: 1111 + 0110 = 1 0101.</li><li><b>0001 0101</b> = 15.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Derive the half adder equations.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">S = A ⊕ B, C = AB.</div></details></div><div class="ex"><div class="qq">2. How do you build a full adder from half adders?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">The first half adder adds A and B. The second adds that sum and Cin. OR the two carry outputs to get Cout.</div></details></div><div class="ex"><div class="qq">3. Derive the half subtractor equations.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">D = A ⊕ B, Borrow = A′B.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Explain ripple-carry delay.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Each stage must wait for the carry from the previous stage, so total delay is roughly n times the carry delay of one full adder.</div></details></div><div class="ex"><div class="qq">5. Perform the BCD addition 7 + 8.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">0001 0101 (15).</div></details></div><div class="ex"><div class="qq">6. Design a 1-bit magnitude comparator.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">G = AB′, E = A XNOR B, L = A′B.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Open the Half adder and Full adder examples, then chain full adders into a 4-bit ripple-carry adder.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="5"></div><script type="application/json" class="quiz-json">[{"q": "The carry output of a half adder is", "o": ["A ⊕ B", "AB", "A + B", "A′B"], "a": 1, "w": "Carry is 1 only when both bits are 1."}, {"q": "The main drawback of a ripple-carry adder is", "o": ["it needs many inputs", "carry propagation delay", "it cannot add negative numbers", "it uses flip-flops"], "a": 1, "w": "Each stage waits for the previous carry."}, {"q": "A − B in 2’s complement is computed as", "o": ["A + B", "A + B′", "A + B′ + 1", "A′ + B + 1"], "a": 2, "w": "2’s complement of B is B′ + 1."}, {"q": "A BCD sum of 1101 must be corrected by adding", "o": ["0001", "0011", "0110", "1001"], "a": 2, "w": "6 skips the six invalid codes."}, {"q": "Full subtractor difference is", "o": ["A ⊕ B", "A ⊕ B ⊕ Bin", "A′B", "AB + Bin"], "a": 1, "w": "Three-input XOR, as in a full adder sum."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>Half adder: S = A⊕B, C = AB. Full adder adds a carry-in.</li><li>Ripple-carry is simple but slow for wide words.</li><li>A − B = A + B′ + 1. XOR gates plus carry-in make an adder-subtractor.</li><li>Signed overflow: carry into MSB ≠ carry out of MSB.</li><li>BCD correction: add 0110 when the sum exceeds 9 or carries.</li></ul><div class="nextcard"><a class="btn pri" href="06-decoders-encoders-mux.html">Next topic: MUX / DEMUX / Decoder</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 20</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 5, "prev": "04-universal-gates-and-k-maps.html", "next": "06-decoders-encoders-mux.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

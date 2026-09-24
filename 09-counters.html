@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Counters · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">9</span><span>Counters</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Counters" aria-label="Counters" tabindex="-1"><div class="slide-inner">
+<span class="badge big">9</span>
+<p class="kicker">Topic 9 of 13</p>
+<h1>Counters</h1>
+<p class="lead">Ripple, synchronous, up/down, MOD-N, ring and Johnson counters, and frequency division.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Counter fundamentals</a></li><li><a href="#s=3">Binary counters</a></li><li><a href="#s=4">Asynchronous/ripple counters</a></li><li><a href="#s=5">Synchronous counters</a></li><li><a href="#s=5">Up/down counters</a></li><li><a href="#s=6">MOD-N counters</a></li><li><a href="#s=6">MOD-6, MOD-8, MOD-10, MOD-14, MOD-16</a></li><li><a href="#s=6">Truncated counters</a></li><li><a href="#s=6">Counter reset</a></li><li><a href="#s=6">Flip-flop requirements</a></li><li><a href="#s=7">Ring counters</a></li><li><a href="#s=7">Johnson counters</a></li><li><a href="#s=7">Frequency division</a></li><li><a href="#s=3">Counter applications</a></li></ol>
+</div></section>
+<section class="slide " data-title="Counter basics" aria-label="Counter basics" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 5</p><div class="concept"><h2>Counter basics</h2><div><p>A counter is a set of flip-flops that steps through a fixed sequence of states. An n-bit binary counter has 2<sup>n</sup> states. A <b>MOD-N</b> counter has N states. Counters count events, measure time, divide frequency and sequence control logic.</p></div></div>
+</div></section>
+<section class="slide " data-title="Ripple counters" aria-label="Ripple counters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 5</p><div class="concept"><h2>Ripple counters</h2><div><p>In a ripple (asynchronous) counter, each flip-flop’s output clocks the next one. With T = 1 the first flip-flop toggles on every clock, the next on every other, and so on. With positive-edge flip-flops, connect Q′ of one stage to the clock of the next to count up.</p><p>Simple and cheap, but delay accumulates stage by stage, so intermediate states appear briefly and high speed is difficult.</p></div></div>
+</div></section>
+<section class="slide " data-title="Synchronous counters" aria-label="Synchronous counters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 5</p><div class="concept"><h2>Synchronous counters</h2><div><p>All flip-flops share one clock, so state changes happen together. Gates decide which flip-flops toggle. For an up counter with T flip-flops: T0 = 1, T1 = Q0, T2 = Q0·Q1, T3 = Q0·Q1·Q2. An <b>up/down</b> counter uses a control input to select between Q and Q′ terms. Synchronous counters are faster than ripple counters and use more gates.</p></div></div>
+</div></section>
+<section class="slide " data-title="MOD-N and truncated counters" aria-label="MOD-N and truncated counters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 5</p><div class="concept"><h2>MOD-N and truncated counters</h2><div><p>Choose n so that 2<sup>n</sup> ≥ N. A MOD-10 (decade) counter needs 4 flip-flops and skips six of the 16 states, so it is <b>truncated</b>. A MOD-6 counter counts 000 to 101 then resets. Truncation is done by detecting state N and resetting (asynchronously or synchronously) or by designing the next-state logic directly. A reset forces a known start state, usually all zeros.</p></div></div>
+</div></section>
+<section class="slide " data-title="Ring and Johnson counters; frequency division" aria-label="Ring and Johnson counters; frequency division" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 5 of 5</p><div class="concept"><h2>Ring and Johnson counters; frequency division</h2><div><p>A <b>ring counter</b> circulates a single 1 through a shift register (1000 → 0100 → 0010 → 0001), giving n states from n flip-flops. A <b>Johnson counter</b> feeds the complement of the last output back to the first, giving 2n states.</p><p><b>Frequency division:</b> the output of stage k of a binary counter has frequency f/2<sup>k+1</sup>. A MOD-N counter’s last output is f/N.</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (1 of 3): 3-bit up counter with T flip-flops" aria-label="Truth tables (1 of 3): 3-bit up counter with T flip-flops" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (1 of 3)</h2><div class="tgrid"><div class="tcard"><h4>3-bit up counter with T flip-flops</h4><div class="scrollx"><table class="tt"><thead><tr><th>Q2</th><th>Q1</th><th>Q0</th><th>T2 = Q1Q0</th><th>T1 = Q0</th><th>T0</th><th>Next</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>001</td></tr><tr><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>010</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>011</td></tr><tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>100</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td><td>101</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td><td>110</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>111</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>000</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (2 of 3): MOD-6 counter and 4-bit ring counter" aria-label="Truth tables (2 of 3): MOD-6 counter and 4-bit ring counter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (2 of 3)</h2><div class="tgrid"><div class="tcard"><h4>MOD-6 counter</h4><div class="scrollx"><table class="tt"><thead><tr><th>Count</th><th>Q2</th><th>Q1</th><th>Q0</th><th>Next</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>001</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>010</td></tr><tr><td>2</td><td>0</td><td>1</td><td>0</td><td>011</td></tr><tr><td>3</td><td>0</td><td>1</td><td>1</td><td>100</td></tr><tr><td>4</td><td>1</td><td>0</td><td>0</td><td>101</td></tr><tr><td>5</td><td>1</td><td>0</td><td>1</td><td>000</td></tr><tr><td>6</td><td>1</td><td>1</td><td>0</td><td>unused</td></tr><tr><td>7</td><td>1</td><td>1</td><td>1</td><td>unused</td></tr></tbody></table></div><p class="small muted" style="margin:6px 0 0">States 110 and 111 are never used. Reset at 110 (or design the next-state logic) makes the count return to 000.</p></div><div class="tcard"><h4>4-bit ring counter</h4><div class="scrollx"><table class="tt"><thead><tr><th>Clock</th><th>Q3</th><th>Q2</th><th>Q1</th><th>Q0</th></tr></thead><tbody><tr><td>0</td><td>1</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>3</td><td>0</td><td>0</td><td>0</td><td>1</td></tr><tr><td>4</td><td>1</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (3 of 3): 4-bit Johnson counter" aria-label="Truth tables (3 of 3): 4-bit Johnson counter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (3 of 3)</h2><div class="tgrid"><div class="tcard"><h4>4-bit Johnson counter</h4><div class="scrollx"><table class="tt"><thead><tr><th>Clock</th><th>Q3</th><th>Q2</th><th>Q1</th><th>Q0</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2</td><td>1</td><td>1</td><td>0</td><td>0</td></tr><tr><td>3</td><td>1</td><td>1</td><td>1</td><td>0</td></tr><tr><td>4</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>5</td><td>0</td><td>1</td><td>1</td><td>1</td></tr><tr><td>6</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>7</td><td>0</td><td>0</td><td>0</td><td>1</td></tr><tr><td>8</td><td>0</td><td>0</td><td>0</td><td>0</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Demo: live counters" aria-label="Demo: live counters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: live counters</h2><div data-demo="9" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Circuit: 3-bit ripple counter (T flip-flops)" aria-label="Circuit: 3-bit ripple counter (T flip-flops)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>3-bit ripple counter (T flip-flops)</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="ripple-3"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: 3-bit synchronous counter" aria-label="Circuit: 3-bit synchronous counter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>3-bit synchronous counter</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="sync-3"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: Divide-by-2 (D flip-flop, Q′ to D)" aria-label="Circuit: Divide-by-2 (D flip-flop, Q′ to D)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>Divide-by-2 (D flip-flop, Q′ to D)</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="div2"></div></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 3</p><h2>Worked example 1</h2><div class="ex"><div class="qq">How many flip-flops does a MOD-12 counter need?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>2<sup>3</sup> = 8 &lt; 12 ≤ 16 = 2<sup>4</sup>.</li><li><b>4</b> flip-flops.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 3</p><h2>Worked example 2</h2><div class="ex"><div class="qq">A 16 kHz clock drives a 4-bit binary counter. What is the frequency of Q3?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Q3 divides by 2<sup>4</sup> = 16.</li><li>16 kHz / 16 = <b>1 kHz</b>.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 3" aria-label="Worked example 3" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 3 of 3</p><h2>Worked example 3</h2><div class="ex"><div class="qq">Give the state sequence of a MOD-6 counter.</div><details class="reveal"><summary>Show the solution</summary><div class="ans">000 → 001 → 010 → 011 → 100 → 101 → 000. States 110 and 111 are unused.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Design a 3-bit ripple counter.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Three T flip-flops with T = 1. Clock the first, and connect Q′ of each stage to the clock of the next (for positive-edge flip-flops). Try the circuit below.</div></details></div><div class="ex"><div class="qq">2. Compare ripple and synchronous counters.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Ripple: clock passes stage to stage, simple, accumulating delay. Synchronous: common clock, faster, needs extra gates.</div></details></div><div class="ex"><div class="qq">3. Design an up/down counter.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Add a control input. For stage k use T<sub>k</sub> = (Q0·…·Q<sub>k−1</sub>)·UP + (Q0′·…·Q<sub>k−1</sub>′)·DOWN, with T0 = 1.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. How many flip-flops for a MOD-12 counter?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">4</div></details></div><div class="ex"><div class="qq">5. Explain ring and Johnson counters.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A ring counter circulates one 1 (n states). A Johnson counter feeds back the complement of the last stage (2n states).</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build a 3-bit ripple counter and a MOD-6 counter with a Clock, and read the Timing diagram.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="9"></div><script type="application/json" class="quiz-json">[{"q": "The minimum number of flip-flops for a MOD-10 counter is", "o": ["3", "4", "5", "10"], "a": 1, "w": "2⁴ = 16 ≥ 10."}, {"q": "The main disadvantage of a ripple counter is", "o": ["it needs a reset", "accumulated propagation delay", "it cannot count up", "it uses latches"], "a": 1, "w": "Each stage waits for the one before it."}, {"q": "A 4-bit Johnson counter has how many states?", "o": ["4", "8", "15", "16"], "a": 1, "w": "2n = 8."}, {"q": "A 3-bit binary counter is clocked at 80 Hz. The frequency of Q2 is", "o": ["40 Hz", "20 Hz", "10 Hz", "5 Hz"], "a": 2, "w": "80 / 2³ = 10 Hz."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>n flip-flops give 2<sup>n</sup> states. MOD-N needs 2<sup>n</sup> ≥ N.</li><li>Ripple counters are simple but slow. Synchronous counters share one clock.</li><li>Truncated counters skip states by reset or by design.</li><li>Ring: n states. Johnson: 2n states.</li><li>A binary counter stage k divides the clock by 2<sup>k+1</sup>.</li></ul><div class="nextcard"><a class="btn pri" href="10-registers.html">Next topic: Registers</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 21</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 9, "prev": "08-state-machines.html", "next": "10-registers.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

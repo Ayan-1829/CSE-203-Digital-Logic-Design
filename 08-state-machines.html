@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>State Machines &amp; Sequential Circuit Design · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">8</span><span>State Machines &amp; Sequential Circuit Design</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="State Machines &amp; Sequential Circuit Design" aria-label="State Machines &amp; Sequential Circuit Design" tabindex="-1"><div class="slide-inner">
+<span class="badge big">8</span>
+<p class="kicker">Topic 8 of 13</p>
+<h1>State Machines &amp; Sequential Circuit Design</h1>
+<p class="lead">Describe behaviour as states and transitions, reduce it, and turn it into flip-flops and gates.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">States, state tables, and state diagrams</a></li><li><a href="#s=3">Moore vs. Mealy machines</a></li><li><a href="#s=4">State reduction</a></li><li><a href="#s=4">Equivalent states</a></li><li><a href="#s=5">State assignment</a></li><li><a href="#s=3">Number of flip-flops</a></li><li><a href="#s=5">Sequential circuit design procedure</a></li><li><a href="#s=5">D, JK, and T flip-flop design</a></li><li><a href="#s=5">Excitation equations</a></li><li><a href="#s=5">K-map-based sequential design</a></li><li><a href="#s=6">Sequence detectors</a></li><li><a href="#s=6">Overlapping sequences</a></li><li><a href="#s=5">Unused states and recovery</a></li><li><a href="#s=6">FSM applications</a></li></ol>
+</div></section>
+<section class="slide " data-title="States and machine types" aria-label="States and machine types" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 4</p><div class="concept"><h2>States and machine types</h2><div><p>A <b>state</b> is the stored condition of the system. A <b>state diagram</b> draws states as circles and transitions as arrows labelled with the input (and output). A <b>state table</b> lists present state, input, next state and output.</p><ul><li><b>Moore machine:</b> output = f(present state). Outputs are attached to states.</li><li><b>Mealy machine:</b> output = f(present state, input). Outputs are attached to transitions and can react to the input immediately. Mealy machines often need fewer states.</li></ul><p>N states need at least ⌈log₂N⌉ flip-flops. Five states need 3, ten states need 4.</p></div></div>
+</div></section>
+<section class="slide " data-title="State reduction" aria-label="State reduction" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 4</p><div class="concept"><h2>State reduction</h2><div><p>Two states are <b>equivalent</b> if, for every input, they give the same output and go to the same or equivalent states. Equivalent states can be merged, which saves flip-flops and logic. Procedure: build the state table, find rows that match, merge them (replace the removed state everywhere), and repeat until nothing more merges.</p></div></div>
+</div></section>
+<section class="slide " data-title="Design procedure" aria-label="Design procedure" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 4</p><div class="concept"><h2>Design procedure</h2><div><ol><li>Specification, then identify states.</li><li>State diagram and state table.</li><li>State reduction.</li><li>State assignment (binary codes for states).</li><li>Choose flip-flop type (D is often easiest, since D = next state).</li><li>Derive excitation equations from the state table, using the excitation table for JK or T.</li><li>Simplify with K-maps, draw the circuit, verify every transition and the reset behaviour.</li></ol><p><b>Unused states</b> appear when 2<sup>n</sup> exceeds the number of states. They can be treated as don’t-cares, but the design should be checked so that it returns to a valid state instead of locking up.</p></div></div>
+</div></section>
+<section class="slide " data-title="Sequence detectors" aria-label="Sequence detectors" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 4</p><div class="concept"><h2>Sequence detectors</h2><div><p>A sequence detector watches a serial input and raises its output when a target pattern, such as 101, appears. It must remember recent bits, so it needs states. With <b>overlapping</b> detection, the tail of one match can begin the next: 10101 contains two matches of 101. Try both machine types in the demo below and look at the D flip-flop equations it derives.</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (1 of 2): 101 detector, Moore (overlapping) and 101 detector, Mealy (overlapping)" aria-label="Truth tables (1 of 2): 101 detector, Moore (overlapping) and 101 detector, Mealy (overlapping)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (1 of 2)</h2><div class="tgrid"><div class="tcard"><h4>101 detector, Moore (overlapping)</h4><div class="scrollx"><table class="tt"><thead><tr><th>Present state</th><th>x = 0</th><th>x = 1</th><th>Output y</th></tr></thead><tbody><tr><td>S0</td><td>S0</td><td>S1</td><td>0</td></tr><tr><td>S1</td><td>S2</td><td>S1</td><td>0</td></tr><tr><td>S2</td><td>S0</td><td>S3</td><td>0</td></tr><tr><td>S3</td><td>S2</td><td>S1</td><td>1</td></tr></tbody></table></div></div><div class="tcard"><h4>101 detector, Mealy (overlapping)</h4><div class="scrollx"><table class="tt"><thead><tr><th>Present state</th><th>x = 0 → next / y</th><th>x = 1 → next / y</th></tr></thead><tbody><tr><td>S0</td><td>S0 / 0</td><td>S1 / 0</td></tr><tr><td>S1</td><td>S2 / 0</td><td>S1 / 0</td></tr><tr><td>S2</td><td>S0 / 0</td><td>S1 / 1</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (2 of 2): Flip-flops needed for N states" aria-label="Truth tables (2 of 2): Flip-flops needed for N states" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (2 of 2)</h2><div class="tgrid"><div class="tcard"><h4>Flip-flops needed for N states</h4><div class="scrollx"><table class="tt"><thead><tr><th>States N</th><th>Flip-flops ⌈log₂N⌉</th></tr></thead><tbody><tr><td>2</td><td>1</td></tr><tr><td>3</td><td>2</td></tr><tr><td>4</td><td>2</td></tr><tr><td>5</td><td>3</td></tr><tr><td>8</td><td>3</td></tr><tr><td>9</td><td>4</td></tr><tr><td>10</td><td>4</td></tr><tr><td>16</td><td>4</td></tr><tr><td>17</td><td>5</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Demo: 101 sequence detector" aria-label="Demo: 101 sequence detector" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: 101 sequence detector</h2><div data-demo="8" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 2</p><h2>Worked example 1</h2><div class="ex"><div class="qq">How many flip-flops do 10 states need?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>2<sup>3</sup> = 8 &lt; 10 ≤ 2<sup>4</sup> = 16.</li><li><b>4</b> flip-flops.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 2</p><h2>Worked example 2</h2><div class="ex"><div class="qq">Reduce this table (present state: next state for x=0, x=1 / output for x=0, x=1): a: a,b / 0,0. b: c,d / 0,0. c: a,d / 0,0. d: e,f / 0,1. e: a,f / 0,1. f: g,f / 0,1. g: a,f / 0,1.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>g matches e (same next states and outputs). Remove g and replace it with e.</li><li>Now f has next states e,f and d has e,f with the same outputs, so f ≡ d. Replace f with d.</li><li>States <b>a, b, c, d, e</b> remain: 7 states become 5, saving one flip-flop (3 still needed, but simpler logic).</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Convert a state diagram into a state table.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">For each state and each input value, write the next state and the output. One row per (state, input) pair.</div></details></div><div class="ex"><div class="qq">2. How do you identify equivalent states?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Compare rows: same outputs for every input, and next states that are the same or themselves equivalent.</div></details></div><div class="ex"><div class="qq">3. How many flip-flops for 10 states?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">4</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Design a 101 sequence detector.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Use the simulator to get the state table and D equations, then build the circuit with D flip-flops in Gate Forge.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build the 101 detector from D flip-flops using the equations from the simulator.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="8"></div><script type="application/json" class="quiz-json">[{"q": "In a Moore machine the output depends on", "o": ["the present state only", "the input only", "the present state and the input", "the clock only"], "a": 0, "w": "Outputs are attached to states."}, {"q": "How many flip-flops are needed for 5 states?", "o": ["2", "3", "4", "5"], "a": 1, "w": "⌈log₂5⌉ = 3."}, {"q": "Two states are equivalent when", "o": ["they have the same name", "they give the same outputs and go to equivalent states for every input", "they use the same flip-flop", "they have equal binary codes"], "a": 1, "w": "Then one can replace the other without changing behaviour."}, {"q": "Unused states in a binary-encoded design should be", "o": ["ignored completely", "checked so the circuit recovers to a valid state", "given the same code as S0", "removed from the flip-flops"], "a": 1, "w": "Otherwise noise can lock the machine."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>Moore output depends on state. Mealy output depends on state and input.</li><li>Flip-flops needed = ⌈log₂N⌉.</li><li>Merge equivalent states before assigning codes.</li><li>With D flip-flops, the D input equals the next-state bit.</li><li>Check unused states for lock-up.</li></ul><div class="nextcard"><a class="btn pri" href="09-counters.html">Next topic: Counters</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 15</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 8, "prev": "07-latches-and-flip-flops.html", "next": "09-counters.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

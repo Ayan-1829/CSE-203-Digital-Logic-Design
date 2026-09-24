@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sequential Logic: Latches &amp; Flip-Flops · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">7</span><span>Sequential Logic: Latches &amp; Flip-Flops</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Sequential Logic: Latches &amp; Flip-Flops" aria-label="Sequential Logic: Latches &amp; Flip-Flops" tabindex="-1"><div class="slide-inner">
+<span class="badge big">7</span>
+<p class="kicker">Topic 7 of 13</p>
+<h1>Sequential Logic: Latches &amp; Flip-Flops</h1>
+<p class="lead">Memory for digital circuits: clocks, latches, flip-flops and the timing rules they obey.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Combinational vs. sequential logic</a></li><li><a href="#s=3">Synchronous vs. asynchronous circuits</a></li><li><a href="#s=3">Clock and edge triggering</a></li><li><a href="#s=4">SR latches</a></li><li><a href="#s=4">D latch and gated latches</a></li><li><a href="#s=5">Latch vs. flip-flop</a></li><li><a href="#s=5">SR, JK, D, and T flip-flops</a></li><li><a href="#s=5">Master-slave JK</a></li><li><a href="#s=7">Timing diagrams</a></li><li><a href="#s=6">Characteristic and excitation tables</a></li><li><a href="#s=7">Setup time</a></li><li><a href="#s=7">Hold time</a></li><li><a href="#s=7">Propagation delay</a></li><li><a href="#s=7">Clock-to-Q delay</a></li></ol>
+</div></section>
+<section class="slide " data-title="Clocks and synchronous circuits" aria-label="Clocks and synchronous circuits" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 5</p><div class="concept"><h2>Clocks and synchronous circuits</h2><div><p>A sequential circuit stores state, so its output depends on inputs and history. A <b>clock</b> is a periodic square wave with a period T, frequency f = 1/T, rising and falling edges and a duty cycle. In a <b>synchronous</b> circuit all state changes are coordinated by the clock, which makes timing predictable and design easier. In an <b>asynchronous</b> circuit, state can change as soon as an input changes.</p></div></div>
+</div></section>
+<section class="slide " data-title="Latches" aria-label="Latches" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 5</p><div class="concept"><h2>Latches</h2><div><p>A latch is <b>level-sensitive</b>: its output can change while its enable is active. An SR latch is two cross-coupled NOR gates. S = 1 sets Q to 1, R = 1 resets it to 0, and S = R = 0 holds. S = R = 1 is invalid for the NOR version, because both outputs go to 0 and the result is unpredictable when the inputs are released. A gated latch adds an enable. A <b>D latch</b> uses one data input, D, which removes the invalid state: while enabled, Q follows D.</p></div></div>
+</div></section>
+<section class="slide " data-title="Flip-flops" aria-label="Flip-flops" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 5</p><div class="concept"><h2>Flip-flops</h2><div><p>A flip-flop is <b>edge-triggered</b>: it samples its inputs only at a clock edge (rising or falling), so it changes state at one precise moment.</p><table class="doc"><thead><tr><th>Type</th><th>Behaviour</th></tr></thead><tbody><tr><td>D</td><td>Q(next) = D</td></tr><tr><td>JK</td><td>00 hold, 01 reset, 10 set, 11 toggle</td></tr><tr><td>T</td><td>T = 0 hold, T = 1 toggle</td></tr><tr><td>SR</td><td>00 hold, 01 reset, 10 set, 11 invalid</td></tr></tbody></table><p>A level-triggered JK with J = K = 1 would keep toggling while the clock is high (race-around). A <b>master-slave</b> JK, built from two latches on opposite clock phases, avoids this.</p></div></div>
+</div></section>
+<section class="slide " data-title="Characteristic and excitation tables" aria-label="Characteristic and excitation tables" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 5</p><div class="concept"><h2>Characteristic and excitation tables</h2><div><div class="formula">D:  Q+ = D<br>JK: Q+ = J·Q′ + K′·Q<br>T:  Q+ = T ⊕ Q<br>SR: Q+ = S + R′·Q  (with SR = 0)</div><table class="doc"><thead><tr><th>Q → Q+</th><th>D</th><th>T</th><th>J K</th><th>S R</th></tr></thead><tbody><tr><td class="m">0 → 0</td><td class="m">0</td><td class="m">0</td><td class="m">0 X</td><td class="m">0 X</td></tr><tr><td class="m">0 → 1</td><td class="m">1</td><td class="m">1</td><td class="m">1 X</td><td class="m">1 0</td></tr><tr><td class="m">1 → 0</td><td class="m">0</td><td class="m">1</td><td class="m">X 1</td><td class="m">0 1</td></tr><tr><td class="m">1 → 1</td><td class="m">1</td><td class="m">0</td><td class="m">X 0</td><td class="m">X 0</td></tr></tbody></table><p>The characteristic table gives the next state from the inputs (used for analysis). The excitation table gives the inputs needed for a wanted transition (used for design).</p></div></div>
+</div></section>
+<section class="slide " data-title="Timing" aria-label="Timing" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 5 of 5</p><div class="concept"><h2>Timing</h2><div><ul><li><b>Setup time:</b> data must be stable this long <i>before</i> the clock edge.</li><li><b>Hold time:</b> data must stay stable this long <i>after</i> the edge.</li><li><b>Propagation delay:</b> time for a gate output to respond to an input.</li><li><b>Clock-to-Q delay:</b> time from the clock edge until Q changes.</li></ul><p>Breaking setup or hold time can store the wrong value or leave the flip-flop in an in-between state.</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (1 of 2): SR latch (NOR) and more" aria-label="Truth tables (1 of 2): SR latch (NOR) and more" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (1 of 2)</h2><div class="tgrid"><div class="tcard"><h4>SR latch (NOR)</h4><div class="scrollx"><table class="tt"><thead><tr><th>S</th><th>R</th><th>Q next</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>Q (hold)</td></tr><tr><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>invalid</td></tr></tbody></table></div></div><div class="tcard"><h4>D flip-flop</h4><div class="scrollx"><table class="tt"><thead><tr><th>D</th><th>Q next</th></tr></thead><tbody><tr><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td></tr></tbody></table></div></div><div class="tcard"><h4>JK flip-flop (characteristic)</h4><div class="scrollx"><table class="tt"><thead><tr><th>Q</th><th>J</th><th>K</th><th>Q next</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>0</td><td>1</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (2 of 2): T flip-flop and Excitation table" aria-label="Truth tables (2 of 2): T flip-flop and Excitation table" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (2 of 2)</h2><div class="tgrid"><div class="tcard"><h4>T flip-flop</h4><div class="scrollx"><table class="tt"><thead><tr><th>Q</th><th>T</th><th>Q next</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td></tr></tbody></table></div></div><div class="tcard"><h4>Excitation table</h4><div class="scrollx"><table class="tt"><thead><tr><th>Q</th><th>Q next</th><th>D</th><th>T</th><th>J</th><th>K</th><th>S</th><th>R</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>X</td><td>0</td><td>X</td></tr><tr><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td><td>X</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>X</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td><td>X</td><td>0</td><td>X</td><td>0</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Demo: flip-flop timing simulator" aria-label="Demo: flip-flop timing simulator" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: flip-flop timing simulator</h2><div data-demo="7" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Circuit: SR latch from two NOR gates" aria-label="Circuit: SR latch from two NOR gates" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>SR latch from two NOR gates</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="sr-latch"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: D flip-flop" aria-label="Circuit: D flip-flop" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>D flip-flop</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="d-ff"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: JK flip-flop" aria-label="Circuit: JK flip-flop" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>JK flip-flop</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="jk-ff"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: Divide-by-2 (D flip-flop, Q′ to D)" aria-label="Circuit: Divide-by-2 (D flip-flop, Q′ to D)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>Divide-by-2 (D flip-flop, Q′ to D)</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="div2"></div></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 3</p><h2>Worked example 1</h2><div class="ex"><div class="qq">A JK flip-flop has Q = 1. What is Q+ for J = 0, K = 1? For J = K = 1?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>J = 0, K = 1 resets: Q+ = <b>0</b>.</li><li>J = K = 1 toggles: Q+ = <b>0</b> (from 1).</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 3</p><h2>Worked example 2</h2><div class="ex"><div class="qq">What T input takes a T flip-flop from Q = 0 to Q+ = 1?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>T = Q ⊕ Q+ = 0 ⊕ 1 = <b>1</b>.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 3" aria-label="Worked example 3" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 3 of 3</p><h2>Worked example 3</h2><div class="ex"><div class="qq">A clock has a period of 20 ns. What is its frequency?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>f = 1/T = 1 / 20 ns = <b>50 MHz</b>.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Explain the difference between a latch and a flip-flop.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A latch is level-sensitive: it follows its inputs while enabled. A flip-flop is edge-triggered: it samples inputs only at a clock edge.</div></details></div><div class="ex"><div class="qq">2. Draw an SR latch.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Two NOR gates. The output of each feeds one input of the other. The free inputs are R (for Q) and S (for Q′).</div></details></div><div class="ex"><div class="qq">3. Explain D flip-flop operation.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">At the active clock edge, Q takes the value of D. Between edges Q holds.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Compare JK and T flip-flops.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A T flip-flop is a JK with J and K tied together. T = 0 holds, T = 1 toggles.</div></details></div><div class="ex"><div class="qq">5. Explain rising-edge triggering.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">The flip-flop looks at its inputs only at the instant the clock goes from 0 to 1 and ignores changes at other times.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Open the SR latch example, then build a D latch and a JK flip-flop and study the Timing diagram.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="7"></div><script type="application/json" class="quiz-json">[{"q": "A latch differs from a flip-flop because a latch is", "o": ["edge-triggered", "level-sensitive", "always asynchronous", "unable to store data"], "a": 1, "w": "It follows its inputs while enabled."}, {"q": "A JK flip-flop with J = K = 1 on a clock edge will", "o": ["hold", "set", "reset", "toggle"], "a": 3, "w": "JK = 11 toggles."}, {"q": "Which input combination is invalid for a NOR SR latch?", "o": ["S=0, R=0", "S=1, R=0", "S=0, R=1", "S=1, R=1"], "a": 3, "w": "Both outputs go to 0."}, {"q": "The JK excitation for the transition 0 → 1 is", "o": ["J=0, K=X", "J=1, K=X", "J=X, K=1", "J=X, K=0"], "a": 1, "w": "Set is J=1, and K does not matter."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>Latches are level-sensitive. Flip-flops are edge-triggered.</li><li>JK: 00 hold, 01 reset, 10 set, 11 toggle. T: toggle when T = 1. D: Q+ = D.</li><li>Characteristic tables are for analysis, excitation tables are for design.</li><li>Respect setup and hold time around the clock edge.</li><li>f = 1/T.</li></ul><div class="nextcard"><a class="btn pri" href="08-state-machines.html">Next topic: FSM &amp; Sequential Design</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 21</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 7, "prev": "06-decoders-encoders-mux.html", "next": "08-state-machines.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

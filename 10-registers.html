@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Registers · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">10</span><span>Registers</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Registers" aria-label="Registers" tabindex="-1"><div class="slide-inner">
+<span class="badge big">10</span>
+<p class="kicker">Topic 10 of 13</p>
+<h1>Registers</h1>
+<p class="lead">Groups of flip-flops that store and move data: parallel load, shift registers and register transfer.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Register structure</a></li><li><a href="#s=3">Clock, clear, load, and enable</a></li><li><a href="#s=3">Load, clear, hold, shift, and transfer</a></li><li><a href="#s=3">Parallel load</a></li><li><a href="#s=4">SISO</a></li><li><a href="#s=4">SIPO</a></li><li><a href="#s=4">PISO</a></li><li><a href="#s=4">PIPO</a></li><li><a href="#s=4">Bidirectional shift registers</a></li><li><a href="#s=4">Universal shift registers</a></li><li><a href="#s=5">Register Transfer Language (RTL)</a></li><li><a href="#s=6">Registers vs. memory</a></li><li><a href="#s=6">CPU register files</a></li></ol>
+</div></section>
+<section class="slide " data-title="Register structure and control" aria-label="Register structure and control" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 4</p><div class="concept"><h2>Register structure and control</h2><div><p>An n-bit register is n flip-flops sharing a clock, each storing one bit. Common controls: <b>clear</b> (force 0), <b>load</b> (accept new data), <b>enable</b> (allow change). With load = 1 the register accepts data on the next clock edge, and with load = 0 it holds. Operations: load, clear, hold, shift, transfer. In <b>parallel load</b> all bits enter in the same clock cycle.</p></div></div>
+</div></section>
+<section class="slide " data-title="Shift registers" aria-label="Shift registers" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 4</p><div class="concept"><h2>Shift registers</h2><div><p>A shift register moves its bits one place per clock. Shift left moves bits toward the MSB and a new bit enters at the right. Shift right moves toward the LSB and a new bit enters at the left. The four styles:</p><table class="doc"><thead><tr><th>Type</th><th>In</th><th>Out</th><th>Use</th></tr></thead><tbody><tr><td>SISO</td><td>Serial</td><td>Serial</td><td>Delay lines</td></tr><tr><td>SIPO</td><td>Serial</td><td>Parallel</td><td>Serial to parallel conversion</td></tr><tr><td>PISO</td><td>Parallel</td><td>Serial</td><td>Parallel to serial conversion</td></tr><tr><td>PIPO</td><td>Parallel</td><td>Parallel</td><td>Storage, buffering</td></tr></tbody></table><p>A <b>bidirectional</b> register shifts either way under a direction control. A <b>universal</b> shift register supports hold, shift left, shift right and parallel load, usually with a 4-to-1 MUX at each flip-flop input.</p></div></div>
+</div></section>
+<section class="slide " data-title="Register transfer language" aria-label="Register transfer language" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 4</p><div class="concept"><h2>Register transfer language</h2><div><p>RTL describes data movement between registers. R2 ← R1 copies R1 into R2. R1 ← R1 + 1 increments. R3 ← R1 AND R2 stores a logic result. A control condition can guard a transfer: P: R2 ← R1 happens only when P = 1.</p></div></div>
+</div></section>
+<section class="slide " data-title="Registers in CPUs" aria-label="Registers in CPUs" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 4</p><div class="concept"><h2>Registers in CPUs</h2><div><p>CPUs use registers for operands, addresses, instructions and status: general-purpose registers, the program counter, the instruction register and the status register. A <b>register file</b> holds several registers, and selected ones feed the ALU. Registers are very fast and small. Main memory has more capacity and is slower.</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables: 4-bit shift right, serial in 1 0 1 1 and more" aria-label="Truth tables: 4-bit shift right, serial in 1 0 1 1 and more" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables</h2><div class="tgrid"><div class="tcard"><h4>4-bit shift right, serial in 1 0 1 1</h4><div class="scrollx"><table class="tt"><thead><tr><th>Clock</th><th>Serial in</th><th>Q3</th><th>Q2</th><th>Q1</th><th>Q0</th></tr></thead><tbody><tr><td>0</td><td>–</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td></tr><tr><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>3</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>4</td><td>1</td><td>1</td><td>1</td><td>0</td><td>1</td></tr></tbody></table></div></div><div class="tcard"><h4>Register operations</h4><div class="scrollx"><table class="tt"><thead><tr><th>Clear</th><th>Load</th><th>Shift</th><th>Operation</th></tr></thead><tbody><tr><td>1</td><td>X</td><td>X</td><td>Clear to 0</td></tr><tr><td>0</td><td>1</td><td>X</td><td>Parallel load</td></tr><tr><td>0</td><td>0</td><td>1</td><td>Shift</td></tr><tr><td>0</td><td>0</td><td>0</td><td>Hold</td></tr></tbody></table></div></div><div class="tcard"><h4>Four shift-register types</h4><div class="scrollx"><table class="tt"><thead><tr><th>Type</th><th>Data in</th><th>Data out</th></tr></thead><tbody><tr><td>SISO</td><td>serial</td><td>serial</td></tr><tr><td>SIPO</td><td>serial</td><td>parallel</td></tr><tr><td>PISO</td><td>parallel</td><td>serial</td></tr><tr><td>PIPO</td><td>parallel</td><td>parallel</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Demo: shift registers and register transfer" aria-label="Demo: shift registers and register transfer" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: shift registers and register transfer</h2><div data-demo="10" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Circuit: 4-bit shift register (serial in, parallel out)" aria-label="Circuit: 4-bit shift register (serial in, parallel out)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>4-bit shift register (serial in, parallel out)</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="shift-4"></div></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 2</p><h2>Worked example 1</h2><div class="ex"><div class="qq">Start with 0000 and shift right, entering the serial bits 1, 0, 1, 1. What is the final content?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Shift in 1: 1000</li><li>Shift in 0: 0100</li><li>Shift in 1: 1010</li><li>Shift in 1: <b>1101</b></li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 2</p><h2>Worked example 2</h2><div class="ex"><div class="qq">How many clock pulses are needed to load an 8-bit value serially?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><b>8</b> pulses, one per bit.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Design a 4-bit SISO register.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Four D flip-flops in a chain: Q of each feeds D of the next, one common clock. Try the shift register circuit.</div></details></div><div class="ex"><div class="qq">2. Explain SIPO and PISO.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">SIPO takes serial data in and presents all bits in parallel. PISO loads all bits in parallel and shifts them out serially.</div></details></div><div class="ex"><div class="qq">3. What is the purpose of Load?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Load = 1 accepts new data at the clock edge. Load = 0 keeps the current value.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Demonstrate four right shifts.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">See the example above, or use the simulator.</div></details></div><div class="ex"><div class="qq">5. Write RTL for register transfers.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">R2 ← R1, R1 ← R1 + 1, R3 ← R1 AND R2.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Chain D flip-flops into a 4-bit shift register driven by one Clock.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="10"></div><script type="application/json" class="quiz-json">[{"q": "A serial-in parallel-out register is used to", "o": ["add numbers", "convert serial data to parallel data", "store one bit only", "divide the clock"], "a": 1, "w": "Bits arrive one by one and are then read together."}, {"q": "An n-bit register uses", "o": ["n latches only", "n flip-flops", "2n flip-flops", "a counter"], "a": 1, "w": "One flip-flop per bit."}, {"q": "The statement R2 ← R1 means", "o": ["R1 gets the value of R2", "R2 gets the value of R1", "the registers swap", "R1 and R2 are ANDed"], "a": 1, "w": "Copy R1 into R2."}, {"q": "A universal shift register can", "o": ["only shift left", "hold, shift left, shift right and load in parallel", "only load in parallel", "only count"], "a": 1, "w": "It combines all the register operations."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>A register is n flip-flops with a shared clock.</li><li>Controls: clear, load, enable. Load = 0 means hold.</li><li>SISO, SIPO, PISO, PIPO describe serial or parallel in and out.</li><li>RTL: R2 ← R1 copies a register.</li><li>Registers are fast and small compared with memory.</li></ul><div class="nextcard"><a class="btn pri" href="11-memory.html">Next topic: Memory</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 15</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 10, "prev": "09-counters.html", "next": "11-memory.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Memory &amp; Error Correction · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">11</span><span>Memory &amp; Error Correction</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Memory &amp; Error Correction" aria-label="Memory &amp; Error Correction" tabindex="-1"><div class="slide-inner">
+<span class="badge big">11</span>
+<p class="kicker">Topic 11 of 13</p>
+<h1>Memory &amp; Error Correction</h1>
+<p class="lead">How memory is organised, decoded and expanded, and how errors are detected and corrected.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Memory terminology</a></li><li><a href="#s=3">Memory organization</a></li><li><a href="#s=3">Words, bits, addresses, and data</a></li><li><a href="#s=3">Read/write operations</a></li><li><a href="#s=4">SRAM and DRAM</a></li><li><a href="#s=3">Memory capacity calculations</a></li><li><a href="#s=5">Address decoding</a></li><li><a href="#s=5">Chip select</a></li><li><a href="#s=5">Memory expansion</a></li><li><a href="#s=5">Address mapping and memory maps</a></li><li><a href="#s=5">Tri-state data buses</a></li><li><a href="#s=6">Error detection</a></li><li><a href="#s=6">Error correction</a></li><li><a href="#s=6">SEC-DED</a></li></ol>
+</div></section>
+<section class="slide " data-title="Memory organisation" aria-label="Memory organisation" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 4</p><div class="concept"><h2>Memory organisation</h2><div><p>Memory stores binary words at numbered addresses. It is described as <b>words × bits per word</b>: 1K × 8 means 1024 words of 8 bits. n address lines select 2<sup>n</sup> locations. Data lines carry the word to or from memory.</p><ul><li><b>Read:</b> apply the address, enable the memory, activate read, and the word appears on the data lines.</li><li><b>Write:</b> apply address and data, enable the memory, activate write, and the word is stored.</li></ul><div class="formula">capacity = 2ⁿ words × m bits<br>10 address lines, 8 data lines: 1024 × 8 = 8192 bits = 1 KB</div></div></div>
+</div></section>
+<section class="slide " data-title="RAM: SRAM and DRAM" aria-label="RAM: SRAM and DRAM" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 4</p><div class="concept"><h2>RAM: SRAM and DRAM</h2><div><p>Random-access memory can be read and written at any address in the same time. <b>SRAM</b> uses bistable cells, needs no refresh and is fast. <b>DRAM</b> stores charge in a capacitor, so it must be refreshed periodically, but it is much denser and is used for main memory. Both lose their contents without power.</p></div></div>
+</div></section>
+<section class="slide " data-title="Address decoding and expansion" aria-label="Address decoding and expansion" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 4</p><div class="concept"><h2>Address decoding and expansion</h2><div><p>A decoder turns address bits into a select line for a location or a chip. A <b>chip select</b> input enables only the chip being addressed. Many chips share one <b>tri-state</b> data bus, and only the selected chip drives it.</p><ul><li><b>Word expansion</b> adds locations: extra high address bits feed a decoder that drives the chip selects.</li><li><b>Bit expansion</b> widens the word: chips share the address lines and their data lines side by side (two 4-bit chips make an 8-bit word).</li></ul><p>A <b>memory map</b> lists which address range belongs to which device.</p></div></div>
+</div></section>
+<section class="slide " data-title="Error detection and correction" aria-label="Error detection and correction" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 4</p><div class="concept"><h2>Error detection and correction</h2><div><p>A <b>parity</b> bit detects any single-bit error but cannot say which bit. A <b>Hamming code</b> places check bits at the power-of-two positions (1, 2, 4, …). Recomputing the checks after a read gives a <b>syndrome</b>, which is the position of a single wrong bit, so it can be flipped back. Adding one overall parity bit gives <b>SEC-DED</b>: single-error correction and double-error detection.</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (1 of 2): Memory control table and Hamming (7,4) syndrome" aria-label="Truth tables (1 of 2): Memory control table and Hamming (7,4) syndrome" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (1 of 2)</h2><div class="tgrid"><div class="tcard"><h4>Memory control table</h4><div class="scrollx"><table class="tt"><thead><tr><th>CS</th><th>R/W</th><th>Operation</th></tr></thead><tbody><tr><td>0</td><td>X</td><td>Not selected (outputs Hi-Z)</td></tr><tr><td>1</td><td>Read</td><td>Word appears on the data lines</td></tr><tr><td>1</td><td>Write</td><td>Data lines are stored</td></tr></tbody></table></div></div><div class="tcard"><h4>Hamming (7,4) syndrome</h4><div class="scrollx"><table class="tt"><thead><tr><th>s3 s2 s1</th><th>Meaning</th></tr></thead><tbody><tr><td>000</td><td>No error</td></tr><tr><td>001</td><td>Error in bit 1 (flip it back)</td></tr><tr><td>010</td><td>Error in bit 2 (flip it back)</td></tr><tr><td>011</td><td>Error in bit 3 (flip it back)</td></tr><tr><td>100</td><td>Error in bit 4 (flip it back)</td></tr><tr><td>101</td><td>Error in bit 5 (flip it back)</td></tr><tr><td>110</td><td>Error in bit 6 (flip it back)</td></tr><tr><td>111</td><td>Error in bit 7 (flip it back)</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (2 of 2): Hamming (7,4) check bits" aria-label="Truth tables (2 of 2): Hamming (7,4) check bits" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (2 of 2)</h2><div class="tgrid"><div class="tcard"><h4>Hamming (7,4) check bits</h4><div class="scrollx"><table class="tt"><thead><tr><th>d1</th><th>d2</th><th>d3</th><th>d4</th><th>p1</th><th>p2</th><th>p3</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>1</td></tr><tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>0</td><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td><td>0</td><td>0</td><td>0</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td><td>1</td></tr></tbody></table></div><p class="small muted" style="margin:6px 0 0">p1 = d1⊕d2⊕d4, p2 = d1⊕d3⊕d4, p3 = d2⊕d3⊕d4.</p></div></div>
+</div></section>
+<section class="slide " data-title="Demo: memory workbench" aria-label="Demo: memory workbench" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: memory workbench</h2><div data-demo="11" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 2</p><h2>Worked example 1</h2><div class="ex"><div class="qq">How many locations can 12 address lines select, and what is the capacity of a 2K × 8 memory?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>2<sup>12</sup> = <b>4096</b> locations.</li><li>2K × 8 = 2048 × 8 = 16384 bits = <b>2 KB</b>.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 2</p><h2>Worked example 2</h2><div class="ex"><div class="qq">Build a 4K × 8 memory from 1K × 8 chips.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Chips needed: 4K / 1K = <b>4</b>.</li><li>Address lines: 12. The low 10 go to every chip. The top 2 feed a 2-to-4 decoder that drives the four chip selects.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. How many locations can 12 address lines select?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">4096</div></details></div><div class="ex"><div class="qq">2. Calculate the capacity of a 2K × 8 memory.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">16384 bits, which is 2 KB.</div></details></div><div class="ex"><div class="qq">3. Explain address decoding.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A decoder converts the address bits into one select line, which activates the addressed location or chip.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Design a 3-to-8 decoder-based selection system.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">The top three address bits drive a 3-to-8 decoder. Each output is the chip select of one of eight memory chips.</div></details></div><div class="ex"><div class="qq">5. Distinguish word expansion from bit expansion.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Word expansion increases the number of locations and needs decoding. Bit expansion widens the word by putting chips in parallel.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build an address decoder from gates, or a one-bit storage cell from latches.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="11"></div><script type="application/json" class="quiz-json">[{"q": "How many locations do 10 address lines select?", "o": ["10", "100", "1024", "2048"], "a": 2, "w": "2¹⁰ = 1024."}, {"q": "DRAM differs from SRAM because DRAM", "o": ["keeps data without power", "needs periodic refresh", "has no address lines", "is faster"], "a": 1, "w": "Its charge leaks."}, {"q": "An SEC-DED code can", "o": ["detect one error only", "correct single errors and detect double errors", "correct any number of errors", "detect no errors"], "a": 1, "w": "That is what the name says."}, {"q": "How can many devices share one data bus?", "o": ["All drive it at once", "Tri-state outputs, with only the selected device driving", "Each uses a different clock", "They cannot share"], "a": 1, "w": "Others stay in high impedance."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>n address lines select 2<sup>n</sup> locations.</li><li>SRAM: fast, no refresh. DRAM: dense, needs refresh.</li><li>Decoders and chip selects choose the active device.</li><li>Word expansion adds locations, bit expansion adds width.</li><li>SEC-DED corrects one error and detects two.</li></ul><div class="nextcard"><a class="btn pri" href="12-rom-and-programmable-logic.html">Next topic: ROM &amp; PLD</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 15</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 11, "prev": "10-registers.html", "next": "12-rom-and-programmable-logic.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

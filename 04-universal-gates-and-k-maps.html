@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Universal Gates &amp; Karnaugh Maps · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">4</span><span>Universal Gates &amp; Karnaugh Maps</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Universal Gates &amp; Karnaugh Maps" aria-label="Universal Gates &amp; Karnaugh Maps" tabindex="-1"><div class="slide-inner">
+<span class="badge big">4</span>
+<p class="kicker">Topic 4 of 13</p>
+<h1>Universal Gates &amp; Karnaugh Maps</h1>
+<p class="lead">Build anything from NAND or NOR, then simplify functions visually with Karnaugh maps.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">NAND/NOR as universal gates</a></li><li><a href="#s=3">NAND/NOR implementation</a></li><li><a href="#s=3">AOI vs. NAND/NOR implementation</a></li><li><a href="#s=4">2-, 3-, and 4-variable K-maps</a></li><li><a href="#s=4">Gray-code ordering</a></li><li><a href="#s=5">K-map grouping</a></li><li><a href="#s=5">Wrap-around adjacency</a></li><li><a href="#s=5">SOP/POS simplification</a></li><li><a href="#s=6">Prime and essential prime implicants</a></li><li><a href="#s=6">Don&#x27;t-care conditions</a></li><li><a href="#s=5">K-map → Boolean expression → circuit</a></li></ol>
+</div></section>
+<section class="slide " data-title="Universal gates" aria-label="Universal gates" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 4</p><div class="concept"><h2>Universal gates</h2><div><p>A universal gate can build any Boolean function alone. NAND and NOR are universal, and they are cheap and easy to fabricate, so real chips use them heavily.</p><ul><li><b>NAND:</b> NOT = tie the inputs together. AND = NAND followed by that NOT. OR = A+B = (A′B′)′, a NAND of inverted inputs.</li><li><b>NOR:</b> NOT = tie the inputs together. OR = NOR followed by NOT. AND = AB = (A′+B′)′, a NOR of inverted inputs.</li></ul><p>An AND-OR-INVERT (AOI) circuit for a sum of products becomes NAND-NAND: F = AB + CD = ((AB)′(CD)′)′. Using one gate type reduces the number of different ICs you need.</p></div></div>
+</div></section>
+<section class="slide " data-title="Karnaugh maps" aria-label="Karnaugh maps" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 4</p><div class="concept"><h2>Karnaugh maps</h2><div><p>A K-map is a truth table rearranged so that neighbouring cells differ in exactly one variable. Rows and columns are labelled in Gray-code order (00, 01, 11, 10), not binary order. A 2-variable map has 4 cells, 3 variables 8, and 4 variables 16. Each cell is one minterm.</p></div></div>
+</div></section>
+<section class="slide " data-title="Grouping rules" aria-label="Grouping rules" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 4</p><div class="concept"><h2>Grouping rules</h2><div><ul><li>Groups contain 1, 2, 4, 8 or 16 cells (a power of 2) and are rectangular.</li><li>No diagonals, and never include a cell of the wrong value.</li><li>Make each group as large as possible and use as few groups as possible.</li><li>Groups may overlap.</li><li>Groups may wrap around: left and right edges are neighbours, top and bottom too, so the four corners form a valid group.</li></ul><p>In each group, variables that change value are eliminated. To get SOP, group the 1s and write a product term per group. To get POS, group the 0s and write a sum term per group using the complemented literals.</p></div></div>
+</div></section>
+<section class="slide " data-title="Prime implicants and don’t-cares" aria-label="Prime implicants and don’t-cares" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 4</p><div class="concept"><h2>Prime implicants and don’t-cares</h2><div><p>A <b>prime implicant</b> is a group that cannot grow any larger. An <b>essential</b> prime implicant covers at least one 1 that no other prime implicant covers, so it must appear in the answer. Pick all essential groups first, then cover any remaining 1s with as few extra groups as possible.</p><p>A <b>don’t-care</b> (X or d) is an input combination that never occurs or whose output does not matter. Treat it as 1 when that enlarges a group, otherwise ignore it. Never form a group made only of X cells.</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables: Building gates from NAND only and more" aria-label="Truth tables: Building gates from NAND only and more" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables</h2><div class="tgrid"><div class="tcard"><h4>Building gates from NAND only</h4><div class="scrollx"><table class="tt"><thead><tr><th>A</th><th>B</th><th>NOT A</th><th>A AND B</th><th>A OR B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>0</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr></tbody></table></div><p class="small muted" style="margin:6px 0 0">NOT: inputs tied. AND: NAND then NOT. OR: NAND of the inverted inputs.</p></div><div class="tcard"><h4>Building gates from NOR only</h4><div class="scrollx"><table class="tt"><thead><tr><th>A</th><th>B</th><th>NOT A</th><th>A OR B</th><th>A AND B</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>1</td><td>0</td><td>0</td></tr><tr><td>0</td><td>1</td><td>1</td><td>1</td><td>0</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>0</td><td>1</td><td>1</td></tr></tbody></table></div></div><div class="tcard"><h4>K-map ordering of two variables</h4><div class="scrollx"><table class="tt"><thead><tr><th>Row / column label</th><th>Binary value</th></tr></thead><tbody><tr><td>00</td><td>0</td></tr><tr><td>01</td><td>1</td></tr><tr><td>11</td><td>3</td></tr><tr><td>10</td><td>2</td></tr></tbody></table></div><p class="small muted" style="margin:6px 0 0">Gray order: neighbours differ in exactly one bit.</p></div></div>
+</div></section>
+<section class="slide " data-title="Demo: interactive K-map" aria-label="Demo: interactive K-map" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: interactive K-map</h2><div data-demo="4" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Circuit: AND from two NAND gates" aria-label="Circuit: AND from two NAND gates" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>AND from two NAND gates</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="and-nand"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: OR from three NAND gates" aria-label="Circuit: OR from three NAND gates" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>OR from three NAND gates</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="or-nand"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: OR from two NOR gates" aria-label="Circuit: OR from two NOR gates" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>OR from two NOR gates</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="or-nor"></div></div>
+</div></section>
+<section class="slide " data-title="Circuit: AND from three NOR gates" aria-label="Circuit: AND from three NOR gates" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive circuit</p><h2>AND from three NOR gates</h2><p>Click the switches to change the inputs and watch the LEDs. Use “Show truth table” when it appears.</p><div class="demo"><div data-circuit="and-nor"></div></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 2</p><h2>Worked example 1</h2><div class="ex"><div class="qq">Simplify F(A,B,C,D) = Σm(1,3,7,11,15) + d(0,2,5).</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>CD covers 3, 7, 11, 15 and is essential (only it covers 11).</li><li>Cell 1 is still uncovered. A′B′ (0,1,2,3) or A′D (1,3,5,7) both cover it.</li><li>Result <b>F = CD + A′B′</b> (or CD + A′D). Both are minimal.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 2</p><h2>Worked example 2</h2><div class="ex"><div class="qq">Simplify F(x,y,z) = Σm(2,3,4,5).</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Cells 2 and 3 (x′y) form a group. Cells 4 and 5 (xy′) form another.</li><li><b>F = x′y + xy′</b>, which is x ⊕ y.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Build NOT, AND and OR using only NAND gates.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">NOT: tie both inputs. AND: NAND then NOT. OR: NAND(A′, B′) where each input is first inverted by a NAND.</div></details></div><div class="ex"><div class="qq">2. Build NOT, OR and AND using only NOR gates.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">NOT: tie both inputs. OR: NOR then NOT. AND: NOR(A′, B′).</div></details></div><div class="ex"><div class="qq">3. Simplify F(A,B,C) = Σm(0,1,2,5,6,7).</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A′B′ + BC′ + AC (or A′C′ + B′C + AB). Both have three terms.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Simplify F(A,B,C,D) = Σm(1,3,5,7,9) + d(11,13,15).</div><details class="reveal"><summary>Show the answer</summary><div class="ans">D. Every odd cell is 1 or X, so one group of eight covers them.</div></details></div><div class="ex"><div class="qq">5. Simplify F(A,B,C,D) = Σm(0,1,2,4,5,6,8,9,12,13,14).</div><details class="reveal"><summary>Show the answer</summary><div class="ans">C′ + A′D′ + BD′</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build NOT, AND and OR using only NAND gates, then again with only NOR gates, and compare with the truth table.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="4"></div><script type="application/json" class="quiz-json">[{"q": "Valid K-map group sizes are", "o": ["1, 2, 3, 4", "1, 2, 4, 8, 16", "2, 4, 6, 8", "any size"], "a": 1, "w": "Groups must be powers of 2."}, {"q": "The column order of a K-map is", "o": ["00, 01, 10, 11", "00, 01, 11, 10", "00, 10, 11, 01", "01, 00, 10, 11"], "a": 1, "w": "Gray code, so neighbours differ by one bit."}, {"q": "A NAND gate with both inputs tied together acts as", "o": ["AND", "OR", "NOT", "XOR"], "a": 2, "w": "(AA)′ = A′."}, {"q": "When should you group a don’t-care (X) cell?", "o": ["Always", "Never", "Only if it lets a group grow larger", "Only in POS"], "a": 2, "w": "X is free to be 1 or 0, so use it only when it helps."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>NAND and NOR are universal. Tie inputs for NOT.</li><li>K-map order is Gray code: 00, 01, 11, 10.</li><li>Groups are 1, 2, 4, 8 or 16 cells, may overlap, and may wrap.</li><li>Take essential prime implicants first, then cover what is left.</li><li>Use don’t-cares only when they make a group larger.</li></ul><div class="nextcard"><a class="btn pri" href="05-combinational-logic.html">Next topic: Combinational Logic</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 18</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 4, "prev": "03-boolean-algebra-and-gates.html", "next": "05-combinational-logic.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Digital Systems &amp; Practice · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">13</span><span>Digital Systems &amp; Practice</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Digital Systems &amp; Practice" aria-label="Digital Systems &amp; Practice" tabindex="-1"><div class="slide-inner">
+<span class="badge big">13</span>
+<p class="kicker">Topic 13 of 13</p>
+<h1>Digital Systems &amp; Practice</h1>
+<p class="lead">Put the blocks together: a small ALU, a traffic light, a digital lock, and design workflows.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Digital system building blocks</a></li><li><a href="#s=3">Complete combinational design workflow</a></li><li><a href="#s=3">Complete sequential design workflow</a></li><li><a href="#s=4">CPU: ALU, registers, control unit, memory, buses</a></li><li><a href="#s=4">4-bit ALU</a></li><li><a href="#s=5">Traffic light controller</a></li><li><a href="#s=5">Digital lock</a></li><li><a href="#s=5">Vending machine</a></li><li><a href="#s=5">Digital clock</a></li><li><a href="#s=6">Troubleshooting</a></li><li><a href="#s=6">Logic Bench</a></li><li><a href="#s=6">Practice projects</a></li><li><a href="#s=6">3×3 multiplier</a></li><li><a href="#s=6">101 sequence detector</a></li><li><a href="#s=6">MOD-6 counter</a></li><li><a href="#s=6">Mini digital system</a></li><li><a href="#s=6">Comprehensive review</a></li><li><a href="#s=6">Viva questions</a></li><li><a href="#s=6">Final project</a></li></ol>
+</div></section>
+<section class="slide " data-title="Building blocks and workflows" aria-label="Building blocks and workflows" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 4</p><div class="concept"><h2>Building blocks and workflows</h2><div><div class="fig"><div class="flow"><span>Gates</span><i>›</i><span>Combinational circuits</span><i>›</i><span>Sequential circuits</span><i>›</i><span>Registers and counters</span><i>›</i><span>Memory</span><i>›</i><span>Control logic</span></div></div><p><b>Combinational workflow:</b> specification → truth table → Boolean expression → K-map → implementation → verification.</p><p><b>Sequential workflow:</b> identify states → state diagram → state table → state assignment → choose flip-flops → equations → implement and verify.</p></div></div>
+</div></section>
+<section class="slide " data-title="Inside a CPU" aria-label="Inside a CPU" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 4</p><div class="concept"><h2>Inside a CPU</h2><div><p>A CPU has a <b>datapath</b> (registers, ALU, buses) and a <b>control unit</b>. The control unit is a finite state machine that decodes instructions and coordinates the datapath. The CPU talks to memory over an address bus, a data bus and a control bus. A 4-bit ALU combines an adder-subtractor and logic gates, with select lines that choose the result through multiplexers.</p></div></div>
+</div></section>
+<section class="slide " data-title="Example systems" aria-label="Example systems" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 4</p><div class="concept"><h2>Example systems</h2><div><ul><li><b>Traffic light:</b> an FSM with states for each light combination and a counter that times each state.</li><li><b>Digital lock:</b> an FSM that tracks a button sequence and unlocks when the correct one is detected.</li><li><b>Vending machine:</b> states record accumulated credit, inputs are coins, outputs release product or change.</li><li><b>Digital clock:</b> counters divide the clock frequency, registers hold digits, decoders drive displays.</li></ul></div></div>
+</div></section>
+<section class="slide " data-title="Troubleshooting checklist" aria-label="Troubleshooting checklist" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 4</p><div class="concept"><h2>Troubleshooting checklist</h2><div><ol><li>Clock assumptions: edge, frequency, is it running?</li><li>Input values and switch positions.</li><li>Truth table or state table against the circuit.</li><li>Gate connections and pin numbers.</li><li>Reset and initial state.</li><li>Timing: setup, hold, and every state transition.</li></ol></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (1 of 2): 4-bit ALU functions and Traffic light controller" aria-label="Truth tables (1 of 2): 4-bit ALU functions and Traffic light controller" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (1 of 2)</h2><div class="tgrid"><div class="tcard"><h4>4-bit ALU functions</h4><div class="scrollx"><table class="tt"><thead><tr><th>Op code</th><th>Operation</th></tr></thead><tbody><tr><td>000</td><td>A + B</td></tr><tr><td>001</td><td>A − B</td></tr><tr><td>010</td><td>A AND B</td></tr><tr><td>011</td><td>A OR B</td></tr><tr><td>100</td><td>A XOR B</td></tr><tr><td>101</td><td>NOT A</td></tr><tr><td>110</td><td>A + 1</td></tr><tr><td>111</td><td>Pass B</td></tr></tbody></table></div></div><div class="tcard"><h4>Traffic light controller</h4><div class="scrollx"><table class="tt"><thead><tr><th>State AB</th><th>North–South</th><th>East–West</th><th>Ticks</th></tr></thead><tbody><tr><td>00</td><td>Green</td><td>Red</td><td>4</td></tr><tr><td>01</td><td>Yellow</td><td>Red</td><td>2</td></tr><tr><td>10</td><td>Red</td><td>Green</td><td>4</td></tr><tr><td>11</td><td>Red</td><td>Yellow</td><td>2</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (2 of 2): Digital lock for code 1011" aria-label="Truth tables (2 of 2): Digital lock for code 1011" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (2 of 2)</h2><div class="tgrid"><div class="tcard"><h4>Digital lock for code 1011</h4><div class="scrollx"><table class="tt"><thead><tr><th>State</th><th>Input 0 → next</th><th>Input 1 → next</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>1</td></tr><tr><td>1</td><td>2</td><td>1</td></tr><tr><td>2</td><td>0</td><td>3</td></tr><tr><td>3</td><td>2</td><td>4</td></tr><tr><td>4 (unlocked)</td><td>0</td><td>1</td></tr></tbody></table></div><p class="small muted" style="margin:6px 0 0">State k means the first k digits of the code have been matched.</p></div></div>
+</div></section>
+<section class="slide " data-title="Demo: ALU, traffic light and lock" aria-label="Demo: ALU, traffic light and lock" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: ALU, traffic light and lock</h2><div data-demo="13" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 2</p><h2>Worked example 1</h2><div class="ex"><div class="qq">How many AND gates make the partial products of a 3×3 multiplier?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Each of the 3 bits of B multiplies each of the 3 bits of A.</li><li>3 × 3 = <b>9</b> AND gates.</li><li>Adders then sum the shifted rows into a 6-bit product.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 2</p><h2>Worked example 2</h2><div class="ex"><div class="qq">How many flip-flops does the traffic light controller in the demo need?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Four states (NS green, NS yellow, EW green, EW yellow).</li><li>⌈log₂4⌉ = <b>2</b> flip-flops, plus a counter for timing.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Design a 3×3 multiplier.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Generate nine partial products with AND gates, then add the shifted rows with half and full adders. See the multiplier on the Projects page.</div></details></div><div class="ex"><div class="qq">2. Design an FSM that detects 101.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Use the Chapter 8 simulator for the table and equations.</div></details></div><div class="ex"><div class="qq">3. Design a MOD-6 counter.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">3 flip-flops, states 000 to 101, reset on 110 or use next-state logic.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. List the blocks in a mini digital system.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Input switches, combinational logic, a register, a counter, display logic and a control FSM.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Combine an adder, a multiplexer and flip-flops into a tiny ALU, and Save the parts as components.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="13"></div><script type="application/json" class="quiz-json">[{"q": "Which block coordinates the operations of the datapath?", "o": ["ALU", "Register file", "Control unit", "Bus"], "a": 2, "w": "The control unit is an FSM that issues control signals."}, {"q": "In a digital clock, counters are used to", "o": ["store the display font", "divide the clock frequency", "decode the display", "hold the alarm time only"], "a": 1, "w": "They turn a fast clock into seconds, minutes and hours."}, {"q": "The partial products of a 3×3 multiplier come from", "o": ["XOR gates", "AND gates", "flip-flops", "decoders"], "a": 1, "w": "Each partial product is a·b."}, {"q": "What should you check first when a sequential circuit misbehaves?", "o": ["The font colour", "Clock and input assumptions", "The package size", "Nothing"], "a": 1, "w": "Most faults are wrong clocks, inputs or reset."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>Complex systems are built by combining simple blocks.</li><li>A CPU is a datapath plus a control unit connected to memory by buses.</li><li>FSMs make controllers such as traffic lights and locks.</li><li>Follow the workflow: specify, model, simplify, implement, verify.</li><li>Troubleshoot clock, inputs, connections, reset and timing.</li></ul><div class="nextcard"><a class="btn pri" href="index.html">Back to all topics</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 15</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 13, "prev": "12-rom-and-programmable-logic.html", "next": "index.html", "nextLabel": "Back to all topics"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

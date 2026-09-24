@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Number Systems &amp; Binary Codes · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">2</span><span>Number Systems &amp; Binary Codes</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Number Systems &amp; Binary Codes" aria-label="Number Systems &amp; Binary Codes" tabindex="-1"><div class="slide-inner">
+<span class="badge big">2</span>
+<p class="kicker">Topic 2 of 13</p>
+<h1>Number Systems &amp; Binary Codes</h1>
+<p class="lead">Positional number systems, base conversion, signed numbers, BCD and Gray code.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Decimal, binary, octal, hexadecimal</a></li><li><a href="#s=3">Radix and positional representation</a></li><li><a href="#s=4">Base conversions</a></li><li><a href="#s=4">Binary fractions</a></li><li><a href="#s=5">Binary addition and subtraction</a></li><li><a href="#s=5">Signed and unsigned numbers</a></li><li><a href="#s=5">Sign-magnitude, 1&#x27;s complement, 2&#x27;s complement</a></li><li><a href="#s=6">Binary codes</a></li><li><a href="#s=6">BCD and BCD addition</a></li><li><a href="#s=6">Gray code</a></li><li><a href="#s=6">ASCII and other common codes</a></li></ol>
+</div></section>
+<section class="slide " data-title="Radix and positional representation" aria-label="Radix and positional representation" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 4</p><div class="concept"><h2>Radix and positional representation</h2><div><table class="doc"><thead><tr><th>System</th><th>Base</th><th>Symbols</th></tr></thead><tbody><tr><td>Decimal</td><td>10</td><td class="m">0–9</td></tr><tr><td>Binary</td><td>2</td><td class="m">0, 1</td></tr><tr><td>Octal</td><td>8</td><td class="m">0–7</td></tr><tr><td>Hexadecimal</td><td>16</td><td class="m">0–9, A–F</td></tr></tbody></table><p>A digit’s value depends on its position and the base:</p><div class="formula">345₁₀ = 3×10² + 4×10¹ + 5×10⁰<br>101101₂ = 1×2⁵ + 0×2⁴ + 1×2³ + 1×2² + 0×2¹ + 1×2⁰ = 45₁₀</div></div></div>
+</div></section>
+<section class="slide " data-title="Converting between bases" aria-label="Converting between bases" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 4</p><div class="concept"><h2>Converting between bases</h2><div><ul><li><b>Binary to decimal:</b> add the weights of the 1 bits.</li><li><b>Decimal to binary:</b> divide by 2 repeatedly and read the remainders from last to first.</li><li><b>Binary to octal:</b> group bits in threes from the point. <b>Binary to hex:</b> group in fours.</li><li><b>Fractions:</b> after the point the weights are 2<sup>−1</sup>, 2<sup>−2</sup>, … To convert a decimal fraction, multiply by 2 repeatedly and read the integer parts from first to last. 101.101₂ = 5.625₁₀.</li></ul></div></div>
+</div></section>
+<section class="slide " data-title="Binary arithmetic and signed numbers" aria-label="Binary arithmetic and signed numbers" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 4</p><div class="concept"><h2>Binary arithmetic and signed numbers</h2><div><p>Addition: 0+0=0, 0+1=1, 1+1=10 (sum 0, carry 1). Subtraction borrows when 0−1 occurs.</p><p>An n-bit unsigned number ranges from 0 to 2<sup>n</sup>−1. Signed formats:</p><ul><li><b>Sign-magnitude:</b> the MSB is the sign (0 positive, 1 negative), the rest is the magnitude.</li><li><b>1’s complement:</b> invert every bit to negate.</li><li><b>2’s complement:</b> invert every bit, then add 1. This is what hardware uses, because subtraction becomes addition.</li></ul><div class="formula">n-bit 2’s complement range: −2ⁿ⁻¹ … 2ⁿ⁻¹ − 1<br>8 bits: −128 … +127</div></div></div>
+</div></section>
+<section class="slide " data-title="Binary codes: BCD, Gray and ASCII" aria-label="Binary codes: BCD, Gray and ASCII" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 4</p><div class="concept"><h2>Binary codes: BCD, Gray and ASCII</h2><div><p><b>BCD</b> writes each decimal digit in 4 bits (valid groups 0000 to 1001). 59 = 0101 1001. When you add two BCD digits, add 0110 to the group if it exceeds 1001 or produced a carry.</p><p><b>Gray code</b> changes only one bit between neighbouring values. Binary to Gray: keep the first bit, then XOR each bit with the bit to its left. Gray to binary: keep the first bit, then XOR the previous binary bit with the current Gray bit. It is used in rotary encoders and in K-map ordering.</p><p><b>ASCII</b> is a 7-bit character code: A = 1000001 (65). Codes are grouped as weighted (BCD), non-weighted (Gray, excess-3), alphanumeric (ASCII) and error-detecting (parity).</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (1 of 2): Counting 0 to 15 in several systems" aria-label="Truth tables (1 of 2): Counting 0 to 15 in several systems" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (1 of 2)</h2><div class="tgrid"><div class="tcard"><h4>Counting 0 to 15 in several systems</h4><div class="scrollx"><table class="tt"><thead><tr><th>Decimal</th><th>Binary</th><th>Octal</th><th>Hex</th><th>BCD</th><th>Gray</th></tr></thead><tbody><tr><td>0</td><td>0000</td><td>0</td><td>0</td><td>0000 0000</td><td>0000</td></tr><tr><td>1</td><td>0001</td><td>1</td><td>1</td><td>0000 0001</td><td>0001</td></tr><tr><td>2</td><td>0010</td><td>2</td><td>2</td><td>0000 0010</td><td>0011</td></tr><tr><td>3</td><td>0011</td><td>3</td><td>3</td><td>0000 0011</td><td>0010</td></tr><tr><td>4</td><td>0100</td><td>4</td><td>4</td><td>0000 0100</td><td>0110</td></tr><tr><td>5</td><td>0101</td><td>5</td><td>5</td><td>0000 0101</td><td>0111</td></tr><tr><td>6</td><td>0110</td><td>6</td><td>6</td><td>0000 0110</td><td>0101</td></tr><tr><td>7</td><td>0111</td><td>7</td><td>7</td><td>0000 0111</td><td>0100</td></tr><tr><td>8</td><td>1000</td><td>10</td><td>8</td><td>0000 1000</td><td>1100</td></tr><tr><td>9</td><td>1001</td><td>11</td><td>9</td><td>0000 1001</td><td>1101</td></tr><tr><td>10</td><td>1010</td><td>12</td><td>A</td><td>0001 0000</td><td>1111</td></tr><tr><td>11</td><td>1011</td><td>13</td><td>B</td><td>0001 0001</td><td>1110</td></tr><tr><td>12</td><td>1100</td><td>14</td><td>C</td><td>0001 0010</td><td>1010</td></tr><tr><td>13</td><td>1101</td><td>15</td><td>D</td><td>0001 0011</td><td>1011</td></tr><tr><td>14</td><td>1110</td><td>16</td><td>E</td><td>0001 0100</td><td>1001</td></tr><tr><td>15</td><td>1111</td><td>17</td><td>F</td><td>0001 0101</td><td>1000</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables (2 of 2): Three signed formats, 4 bits" aria-label="Truth tables (2 of 2): Three signed formats, 4 bits" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables (2 of 2)</h2><div class="tgrid"><div class="tcard"><h4>Three signed formats, 4 bits</h4><div class="scrollx"><table class="tt"><thead><tr><th>Value</th><th>Sign-magnitude</th><th>1&#x27;s complement</th><th>2&#x27;s complement</th></tr></thead><tbody><tr><td>7</td><td>0111</td><td>0111</td><td>0111</td></tr><tr><td>3</td><td>0011</td><td>0011</td><td>0011</td></tr><tr><td>1</td><td>0001</td><td>0001</td><td>0001</td></tr><tr><td>0</td><td>0000</td><td>0000</td><td>0000</td></tr><tr><td>-1</td><td>1001</td><td>1110</td><td>1111</td></tr><tr><td>-3</td><td>1011</td><td>1100</td><td>1101</td></tr><tr><td>-7</td><td>1111</td><td>1000</td><td>1001</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Demo: base-conversion calculator" aria-label="Demo: base-conversion calculator" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: base-conversion calculator</h2><div data-demo="2" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Demo: BCD adder" aria-label="Demo: BCD adder" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: BCD adder</h2><div data-demo="2" data-part="1"></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 4</p><h2>Worked example 1</h2><div class="ex"><div class="qq">Convert 45₁₀ to binary.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>45 ÷ 2 = 22 r <b>1</b></li><li>22 ÷ 2 = 11 r <b>0</b></li><li>11 ÷ 2 = 5 r <b>1</b></li><li>5 ÷ 2 = 2 r <b>1</b></li><li>2 ÷ 2 = 1 r <b>0</b></li><li>1 ÷ 2 = 0 r <b>1</b></li></ol>Read the remainders bottom to top: <b>101101₂</b>.</div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 4</p><h2>Worked example 2</h2><div class="ex"><div class="qq">Write −5 in 8-bit 2’s complement.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>+5 = 00000101</li><li>Invert: 11111010</li><li>Add 1: <b>11111011</b></li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 3" aria-label="Worked example 3" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 3 of 4</p><h2>Worked example 3</h2><div class="ex"><div class="qq">Add 8 + 5 in BCD.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>1000 + 0101 = 1101, which is greater than 1001.</li><li>Add 0110: 1101 + 0110 = 1 0011.</li><li>Result <b>0001 0011</b> = 13.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 4" aria-label="Worked example 4" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 4 of 4</p><h2>Worked example 4</h2><div class="ex"><div class="qq">Convert binary 1011 to Gray code.</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>First bit: 1</li><li>1 ⊕ 0 = 1</li><li>0 ⊕ 1 = 1</li><li>1 ⊕ 1 = 0</li></ol>Gray code: <b>1110</b>.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Convert 101101₂ to decimal.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">45</div></details></div><div class="ex"><div class="qq">2. Find the 2’s complement of 00101101.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">11010011 (invert to 11010010, add 1).</div></details></div><div class="ex"><div class="qq">3. Write 59 in BCD.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">0101 1001</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Perform the BCD addition 8 + 5.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">0001 0011 (13)</div></details></div><div class="ex"><div class="qq">5. Convert 1011 to Gray code.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">1110</div></details></div><div class="ex"><div class="qq">6. Convert 11010110₂ to octal and hexadecimal.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Octal: 011 010 110 = 326₈. Hex: 1101 0110 = D6₁₆.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Use the Number input and Number output blocks to watch binary values, and the bit splitter and combiner to split a number into bits.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="2"></div><script type="application/json" class="quiz-json">[{"q": "The 8-bit 2’s complement range is", "o": ["0 to 255", "−127 to +127", "−128 to +127", "−256 to +255"], "a": 2, "w": "−2⁷ to 2⁷−1."}, {"q": "BCD addition needs +0110 when", "o": ["the sum is even", "the 4-bit sum exceeds 1001 or a carry is produced", "the digits are equal", "the sum is 1000"], "a": 1, "w": "Values 1010 to 1111 are not valid BCD digits, so adding 6 skips them."}, {"q": "Gray code 1110 corresponds to binary", "o": ["1011", "1110", "0111", "1101"], "a": 0, "w": "First bit 1; 1⊕1=0; 0⊕1=1; 1⊕0=1 → 1011."}, {"q": "One hexadecimal digit represents how many bits?", "o": ["2", "3", "4", "8"], "a": 2, "w": "16 = 2⁴."}, {"q": "101.101₂ equals", "o": ["5.625", "5.5", "6.125", "5.125"], "a": 0, "w": "4+1 = 5, and 0.5 + 0.125 = 0.625."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>Value = Σ digit × base<sup>position</sup>.</li><li>One octal digit = 3 bits, one hex digit = 4 bits.</li><li>2’s complement: invert and add 1. n-bit range −2<sup>n−1</sup> to 2<sup>n−1</sup>−1.</li><li>BCD addition: add 0110 when a group exceeds 1001 or carries out.</li><li>Gray code changes one bit per step: G = B ⊕ (B shifted right).</li></ul><div class="nextcard"><a class="btn pri" href="03-boolean-algebra-and-gates.html">Next topic: Boolean Algebra</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 18</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 2, "prev": "01-introduction.html", "next": "03-boolean-algebra-and-gates.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>

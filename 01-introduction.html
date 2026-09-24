@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Introduction to Digital Logic · Digital Logic Design</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body class="deck-page">
+<div class="sr-only" id="live" aria-live="polite"></div>
+<header class="deck-bar">
+  <a class="home-link" href="index.html">All topics</a>
+  <div class="deck-title"><span class="badge">1</span><span>Introduction to Digital Logic</span></div>
+  <div class="deck-actions">
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+  </div>
+</header>
+<div class="deck-progress"><i id="progress-fill"></i></div>
+<main class="deck" id="deck">
+<section class="slide title-slide" data-title="Introduction to Digital Logic" aria-label="Introduction to Digital Logic" tabindex="-1"><div class="slide-inner">
+<span class="badge big">1</span>
+<p class="kicker">Topic 1 of 13</p>
+<h1>Introduction to Digital Logic</h1>
+<p class="lead">What a digital system is, why it uses only 0 and 1, and how simple gates grow into a computer.</p>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
+</div></section>
+<section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">What is Digital Logic Design?</a></li><li><a href="#s=3">Course overview and learning outcomes</a></li><li><a href="#s=4">Analog vs. digital signals</a></li><li><a href="#s=5">Binary logic: bits, bytes, 0 and 1</a></li><li><a href="#s=5">Logic operations and truth tables</a></li><li><a href="#s=6">Digital logic hierarchy</a></li><li><a href="#s=6">Combinational vs. sequential logic</a></li><li><a href="#s=3">DLD tools and applications</a></li></ol>
+</div></section>
+<section class="slide " data-title="What digital logic design is" aria-label="What digital logic design is" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 1 of 4</p><div class="concept"><h2>What digital logic design is</h2><div><p>Digital logic design is the craft of building systems that represent information with a small set of discrete values, almost always 0 and 1, and then process, store and move that information. A phone, a calculator and a CPU are built from the same ingredients: logic gates, storage elements and a clock.</p><p>This course climbs a ladder. You start with single gates, add arithmetic circuits and data selectors, then memory, counters and finite state machines, and finish with the datapath of a small computer.</p></div></div>
+</div></section>
+<section class="slide " data-title="Analog and digital signals" aria-label="Analog and digital signals" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 2 of 4</p><div class="concept"><h2>Analog and digital signals</h2><div><p>An analog signal changes continuously and can take any value in a range. Noise shifts the value and nothing in the signal tells you it happened. A digital signal uses ranges: any voltage below a low threshold reads as logic 0 (LOW), and any voltage above a high threshold reads as logic 1 (HIGH). Small noise leaves the decoded bit unchanged.</p><ul><li>Reliability and noise tolerance</li><li>Easy storage and copying</li><li>Easy processing and programmability</li><li>Repeatability: the same input always gives the same output</li></ul></div></div>
+</div></section>
+<section class="slide " data-title="Bits, bytes and truth tables" aria-label="Bits, bytes and truth tables" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 3 of 4</p><div class="concept"><h2>Bits, bytes and truth tables</h2><div><p>One binary digit is a <b>bit</b>. Eight bits make a <b>byte</b>. <i>n</i> bits give 2<sup>n</sup> different patterns, and those patterns can stand for numbers, characters, instructions or control signals.</p><p>The basic operations are AND, OR and NOT. A <b>truth table</b> lists every input combination and the output for each. A function of <i>n</i> inputs has 2<sup>n</sup> rows.</p></div></div>
+</div></section>
+<section class="slide " data-title="From transistors to computers" aria-label="From transistors to computers" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Concept 4 of 4</p><div class="concept"><h2>From transistors to computers</h2><div><div class="fig"><div class="flow"><span>Transistor</span><i>›</i><span>Logic gate</span><i>›</i><span>Circuit</span><i>›</i><span>Module</span><i>›</i><span>CPU</span><i>›</i><span>Computer</span></div><figcaption>Each level is built only from the level to its left.</figcaption></div><p>A <b>combinational</b> circuit produces outputs that depend only on its present inputs. A <b>sequential</b> circuit also depends on stored state, so it needs memory elements and usually a clock.</p></div></div>
+</div></section>
+<section class="slide " data-title="Truth tables: AND, OR and NOT and Rows in a truth table" aria-label="Truth tables: AND, OR and NOT and Rows in a truth table" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Truth tables</p><h2>Truth tables</h2><div class="tgrid"><div class="tcard"><h4>AND, OR and NOT</h4><div class="scrollx"><table class="tt"><thead><tr><th>A</th><th>B</th><th>A AND B</th><th>A OR B</th><th>NOT A</th></tr></thead><tbody><tr><td>0</td><td>0</td><td>0</td><td>0</td><td>1</td></tr><tr><td>0</td><td>1</td><td>0</td><td>1</td><td>1</td></tr><tr><td>1</td><td>0</td><td>0</td><td>1</td><td>0</td></tr><tr><td>1</td><td>1</td><td>1</td><td>1</td><td>0</td></tr></tbody></table></div><p class="small muted" style="margin:6px 0 0">Each input combination has its own row.</p></div><div class="tcard"><h4>Rows in a truth table</h4><div class="scrollx"><table class="tt"><thead><tr><th>Inputs n</th><th>Rows 2ⁿ</th></tr></thead><tbody><tr><td>1</td><td>2</td></tr><tr><td>2</td><td>4</td></tr><tr><td>3</td><td>8</td></tr><tr><td>4</td><td>16</td></tr><tr><td>5</td><td>32</td></tr><tr><td>6</td><td>64</td></tr></tbody></table></div></div></div>
+</div></section>
+<section class="slide " data-title="Demo: noise on analog and digital signals" aria-label="Demo: noise on analog and digital signals" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: noise on analog and digital signals</h2><div data-demo="1" data-part="0"></div>
+</div></section>
+<section class="slide " data-title="Demo: bits and bytes" aria-label="Demo: bits and bytes" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Interactive</p><h2>Demo: bits and bytes</h2><div data-demo="1" data-part="1"></div>
+</div></section>
+<section class="slide " data-title="Worked example 1" aria-label="Worked example 1" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 1 of 2</p><h2>Worked example 1</h2><div class="ex"><div class="qq">How many rows does the truth table of a 5-input function have?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>Each input doubles the number of combinations.</li><li>Rows = 2<sup>5</sup> = <b>32</b>.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Worked example 2" aria-label="Worked example 2" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Worked example 2 of 2</p><h2>Worked example 2</h2><div class="ex"><div class="qq">How many values can one byte hold, and what is the largest unsigned value?</div><details class="reveal"><summary>Show the solution</summary><div class="ans"><ol><li>8 bits give 2<sup>8</sup> = <b>256</b> patterns.</li><li>Counting from 0, the largest is 256 − 1 = <b>255</b>.</li></ol></div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (1 of 2)" aria-label="Practice (1 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Classify each as combinational or sequential: a 4-bit adder, a counter, a decoder, a register.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Adder and decoder are combinational. Counter and register are sequential because they store state.</div></details></div><div class="ex"><div class="qq">2. Write the truth table of a 2-input AND gate.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">00 → 0, 01 → 0, 10 → 0, 11 → 1.</div></details></div><div class="ex"><div class="qq">3. Give two reasons digital systems tolerate noise better than analog ones.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Signals are read against thresholds, so small deviations decode to the same bit, and a noisy signal can be regenerated to clean levels.</div></details></div>
+</div></section>
+<section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. How many bits are needed to label 100 different items?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">7 bits, because 2<sup>6</sup> = 64 is too small and 2<sup>7</sup> = 128 is enough.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Place switches, gates and LEDs, then use the Truth table tester to see every input combination.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+</div></section>
+<section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="1"></div><script type="application/json" class="quiz-json">[{"q": "How many input combinations does a 3-input truth table have?", "o": ["3", "6", "8", "9"], "a": 2, "w": "2³ = 8."}, {"q": "Which of these is a sequential circuit?", "o": ["Half adder", "2-to-4 decoder", "D flip-flop", "4-to-1 multiplexer"], "a": 2, "w": "A flip-flop stores a bit, so its output depends on stored state."}, {"q": "A byte is", "o": ["4 bits", "8 bits", "10 bits", "16 bits"], "a": 1, "w": "A byte is 8 bits."}, {"q": "Why do digital systems tolerate noise well?", "o": ["They use higher voltages", "Signals fall in discrete ranges, so small deviations decode to the same bit", "They never use clocks", "They store data as analog charge"], "a": 1, "w": "Thresholds absorb small deviations."}]</script></div>
+</div></section>
+<section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>Digital systems process discrete values, usually 0 and 1.</li><li>A bit is one binary digit and a byte is 8 bits. n bits give 2<sup>n</sup> patterns.</li><li>AND, OR and NOT are the basic operations. A truth table lists all 2<sup>n</sup> input combinations.</li><li>Combinational output depends on present inputs only. Sequential output also depends on stored state.</li><li>Gates build circuits, circuits build modules, modules build CPUs.</li></ul><div class="nextcard"><a class="btn pri" href="02-number-systems.html">Next topic: Number Systems</a><a class="btn" href="index.html">All topics</a></div>
+</div></section>
+</main>
+<footer class="deck-foot">
+  <button type="button" class="btn" id="prev">Previous</button>
+  <span class="counter" id="counter">1 / 15</span>
+  <button type="button" class="btn pri" id="next">Next</button>
+</footer>
+<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
+<script src="js/core.js"></script>
+<script src="js/lab.js"></script>
+<script src="js/kmap.js"></script>
+<script src="js/demos.js"></script>
+<script src="js/reallife.js"></script>
+<script src="js/quiz.js"></script>
+<script>window.DLD_TOPIC = {"id": 1, "prev": null, "next": "02-number-systems.html"};</script>
+<script>mountPage();</script>
+<script src="js/slides.js"></script>
+</body>
+</html>
