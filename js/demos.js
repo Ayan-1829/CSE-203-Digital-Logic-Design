@@ -2,6 +2,38 @@
 const DEMOS = {};
 const panel = (title, sub, ...kids) => h('div', { class: 'demo', style: { marginBottom: '20px' } }, title ? h('h3', null, title) : null, sub ? h('p', { class: 'sub' }, sub) : null, ...kids);
 const fld = (label, ...kids) => h('label', { class: 'fld' }, label, ...kids);
+const powSup = (exp, base = '2') => h('span', null, base, h('sup', null, exp < 0 ? '−' + (-exp) : String(exp)));
+
+/* Live block diagram: a labelled box with input lines on the left and output lines on the right,
+   each line lit up (var(--hi)) when its value is 1, dimmed (var(--lo)) when 0. Lines flagged
+   `accent` (control/enable lines, as opposed to data lines) are drawn in orange instead.
+   `ctrls` (optional) are select-style lines entering from the BOTTOM with an upward arrow —
+   the usual textbook way to set a MUX/DEMUX's select lines apart from its data lines. */
+function blockDiagram(title, ins, outs, ctrls) {
+  ctrls = ctrls || [];
+  const rows = Math.max(ins.length, outs.length), boxW = 116, boxX = 148, boxY = 15, boxH = 34 * rows + 16;
+  const boxBottom = boxY + boxH, ctrlH = ctrls.length ? 62 : 0;
+  const W = 400, H = boxBottom + ctrlH + 15;
+  const svg = sv('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', maxWidth: '400px', display: 'block', margin: '0 auto' }, role: 'img', 'aria-label': title + ' block diagram' });
+  svg.append(sv('rect', { x: boxX, y: boxY, width: boxW, height: boxH, rx: 10, fill: 'var(--sheet)', stroke: 'var(--ink)', 'stroke-width': 2 }));
+  const lines = title.split('\n');
+  lines.forEach((line, i) => svg.append(sv('text', { x: boxX + boxW / 2, y: boxY + boxH / 2 + (i - (lines.length - 1) / 2) * 17 + 5, 'text-anchor': 'middle', class: 'lt', style: { fontWeight: 700, fontSize: '13.5px', fill: 'var(--ink)' } }, line)));
+  const place = (arr, lineX1, lineX2, textX, anchor) => arr.forEach((it, i) => {
+    const y = boxY + (i + 1) * (boxH / (arr.length + 1));
+    const color = it.on ? (it.accent ? 'var(--accent)' : 'var(--hi)') : (it.accent ? 'var(--accent)' : 'var(--lo)');
+    svg.append(sv('line', { x1: lineX1, x2: lineX2, y1: y, y2: y, stroke: color, 'stroke-width': it.on ? 3 : 2 }));
+    svg.append(sv('text', { x: textX, y: y - 7, 'text-anchor': anchor, class: 'lt', style: { fontWeight: it.on ? 700 : 500, fill: it.accent ? 'var(--accent-ink)' : (it.on ? 'var(--ink)' : 'var(--ink-2)') } }, it.label));
+  });
+  place(ins, 24, boxX, 20, 'end');
+  place(outs, boxX + boxW, W - 24, W - 20, 'start');
+  ctrls.forEach((c, i) => {
+    const x = boxX + (i + 1) * (boxW / (ctrls.length + 1)), yTip = boxBottom + 8, yBase = boxBottom + ctrlH - 8, color = c.on ? 'var(--accent)' : 'var(--lo)';
+    svg.append(sv('line', { x1: x, y1: yBase, x2: x, y2: yTip + 8, stroke: color, 'stroke-width': c.on ? 3 : 2 }));
+    svg.append(sv('polygon', { points: `${x},${yTip} ${x - 6},${yTip + 11} ${x + 6},${yTip + 11}`, fill: color }));
+    svg.append(sv('text', { x, y: yBase + 13, 'text-anchor': 'middle', class: 'lt', style: { fontWeight: c.on ? 700 : 500, fill: c.on ? 'var(--accent-ink)' : 'var(--ink-2)' } }, c.label));
+  });
+  return svg;
+}
 
 /* ---------- gate explorer (used on Home and Chapter 3) ---------- */
 function gateExplorer(root, opts = {}) {
@@ -42,16 +74,27 @@ DEMOS[1] = (root) => {
     const noisy = clean.map((v, i) => v + noise[i] * amt * 1.7);
     const line = (arr, cls, style) => sv('polyline', { fill: 'none', 'stroke-width': cls, points: arr.map((v, i) => X(i) + ',' + Y(v)).join(' '), style });
     svg.append(sv('rect', { x: 0, y: 0, width: W, height: H, fill: 'var(--sheet-2)', rx: 6 }));
+    let rec = [];
     if (mode === 'digital') {
       svg.append(sv('line', { x1: x0, x2: x1, y1: Y(0.5), y2: Y(0.5), stroke: 'var(--ink-3)', 'stroke-dasharray': '6 5' }), sv('text', { x: x1 - 4, y: Y(0.5) - 5, 'text-anchor': 'end', class: 'lt' }, 'decision threshold'));
       for (let b = 0; b <= N; b++) svg.append(sv('line', { x1: X(b * S - 0.5), x2: X(b * S - 0.5), y1: 10, y2: H - 10, stroke: 'var(--line)' }));
+      rec = bits.map((_, b) => (noisy[b * S + S / 2] > 0.5 ? 1 : 0));
     }
     svg.append(line(clean, 3, { stroke: 'var(--ink-3)', opacity: 0.55 }), line(noisy, 2.4, { stroke: 'var(--hi)' }));
+    if (mode === 'digital') {
+      bits.forEach((bit, b) => {
+        const si = b * S + S / 2, ok = rec[b] === bit;
+        svg.append(sv('circle', { cx: X(si), cy: Y(noisy[si]), r: 5, fill: ok ? 'var(--ok)' : 'var(--bad)', stroke: 'var(--sheet)', 'stroke-width': 1.5 }));
+      });
+    }
     box.replaceChildren(svg);
     if (mode === 'digital') {
-      const rec = bits.map((_, b) => (noisy[b * S + S / 2] > 0.5 ? 1 : 0)), errs = rec.filter((v, i) => v !== bits[i]).length;
-      info.replaceChildren(h('div', null, 'sent      ', h('b', null, bits.join(' '))), h('div', null, 'recovered ', h('b', null, rec.join(' '))),
-        h('div', { class: errs ? 'bad' : 'ok' }, errs ? `${errs} bit${errs > 1 ? 's' : ''} wrong. Noise crossed the threshold.` : 'All bits recovered exactly. Every bit was read against a threshold, so the noise disappeared.'));
+      const errs = rec.filter((v, i) => v !== bits[i]).length;
+      const bitRowEl = (label, arr, against) => h('div', { class: 'row', style: { alignItems: 'center', gap: '10px', margin: '3px 0' } },
+        h('span', { class: 'small muted', style: { width: '84px', flex: 'none' } }, label),
+        h('div', { class: 'bits' }, arr.map((b, i) => h('div', { class: 'bit ro' + (b ? ' on' : '') + (against && against[i] !== b ? ' bad' : ''), 'aria-label': `bit ${i + 1}: ${b}` }, b))));
+      info.replaceChildren(bitRowEl('Sent', bits), bitRowEl('Recovered', rec, bits),
+        h('div', { class: errs ? 'bad' : 'ok', style: { marginTop: '8px' } }, errs ? `${errs} bit${errs > 1 ? 's' : ''} wrong (marked red above, same column as the sent bit). The dots mark each sample: red means that reading crossed the 0.5 threshold on the wrong side.` : 'All bits recovered exactly (green dots). Every bit was read against a threshold, so the noise disappeared.'));
     } else {
       const rms = Math.sqrt(clean.reduce((s, v, i) => s + (noisy[i] - v) ** 2, 0) / clean.length);
       info.replaceChildren(h('div', null, 'The analog value itself moved. Nothing marks which part is noise.'), h('div', { class: rms > 0.02 ? 'bad' : 'ok' }, `RMS error: ${(rms * 100).toFixed(1)}% of full scale, and it stays in the signal.`));
@@ -59,7 +102,7 @@ DEMOS[1] = (root) => {
   }
   const range1 = h('input', { type: 'range', min: 0, max: 100, value: 25, 'aria-label': 'Noise level', oninput: (e) => { amt = e.target.value / 100; draw(); } });
   const m = seg([{ v: 'digital', l: 'Digital signal' }, { v: 'analog', l: 'Analog signal' }], mode, (v) => { mode = v; draw(); });
-  const p1 = panel('Noise: analog vs. digital', 'Grey is the clean signal, blue is what arrives. Raise the noise and compare what each kind of signal can recover.',
+  const p1 = panel('Noise: analog vs. digital', 'Grey is the clean signal, blue is what arrives. In digital mode, the dot on each bit shows exactly where it was sampled against the threshold. Raise the noise and compare what each kind of signal can recover.',
     h('div', { class: 'row', style: { marginBottom: '10px' } }, m.el, fld('Noise level', range1), h('button', { type: 'button', class: 'btn sm', onclick: () => { regen(); draw(); } }, 'New noise')), box, info);
   draw();
   // byte toggler
@@ -76,6 +119,7 @@ DEMOS[1] = (root) => {
 
 /* ---------- Chapter 2 ---------- */
 const DIG = '0123456789ABCDEF';
+const BASE_NAME = { 2: 'Binary', 8: 'Octal', 10: 'Decimal', 16: 'Hexadecimal' };
 function parseBase(str, base) {
   str = str.trim().toUpperCase(); if (!str) return { err: 'Type a number.' };
   let neg = false; if (str[0] === '-') { neg = true; str = str.slice(1); }
@@ -86,7 +130,7 @@ function parseBase(str, base) {
   let v = 0; for (const ch of ip) v = v * base + ok.indexOf(ch);
   let f = 0, w = 1 / base; for (const ch of fp) { f += ok.indexOf(ch) * w; w /= base; }
   if (v > 2 ** 40) return { err: 'That number is too large for this calculator.' };
-  return { val: (v + f) * (neg ? -1 : 1), frac: f > 0 };
+  return { val: (v + f) * (neg ? -1 : 1), neg, ip: ip.replace(/^0+(?=.)/, ''), fp };
 }
 function toBase(val, base, maxFrac = 12) {
   const neg = val < 0; val = Math.abs(val); const ip = Math.floor(val); let fr = val - ip;
@@ -94,42 +138,111 @@ function toBase(val, base, maxFrac = 12) {
   if (fr > 1e-12) { s += '.'; let k = 0; while (fr > 1e-9 && k < maxFrac) { fr *= base; const d = Math.floor(fr + 1e-9); s += DIG[d]; fr -= d; k++; } }
   return (neg ? '-' : '') + s;
 }
+/* -- shared "how it's done" building blocks, reused by the calculator and the four one-way demos -- */
+function divisionSteps(n, base) {
+  let x = n; const rows = [];
+  while (x > 0 && rows.length < 32) { const q = Math.floor(x / base), r = x % base; rows.push([`${x} ÷ ${base}`, q, DIG[r]]); x = q; }
+  return rows;
+}
+function fracToBinarySteps(fr, maxBits = 12) {
+  let f = fr; const rows = []; let bits = '';
+  for (let k = 0; k < maxBits && f > 1e-9; k++) { f *= 2; const d = Math.floor(f + 1e-9); rows.push([k + 1, +f.toFixed(6), d]); bits += d; f -= d; }
+  return { rows, bits };
+}
+/* one target's card: integer content on top, fraction content beneath it — left out entirely
+   (not just noted as absent) whenever that target has no fractional part */
+function targetCard(cardCls, intNode, fracNode, label, resultVal) {
+  return h('div', { class: `conv-card ${cardCls}` },
+    h('h4', { class: 'conv-card-title' }, '→ ', label),
+    h('h5', { style: { margin: '0 0 6px' } }, 'Integer'), intNode,
+    fracNode ? h('div', { style: { marginTop: '12px' } }, h('h5', { style: { margin: '0 0 6px' } }, 'Fraction'), fracNode) : null,
+    h('p', { class: 'out fit', style: { marginTop: '10px' } }, `${label}: `, h('b', { class: 'mono' }, resultVal)));
+}
+/* lay out however many target cards a step produced (1, 2 or 3) side by side */
+const stepRow = (...cardArrays) => h('div', { class: 'dp' }, cardArrays.flat());
+function decToBinaryBlock(iv, fr) {
+  const ivBits = iv > 0 ? iv.toString(2) : '0';
+  const fracInfo = fracToBinarySteps(fr);
+  const intNode = iv === 0 ? h('p', { class: 'small muted' }, 'Integer part is 0.')
+    : iv >= 1e6 ? h('p', { class: 'small muted' }, 'Too large to show every step.')
+    : h('div', null, h('div', { class: 'scrollx' }, tableEl(['Division', 'Quotient', 'Remainder'], divisionSteps(iv, 2))),
+        h('p', { class: 'small muted' }, 'Read the remainders from the bottom up: ', h('b', { class: 'mono' }, ivBits)));
+  const fracNode = fr <= 1e-9 ? null : h('div', null, h('div', { class: 'scrollx' }, tableEl(['Step', '× 2', 'Bit'], fracInfo.rows)),
+    h('p', { class: 'small muted' }, 'Read the bits from the top down: ', h('b', { class: 'mono' }, fracInfo.bits)));
+  const node = targetCard('dec', intNode, fracNode, 'Binary', ivBits + (fracInfo.bits ? '.' + fracInfo.bits : ''));
+  return { cards: [node], ivBits, fracBits: fracInfo.bits };
+}
+function groupTable(bits, size, padLeft) {
+  if (!bits) return { node: h('p', { class: 'small muted' }, 'Nothing to group.'), digits: '' };
+  const padLen = (size - (bits.length % size)) % size;
+  const padded = padLeft ? '0'.repeat(padLen) + bits : bits + '0'.repeat(padLen);
+  const groups = []; for (let i = 0; i < padded.length; i += size) groups.push(padded.slice(i, i + size));
+  const rows = groups.map((g) => [g, parseInt(g, 2), DIG[parseInt(g, 2)]]);
+  const digits = groups.map((g) => DIG[parseInt(g, 2)]).join('');
+  return { node: h('div', null,
+    padLen ? h('p', { class: 'small muted' }, `Pad with ${padLen} ${padLeft ? 'leading' : 'trailing'} zero${padLen > 1 ? 's' : ''}: `, h('code', null, padded)) : null,
+    h('div', { class: 'scrollx' }, tableEl(['Group', 'Value', 'Digit'], rows)),
+    h('p', { class: 'out fit' }, 'Result: ', h('b', { class: 'mono' }, digits))), digits };
+}
+function targetGroupCard(cardCls, label, ivBits, fracBits, size) {
+  const gI = groupTable(ivBits, size, true), gF = fracBits ? groupTable(fracBits, size, false) : null;
+  return targetCard(cardCls, gI.node, gF ? gF.node : null, label, gI.digits + (gF ? '.' + gF.digits : ''));
+}
+function binGroupBlock(ivBits, fracBits) {
+  return { cards: [targetGroupCard('oct', 'Octal', ivBits, fracBits, 3), targetGroupCard('hex', 'Hex', ivBits, fracBits, 4)] };
+}
+function weightTable(bits, dir) {
+  let sum = 0; const rows = [];
+  for (let i = 0; i < bits.length; i++) { const exp = dir > 0 ? (bits.length - 1 - i) : -(i + 1); const bit = +bits[i], val = bit * Math.pow(2, exp); sum += val; rows.push([bit, powSup(exp), +val.toFixed(6)]); }
+  return { node: h('div', null, h('div', { class: 'scrollx' }, tableEl(['Bit', 'Weight', 'Value'], rows)), h('p', { class: 'out fit' }, 'Sum = ', h('b', null, +sum.toFixed(6)))), sum };
+}
+function binToDecBlock(ivBits, fracBits) {
+  const wI = ivBits === '0' ? { node: h('p', { class: 'small muted' }, 'Integer part is 0.'), sum: 0 } : weightTable(ivBits, 1);
+  const wF = fracBits ? weightTable(fracBits, -1) : null;
+  const node = targetCard('dec', wI.node, wF ? wF.node : null, 'Decimal', +(wI.sum + (wF ? wF.sum : 0)).toFixed(6));
+  return { cards: [node], ivBits, fracBits };
+}
+function digitExpand(str, base, size) {
+  const ok = DIG.slice(0, base);
+  const rows = [...str].map((ch) => [ch, ok.indexOf(ch), bin(ok.indexOf(ch), size)]);
+  return { rows, bits: rows.map((r) => r[2]).join('') };
+}
+function digitExpandBlock(ip, fp, base, size, toName, cardCls) {
+  const iEx = digitExpand(ip || '0', base, size), fEx = fp ? digitExpand(fp, base, size) : null;
+  const ivBits = iEx.bits.replace(/^0+(?=.)/, '') || '0', fracBits = fEx ? fEx.bits : '';
+  const intNode = h('div', null, h('div', { class: 'scrollx' }, tableEl(['Digit', 'Value', toName], iEx.rows)), h('p', { class: 'out fit' }, 'Result: ', h('b', { class: 'mono' }, ivBits)));
+  const fracNode = fEx ? h('div', null, h('div', { class: 'scrollx' }, tableEl(['Digit', 'Value', toName], fEx.rows)), h('p', { class: 'out fit' }, 'Result: ', h('b', { class: 'mono' }, fEx.bits))) : null;
+  const node = targetCard(cardCls, intNode, fracNode, toName, ivBits + (fracBits ? '.' + fracBits : ''));
+  return { cards: [node], ivBits, fracBits };
+}
 DEMOS[2] = (root) => {
   let base = 10, nb = 8;
   const inp = h('input', { type: 'text', value: '45.625', size: 16, 'aria-label': 'Number to convert', oninput: () => run() });
-  const out = h('div'), signed = h('div'), steps = h('div');
+  const out = h('div'), signed = h('div');
   const bs = seg([{ v: 2, l: 'Binary' }, { v: 8, l: 'Octal' }, { v: 10, l: 'Decimal' }, { v: 16, l: 'Hex' }], 10, (v) => { base = v; run(); });
   const ns = seg([4, 8, 16].map((k) => ({ v: k, l: k + ' bits' })), 8, (v) => { nb = v; run(); });
   function run() {
     const r = parseBase(inp.value, base);
-    clear(out); clear(signed); clear(steps);
+    clear(out); clear(signed);
     if (r.err) { out.append(h('p', { class: 'bad' }, r.err)); return; }
     const v = r.val;
     out.append(tableEl(['Base', 'Value'], [['Binary (2)', toBase(v, 2)], ['Octal (8)', toBase(v, 8)], ['Decimal (10)', toBase(v, 10)], ['Hexadecimal (16)', toBase(v, 16)]], 'doc'));
-    // division steps
-    const iv = Math.floor(Math.abs(v));
-    if (iv > 0 && iv < 1e6) {
-      let n = iv; const rows = [];
-      while (n > 0 && rows.length < 24) { rows.push([`${n} ÷ 2`, Math.floor(n / 2), n % 2]); n = Math.floor(n / 2); }
-      steps.append(h('h4', { style: { margin: '14px 0 6px' } }, `Decimal to binary for ${iv}: repeated division by 2`), h('div', { class: 'scrollx' }, tableEl(['Division', 'Quotient', 'Remainder'], rows)), h('p', { class: 'small muted' }, 'Read the remainders from the bottom up.'));
-    }
-    const fr = Math.abs(v) - iv;
-    if (fr > 1e-9) {
-      let f = fr; const rows = [];
-      for (let k = 0; k < 8 && f > 1e-9; k++) { f *= 2; const d = Math.floor(f + 1e-9); rows.push([k + 1, +f.toFixed(6), d]); f -= d; }
-      steps.append(h('h4', { style: { margin: '14px 0 6px' } }, 'Fraction: multiply by 2, keep the integer part'), h('div', { class: 'scrollx' }, tableEl(['Step', 'Product', 'Bit'], rows)));
-    }
-    if (Number.isInteger(v)) {
-      const lo = -(2 ** (nb - 1)), hi = 2 ** (nb - 1) - 1, mask = 2 ** nb;
-      const rows = [];
-      const inSM = Math.abs(v) <= hi, inTC = v >= lo && v <= hi;
-      const sm = v >= 0 ? bin(v, nb) : '1' + bin(-v, nb - 1), oc = v >= 0 ? bin(v, nb) : bin(((mask - 1) - (-v)), nb), tc = bin(((v % mask) + mask) % mask, nb);
-      rows.push(['Sign-magnitude', inSM ? sm : 'out of range', `±${hi}`], ["1's complement", inSM ? oc : 'out of range', `±${hi}`], ["2's complement", inTC ? tc : 'out of range', `${lo} to ${hi}`]);
-      signed.append(h('h4', { style: { margin: '14px 0 6px' } }, `Signed representations in ${nb} bits`), h('div', { class: 'scrollx' }, tableEl(['Format', 'Bits', 'Range'], rows)));
-      const a = Math.abs(v);
-      const bcd = String(a).split('').map((d) => bin(+d, 4)).join(' ');
-      signed.append(h('div', { class: 'out', style: { marginTop: '12px' } }, h('div', null, 'BCD of ', h('b', null, a), ': ', h('b', null, bcd)), h('div', null, 'Gray code of ', h('b', null, bin(a, Math.max(1, clog2(a + 1))) ), ': ', h('b', null, bin(a ^ (a >> 1), Math.max(1, clog2(a + 1)))))));
-    }
+    const iv = Math.floor(Math.abs(v)), fr = Math.abs(v) - iv;
+    // signed formats always use the integer part, even if the typed value has a fraction
+    const sv = v < 0 ? -iv : iv;
+    const lo = -(2 ** (nb - 1)), hi = 2 ** (nb - 1) - 1, mask = 2 ** nb;
+    const rows = [];
+    const inSM = iv <= hi, inTC = sv >= lo && sv <= hi;
+    const sm = sv >= 0 ? bin(sv, nb) : '1' + bin(iv, nb - 1), oc = sv >= 0 ? bin(sv, nb) : bin(((mask - 1) - iv), nb), tc = bin(((sv % mask) + mask) % mask, nb);
+    rows.push(['Sign-magnitude', inSM ? sm : 'out of range', `±${hi}`], ["1's complement", inSM ? oc : 'out of range', `±${hi}`], ["2's complement", inTC ? tc : 'out of range', `${lo} to ${hi}`]);
+    signed.append(h('h4', { style: { margin: '14px 0 6px' } }, `Signed representations in ${nb} bits`),
+      fr > 1e-9 ? h('p', { class: 'small muted' }, `(using the integer part, ${iv}, since signed formats hold whole numbers)`) : null,
+      h('div', { class: 'scrollx' }, tableEl(['Format', 'Bits', 'Range'], rows)));
+    const inGray = iv <= mask - 1;
+    const bcd = String(iv).split('').map((d) => bin(+d, 4)).join(' ');
+    signed.append(h('div', { class: 'out', style: { marginTop: '12px' } },
+      h('div', null, 'BCD of ', h('b', null, iv), ': ', h('b', null, bcd)),
+      h('div', null, `Gray code of ${iv} in ${nb} bits: `, inGray ? h('span', null, h('b', null, bin(iv, nb)), ' → ', h('b', null, bin(iv ^ (iv >> 1), nb))) : h('span', { class: 'bad' }, `${iv} does not fit in ${nb} bits`))));
   }
   const bcdOut = h('div');
   const ia = h('input', { type: 'number', min: 0, max: 99, value: 58, style: { width: '86px' }, 'aria-label': 'First BCD number', oninput: () => bcdRun() });
@@ -137,23 +250,71 @@ DEMOS[2] = (root) => {
   function bcdRun() {
     const A = Math.max(0, Math.min(99, Math.floor(+ia.value || 0))), B = Math.max(0, Math.min(99, Math.floor(+ib.value || 0)));
     const da = [Math.floor(A / 10), A % 10], db = [Math.floor(B / 10), B % 10];
-    let carry = 0; const rows = [], res = [];
+    let carry = 0; const rows = [], res = [], steps = [];
     for (let i = 1; i >= 0; i--) {
+      const name = i === 1 ? 'Units' : 'Tens';
       const raw = da[i] + db[i] + carry, need = raw > 9;
       const fixed = need ? raw + 6 : raw; res[i] = fixed & 15; const cout = need ? 1 : 0;
-      rows.push([i === 1 ? 'Units' : 'Tens', bin(da[i], 4), bin(db[i], 4), carry, bin(raw, 5), need ? '+ 0110' : 'none', bin(fixed & 15, 4), cout]);
+      rows.push([name, bin(da[i], 4), bin(db[i], 4), carry, bin(raw, 5) + ` (${raw})`, need ? '+ 0110' : 'none', bin(fixed & 15, 4), cout]);
+      steps.push(h('li', null,
+        h('b', null, name, ': '), bin(da[i], 4), ' + ', bin(db[i], 4), carry ? ' + carry-in 1' : ' + carry-in 0',
+        ' = ', bin(raw, 5), ` (decimal ${raw})`, '. ',
+        need
+          ? h('span', null, `${raw} is greater than 9, so this isn't a valid BCD digit — add 0110 (6) to skip the six unused codes: `, bin(raw, 5), ' + 0110 = ', bin(fixed, 6), `. Keep the low 4 bits as the digit (`, h('b', null, bin(fixed & 15, 4)), `) and carry 1 into the next digit.`)
+          : h('span', null, `${raw} is 9 or less, so it's already a valid BCD digit — no correction needed, no carry out.`)));
       carry = cout;
     }
     const total = A + B;
-    clear(bcdOut).append(h('div', { class: 'scrollx' }, tableEl(['Digit', 'A', 'B', 'Carry in', 'Binary sum', 'Correction', 'BCD digit', 'Carry out'], rows)),
+    clear(bcdOut).append(
+      h('p', { class: 'sub', style: { margin: '0 0 10px' } }, `Each decimal digit of A and B is stored in its own 4-bit BCD group. Add corresponding groups (plus any carry from the digit before), starting from the units. A 4-bit binary adder can only ever produce 0000–1111 (0–15), but BCD only uses 0000–1001 (0–9) — so whenever the raw sum lands in the unused range 10–15, or overflows past 15 into a carry, add 0110 (6) to jump over the six unused codes and back into a valid digit. That's exactly what pushes a carry into the next digit, the same way carrying works in ordinary decimal addition.`),
+      h('ol', { style: { margin: '0 0 12px', paddingLeft: '22px' } }, steps),
+      h('div', { class: 'scrollx' }, tableEl(['Digit', 'A', 'B', 'Carry in', 'Binary sum', 'Correction', 'BCD digit', 'Carry out'], rows)),
       h('p', { class: 'out', style: { marginTop: '10px' } }, `${A} + ${B} = `, h('b', null, total), '  →  BCD ', h('b', null, (carry ? bin(1, 4) + ' ' : '') + res.map((d) => bin(d, 4)).join(' '))));
   }
+  /* -- one-way demos: pick a starting base, convert into the other three, steps shown -- */
+  function oneWayPanel(fromBase, defaultVal) {
+    const inp2 = h('input', { type: 'text', value: defaultVal, size: 16, 'aria-label': `${BASE_NAME[fromBase]} number`, oninput: () => run2() });
+    const out2 = h('div'), body2 = h('div');
+    function run2() {
+      const r = parseBase(inp2.value, fromBase);
+      clear(out2); clear(body2);
+      if (r.err) { out2.append(h('p', { class: 'bad' }, r.err)); return; }
+      const v = r.val, others = [2, 8, 10, 16].filter((b) => b !== fromBase);
+      out2.append(tableEl(['Base', 'Value'], others.map((b) => [`${BASE_NAME[b]} (${b})`, toBase(v, b)]), 'doc'));
+      if (fromBase === 10) {
+        const iv = Math.floor(Math.abs(v)), fr = Math.abs(v) - iv;
+        const step1 = decToBinaryBlock(iv, fr), octHex = binGroupBlock(step1.ivBits, step1.fracBits);
+        body2.append(h('h4', { style: { margin: '14px 0 6px' } }, 'Decimal to binary, octal and hex (binary first, by division — octal and hex then group those bits)'),
+          stepRow(step1.cards, octHex.cards));
+      } else if (fromBase === 2) {
+        const ivBits = r.ip || '0', fracBits = r.fp || '';
+        const dec = binToDecBlock(ivBits, fracBits), octHex = binGroupBlock(ivBits, fracBits);
+        body2.append(h('h4', { style: { margin: '14px 0 6px' } }, 'Binary to decimal, octal and hex'), stepRow(dec.cards, octHex.cards));
+      } else {
+        const size = fromBase === 8 ? 3 : 4, srcCls = fromBase === 8 ? 'oct' : 'hex';
+        const step1 = digitExpandBlock(r.ip, r.fp, fromBase, size, 'Binary', srcCls);
+        const other = fromBase === 8 ? { size: 4, cls: 'hex', label: 'Hex' } : { size: 3, cls: 'oct', label: 'Octal' };
+        const dec = binToDecBlock(step1.ivBits, step1.fracBits);
+        const otherCard = targetGroupCard(other.cls, other.label, step1.ivBits, step1.fracBits, other.size);
+        body2.append(h('h4', { style: { margin: '14px 0 6px' } }, `${BASE_NAME[fromBase]} to binary, decimal and ${other.label.toLowerCase()} (binary first, by expanding each digit — decimal and ${other.label.toLowerCase()} then come from those bits)`),
+          stepRow(step1.cards, dec.cards, [otherCard]));
+      }
+    }
+    return { inp: inp2, out: out2, body: body2, run: run2 };
+  }
+  const decP = oneWayPanel(10, '45.625'), binP = oneWayPanel(2, '101101.101'), octP = oneWayPanel(8, '55.5'), hexP = oneWayPanel(16, '2D.A');
   root.append(
-    panel('Base-conversion calculator', 'Type a number, choose its base and read it in the others. Fractions work too. The steps show how the conversion is done by hand.',
-      h('div', { class: 'row', style: { marginBottom: '12px' } }, bs.el, inp, ns.el), out, steps, signed),
+    panel('Base-conversion calculator', 'Type a number, choose its base and read it in the others. Fractions work too.',
+      h('div', { class: 'row', style: { marginBottom: '4px' } }, bs.el, inp, ns.el),
+      h('p', { class: 'small muted', style: { marginBottom: '12px' } }, 'The bit width only sets the range for the signed formats and Gray code below — e.g. 8 bits gives a two’s-complement range of −128 to +127.'),
+      out, signed),
     panel('BCD adder', 'Add two decimal numbers (0–99) digit by digit. When a 4-bit sum exceeds 9, add 0110 and carry 1.',
-      h('div', { class: 'row tight', style: { marginBottom: '12px' } }, ia, h('span', null, '+'), ib), bcdOut));
-  run(); bcdRun();
+      h('div', { class: 'row tight', style: { marginBottom: '12px' } }, ia, h('span', null, '+'), ib), bcdOut),
+    panel('Decimal → binary, octal, hex', 'Type a decimal number and see it converted step by step.', h('div', { class: 'row', style: { marginBottom: '12px' } }, fld('Decimal', decP.inp)), decP.out, decP.body),
+    panel('Binary → decimal, octal, hex', 'Type a binary number (0s and 1s only) and see it converted step by step.', h('div', { class: 'row', style: { marginBottom: '12px' } }, fld('Binary', binP.inp)), binP.out, binP.body),
+    panel('Octal → binary, decimal, hex', 'Type an octal number (digits 0–7) and see it converted step by step.', h('div', { class: 'row', style: { marginBottom: '12px' } }, fld('Octal', octP.inp)), octP.out, octP.body),
+    panel('Hex → binary, decimal, octal', 'Type a hexadecimal number (digits 0–9, A–F) and see it converted step by step.', h('div', { class: 'row', style: { marginBottom: '12px' } }, fld('Hex', hexP.inp)), hexP.out, hexP.body));
+  run(); bcdRun(); decP.run(); binP.run(); octP.run(); hexP.run();
 };
 
 /* ---------- Chapter 3 ---------- */
@@ -188,15 +349,15 @@ DEMOS[3] = (root) => {
             h('div', null, 'Dual:  ', h('b', null, astStr(dualAst(ast)))),
             h('div', null, 'Complement (DeMorgan):  ', h('b', null, astStr(nnf(ast, true))))),
           h('p', { class: 'small muted', style: { margin: '8px 0' } }, ls < lo ? `The minimal SOP uses ${ls} literals, ${lo - ls} fewer than what you typed.` : 'Your expression is already as small as the minimal SOP.'),
-          h('div', { class: 'row tight' }, h('button', { type: 'button', class: 'btn sm pri', onclick: () => { showC = !showC; run(); } }, showC ? 'Hide the circuit' : 'Show minimal SOP as a circuit'), vars.length <= 4 ? h('a', { class: 'btn sm', href: '04-universal-gates-and-k-maps.html#s=8' }, 'Try it on a K-map') : null),
+          h('div', { class: 'row tight' }, h('button', { type: 'button', class: 'btn sm pri', onclick: () => { showC = !showC; run(); } }, showC ? 'Hide the circuit' : 'Show minimal SOP as a circuit'), vars.length <= 4 ? h('a', { class: 'btn sm', href: '04-universal-gates-and-k-maps.html#s=9' }, 'Try it on a K-map') : null),
           circ)));
     if (showC) { try { createLab(circ, { compact: true, locked: true, netlist: layoutExpr(parseExpr(m.sop.expr)) }); } catch (e) { circ.append(h('p', { class: 'bad' }, e.message)); } }
     eq();
   }
   const cbar = h('div', { class: 'row tight', style: { marginBottom: '12px' } }, chips.map((c) => h('button', { type: 'button', class: 'btn sm', onclick: () => { inp.value = c; run(); } }, c)));
-  const p1 = panel('Boolean expression simplifier', "Use letters for variables, + for OR, ⊕ for XOR, ' after a letter or bracket for NOT, and write AND by placing terms side by side.",
-    cbar, h('div', { class: 'row', style: { marginBottom: '14px' } }, fld('Expression', inp)), res,
-    h('div', { class: 'row', style: { marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--line)' } }, fld('Is it equivalent to another expression?', inp2), eqOut));
+  const p1 = panel('Boolean expression simplifier', "Use letters for variables, + for OR, ⊕ for XOR, ' after a letter or bracket for NOT, and write AND by placing terms side by side. Or use the ·, + and ⊕ buttons.",
+    cbar, h('div', { class: 'row', style: { marginBottom: '14px' } }, exprField('Expression', inp)), res,
+    h('div', { class: 'row', style: { marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--line)' } }, exprField('Is it equivalent to another expression?', inp2), eqOut));
   const gp = panel('Gates: switches, symbols and LEDs', 'Pick a gate, flip its input switches and watch the output LED and the highlighted truth-table row.', h('div'));
   gateExplorer(gp.lastChild, { gate: 'AND' });
   root.append(p1, gp);
@@ -237,7 +398,7 @@ DEMOS[5] = (root) => {
       h('div', null, 'Result bits ', h('b', null, bin(sum, 4)), '   Carry out ', h('b', null, cout)),
       h('div', null, 'Unsigned: ', h('b', null, A), M ? ' − ' : ' + ', h('b', null, B), ' = ', h('b', null, M ? (A - B) : (A + B)), M ? '' : ` (${cout ? 'carry set, 5th bit lost in 4 bits' : 'fits in 4 bits'})`, M ? (cout ? '   (no borrow)' : '   (borrow occurred)') : ''),
       h('div', null, "Signed (2's complement): ", h('b', null, sA), M ? ' − ' : ' + ', h('b', null, sB), ' → circuit gives ', h('b', null, sS), '   ', h('span', { class: ovf ? 'bad' : 'ok' }, ovf ? 'Overflow (carry into MSB ≠ carry out)' : 'No overflow')),
-      bcdTxt ? h('div', { class: 'muted' }, bcdTxt) : null);
+      bcdTxt ? h('div', { class: 'muted' }, bcdTxt) : '');
     leds.gt.set(A > B); leds.eq.set(A === B); leds.lt.set(A < B);
   }
   root.append(panel('4-bit adder / subtractor', 'Set A and B. In subtract mode the XOR gates invert B and the carry-in is 1, so the same adder computes A + B′ + 1.',
@@ -248,62 +409,88 @@ DEMOS[5] = (root) => {
 
 /* ---------- Chapter 6 ---------- */
 DEMOS[6] = (root) => {
-  const t = tabs([{ id: 'dec', label: 'Decoder' }, { id: 'enc', label: 'Encoder' }, { id: 'mux', label: 'Multiplexer' }, { id: 'dem', label: 'Demultiplexer' }, { id: 'fn', label: 'Function with a MUX' }], 'dec', (id, body) => {
+  const t = tabs([{ id: 'dec', label: 'Decoder' }, { id: 'enc', label: 'Encoder' }, { id: 'mux', label: 'Multiplexer' }, { id: 'dem', label: 'Demultiplexer' }], 'dec', (id, body) => {
     if (id === 'dec') {
       let n = 2, en = 1, val = 0;
-      const outs = h('div', { class: 'row tight' }), eqn = h('div', { class: 'out', style: { marginTop: '10px' } }), inWrap = h('div');
+      const outs = h('div', { class: 'row tight' }), eqn = h('div', { class: 'out', style: { marginTop: '10px' } }), inWrap = h('div'), diagram = h('div', { class: 'fig' });
       const sw = tsw('Enable', 1, (v) => { en = v; run(); });
-      const ns = seg([{ v: 2, l: '2-to-4' }, { v: 3, l: '3-to-8' }], 2, (v) => { n = v; val = 0; build(); });
+      const ns = seg([{ v: 1, l: '1-to-2' }, { v: 2, l: '2-to-4' }, { v: 3, l: '3-to-8' }], 2, (v) => { n = v; val = 0; build(); });
       let br;
       function build() { br = bitRow(n, val, (v) => { val = v; run(); }, { label: 'Input' }); clear(inWrap).append(br.el); run(); }
-      const names = () => 'ABC'.slice(3 - n);
+      const names = () => 'ABC'.slice(0, n);
       function run() {
         clear(outs);
         for (let i = 0; i < (1 << n); i++) { const on = en && i === val, l = led(on); outs.append(h('div', { class: 'bitc' }, l.el, h('small', null, 'Y' + i))); }
         const nm = names().split(''), term = nm.map((v, i) => (((val >> (n - 1 - i)) & 1) ? v : v + "'")).join('');
         eqn.textContent = en ? `Input ${bin(val, n)} → Y${val} = ${term} = 1, all other outputs 0` : 'Enable = 0: every output is 0';
+        const ins = nm.map((v, i) => ({ label: v, on: (val >> (n - 1 - i)) & 1 })).concat([{ label: 'EN', on: en, accent: true }]);
+        const outsSpec = range(1 << n).map((i) => ({ label: 'Y' + i, on: en && i === val }));
+        clear(diagram).append(blockDiagram(`${n}-to-${1 << n}\nDECODER`, ins, outsSpec));
       }
-      body.append(h('p', { class: 'sub' }, `A decoder turns an n-bit code into one active line. Bit labels below run from the most significant bit (left) to bit 0.`), h('div', { class: 'row', style: { gap: '20px', marginBottom: '14px' } }, ns.el, sw.el), inWrap, h('div', { class: 'gap' }, outs), eqn);
+      body.append(h('p', { class: 'sub' }, `A decoder turns an n-bit code into one active line. Bit labels below run from the most significant bit (left) to bit 0.`), h('div', { class: 'row', style: { gap: '20px', marginBottom: '14px' } }, ns.el, sw.el), inWrap, diagram, h('div', { class: 'gap' }, outs), eqn);
       build();
     } else if (id === 'enc') {
-      let mode = 'basic', ds = 0;
-      const outEl = h('div', { class: 'out', style: { marginTop: '12px' } });
-      const row = h('div', { class: 'row', style: { gap: '14px' } });
-      const sws = range(8).map((i) => tsw('D' + i, 0, (v) => { ds = v ? ds | (1 << i) : ds & ~(1 << i); run(); }));
-      sws.forEach((s) => row.append(s.el));
+      let bits = 3, mode = 'basic', ds = 0;
+      const outEl = h('div', { class: 'out', style: { marginTop: '12px' } }), diagram = h('div', { class: 'fig' }), row = h('div', { class: 'row', style: { gap: '14px', flexWrap: 'wrap' } });
       const ms = seg([{ v: 'basic', l: 'Basic encoder' }, { v: 'prio', l: 'Priority encoder' }], 'basic', (v) => { mode = v; run(); });
+      const ns = seg([{ v: 1, l: '2-to-1' }, { v: 2, l: '4-to-2' }, { v: 3, l: '8-to-3' }], 3, (v) => { bits = v; ds = 0; build(); });
+      let sws;
+      function build() {
+        const N = 1 << bits;
+        sws = range(N).map((i) => tsw('D' + i, 0, (v) => { ds = v ? ds | (1 << i) : ds & ~(1 << i); run(); }));
+        clear(row).append(...sws.map((s) => s.el)); run();
+      }
       function run() {
-        const act = range(8).filter((i) => (ds >> i) & 1);
+        const N = 1 << bits, act = range(N).filter((i) => (ds >> i) & 1);
         let code, note = '';
-        if (mode === 'prio') { code = act.length ? act[act.length - 1] : 0; note = act.length ? `Highest active input is D${code}, so the output is ${bin(code, 3)}.` : 'No input is active, so V = 0 and the code is ignored.'; }
-        else { code = act.reduce((a, i) => a | i, 0); note = act.length > 1 ? `More than one input is active. OR-ing the codes gives ${bin(code, 3)}, which is wrong. This is why priority encoders exist.` : act.length === 1 ? `Only D${act[0]} is active, so the output is ${bin(code, 3)}.` : 'No input is active.'; }
-        outEl.replaceChildren(h('div', null, '8-to-3 encoder   A2 A1 A0 = ', h('b', null, bin(code, 3)), '   V = ', h('b', null, act.length ? 1 : 0)), h('div', { class: act.length > 1 && mode === 'basic' ? 'bad' : 'muted' }, note));
+        if (mode === 'prio') { code = act.length ? act[act.length - 1] : 0; note = act.length ? `Highest active input is D${code}, so the output is ${bin(code, bits)}.` : 'No input is active, so V = 0 and the code is ignored.'; }
+        else { code = act.reduce((a, i) => a | i, 0); note = act.length > 1 ? `More than one input is active. OR-ing the codes gives ${bin(code, bits)}, which is wrong. This is why priority encoders exist.` : act.length === 1 ? `Only D${act[0]} is active, so the output is ${bin(code, bits)}.` : 'No input is active.'; }
+        outEl.replaceChildren(h('div', null, `${N}-to-${bits} encoder   `, bits > 1 ? `A${bits - 1}…A0` : 'A0', ' = ', h('b', null, bin(code, bits)), '   V = ', h('b', null, act.length ? 1 : 0)), h('div', { class: act.length > 1 && mode === 'basic' ? 'bad' : 'muted' }, note));
+        const ins = range(N).map((i) => ({ label: 'D' + i, on: (ds >> i) & 1 }));
+        const outsSpec = range(bits).map((b) => ({ label: 'A' + (bits - 1 - b), on: (code >> (bits - 1 - b)) & 1 })).concat([{ label: 'V', on: act.length ? 1 : 0, accent: true }]);
+        clear(diagram).append(blockDiagram(`${N}-to-${bits}\nENCODER`, ins, outsSpec));
       }
-      body.append(h('p', { class: 'sub' }, 'Turn on inputs D0–D7. Try two at once in both modes.'), h('div', { style: { marginBottom: '12px' } }, ms.el), row, outEl); run();
+      body.append(h('p', { class: 'sub' }, 'Turn on the data inputs. Try two at once in both modes.'), h('div', { class: 'row', style: { gap: '20px', marginBottom: '12px' } }, ns.el, ms.el), row, diagram, outEl);
+      build();
     } else if (id === 'mux') {
-      let s = 0, d = 0b0110;
-      const outEl = h('div', { class: 'out', style: { marginTop: '12px' } }), y = led(0);
-      const ds = range(4).map((i) => tsw('I' + i, (d >> i) & 1, (v) => { d = v ? d | (1 << i) : d & ~(1 << i); run(); }));
-      const sb = bitRow(2, 0, (v) => { s = v; run(); }, { label: 'Select S', prefix: 'S' });
-      function run() { const o = (d >> s) & 1; y.set(o); outEl.replaceChildren(h('div', null, `Select S1 S0 = ${bin(s, 2)} → the output follows I${s}`), h('div', null, 'Y = ', h('b', null, `I${s} = ${o}`))); ds.forEach((x, i) => x.el.style.fontWeight = i === s ? '800' : ''); }
-      body.append(h('p', { class: 'sub' }, 'The select lines choose which data input reaches the output. Y = S1′S0′I0 + S1′S0 I1 + S1 S0′ I2 + S1 S0 I3.'),
-        h('div', { class: 'row', style: { gap: '18px' } }, ...ds.map((x) => x.el)), h('div', { class: 'row', style: { gap: '26px', marginTop: '12px' } }, fld('Select lines', sb.el), h('span', { class: 'row tight' }, y.el, h('b', null, 'Y'))), outEl); run();
-    } else if (id === 'dem') {
-      let s = 0, din = 1;
-      const outs = h('div', { class: 'row tight' }), sw = tsw('Data input D', 1, (v) => { din = v; run(); });
-      const sb = bitRow(2, 0, (v) => { s = v; run(); }, { label: 'Select S', prefix: 'S' });
-      function run() { clear(outs); for (let i = 0; i < 4; i++) { const l = led(i === s && din); outs.append(h('div', { class: 'bitc' }, l.el, h('small', null, 'Y' + i))); } }
-      body.append(h('p', { class: 'sub' }, 'The single data input is routed to the output chosen by the select lines. Every other output stays 0.'), h('div', { class: 'row', style: { gap: '24px', marginBottom: '14px' } }, sw.el, fld('Select lines', sb.el)), outs); run();
-    } else {
-      let fn = [0, 1, 1, 0, 0, 0, 1, 1];
-      const tb = h('div', { class: 'scrollx' }), res = h('div', { class: 'out', style: { marginTop: '12px' } });
-      function run() {
-        const rows = fn.map((f, i) => [(i >> 2) & 1, (i >> 1) & 1, i & 1, h('button', { type: 'button', class: 'btn sm' + (f ? ' on' : ''), style: { minWidth: '36px' }, onclick: () => { fn[i] ^= 1; run(); } }, f)]);
-        clear(tb).append(tableEl(['A', 'B', 'C', 'F'], rows));
-        const dat = range(4).map((k) => { const f0 = fn[k * 2], f1 = fn[k * 2 + 1]; return f0 === 0 && f1 === 0 ? '0' : f0 === 1 && f1 === 1 ? '1' : f0 === 0 ? 'C' : "C'"; });
-        res.replaceChildren(h('div', null, 'Connect A to S1 and B to S0 of a 4-to-1 MUX. Data inputs:'), h('div', null, dat.map((v, k) => h('span', { style: { marginRight: '18px' } }, `I${k} = `, h('b', null, v)))), h('div', { class: 'muted' }, 'Σm(' + range(8).filter((i) => fn[i]).join(', ') + ')'));
+      let bits = 2, s = 0, d = 0b0110;
+      const outEl = h('div', { class: 'out', style: { marginTop: '12px' } }), y = led(0), diagram = h('div', { class: 'fig' }), row = h('div', { class: 'row', style: { gap: '14px', flexWrap: 'wrap' } }), selWrap = h('div');
+      const ns = seg([{ v: 1, l: '2-to-1' }, { v: 2, l: '4-to-1' }, { v: 3, l: '8-to-1' }], 2, (v) => { bits = v; s = 0; d = 0; build(); });
+      let ds;
+      function build() {
+        const N = 1 << bits;
+        ds = range(N).map((i) => tsw('I' + i, (d >> i) & 1, (v) => { d = v ? d | (1 << i) : d & ~(1 << i); run(); }));
+        clear(row).append(...ds.map((x) => x.el));
+        clear(selWrap).append(bitRow(bits, s, (v) => { s = v; run(); }, { label: 'Select S', prefix: 'S' }).el);
+        run();
       }
-      body.append(h('p', { class: 'sub' }, 'Click the F column to define any 3-variable function. A and B drive the select lines, and each data input is one of 0, 1, C or C′.'), tb, res); run();
+      function run() {
+        const N = 1 << bits, o = (d >> s) & 1; y.set(o);
+        outEl.replaceChildren(h('div', null, `Select = ${bin(s, bits)} → the output follows I${s}`), h('div', null, 'Y = ', h('b', null, `I${s} = ${o}`)));
+        ds.forEach((x, i) => x.el.style.fontWeight = i === s ? '800' : '');
+        const ins = range(N).map((i) => ({ label: 'I' + i, on: (d >> i) & 1 }));
+        const ctrls = range(bits).map((b) => ({ label: 'S' + (bits - 1 - b), on: (s >> (bits - 1 - b)) & 1 }));
+        clear(diagram).append(blockDiagram(`${N}-to-1\nMUX`, ins, [{ label: 'Y', on: o }], ctrls));
+      }
+      body.append(h('p', { class: 'sub' }, 'The select lines (entering the box from below) choose which data input reaches the output.'),
+        h('div', { class: 'row', style: { gap: '20px', marginBottom: '12px' } }, ns.el), row, h('div', { class: 'row', style: { gap: '26px', marginTop: '12px' } }, fld('Select lines', selWrap), h('span', { class: 'row tight' }, y.el, h('b', null, 'Y'))), diagram, outEl);
+      build();
+    } else if (id === 'dem') {
+      let bits = 2, s = 0, din = 1;
+      const outs = h('div', { class: 'row tight' }), sw = tsw('Data input D', 1, (v) => { din = v; run(); }), diagram = h('div', { class: 'fig' }), selWrap = h('div');
+      const ns = seg([{ v: 1, l: '1-to-2' }, { v: 2, l: '1-to-4' }, { v: 3, l: '1-to-8' }], 2, (v) => { bits = v; s = 0; build(); });
+      function build() { clear(selWrap).append(bitRow(bits, s, (v) => { s = v; run(); }, { label: 'Select S', prefix: 'S' }).el); run(); }
+      function run() {
+        const N = 1 << bits; clear(outs);
+        for (let i = 0; i < N; i++) { const l = led(i === s && din); outs.append(h('div', { class: 'bitc' }, l.el, h('small', null, 'Y' + i))); }
+        const ins = [{ label: 'D', on: din }];
+        const ctrls = range(bits).map((b) => ({ label: 'S' + (bits - 1 - b), on: (s >> (bits - 1 - b)) & 1 }));
+        const outsSpec = range(N).map((i) => ({ label: 'Y' + i, on: i === s && din }));
+        clear(diagram).append(blockDiagram(`1-to-${N}\nDEMUX`, ins, outsSpec, ctrls));
+      }
+      body.append(h('p', { class: 'sub' }, 'The single data input is routed to the output chosen by the select lines (entering from below). Every other output stays 0.'),
+        h('div', { class: 'row', style: { gap: '20px', marginBottom: '14px' } }, ns.el, sw.el), selWrap, diagram, outs);
+      build();
     }
   });
   root.append(panel('Select-line simulation', 'Choose a circuit, then flip inputs and select lines.', t.el));
@@ -481,7 +668,7 @@ DEMOS[9] = (root) => {
     else if (mode === 'johnson') extra = 'Johnson counter: 4 flip-flops, 8 states. The complement of the last stage feeds the first. Output frequency f/8.';
     else extra = mode === 'down' ? 'Down counter: the count decreases by 1 each clock and wraps from 0 to the maximum.' : mode === 'updown' ? 'Up/down counter: the control input selects the direction.' : 'Binary up counter. Ripple version: each stage clocks the next (delay accumulates). Synchronous version: one shared clock, T inputs from AND gates.';
     const div = (mode === 'ring' || mode === 'johnson' || mode === 'mod') ? '' : range(w).map((k) => `Q${k}: f/${2 ** (k + 1)}`).join('    ');
-    info.replaceChildren(h('div', null, 'State ', h('b', null, b.join('')), '   decimal ', h('b', null, mode === 'ring' || mode === 'johnson' ? '-' : val), '   clock pulses ', h('b', null, ticks)), div ? h('div', { class: 'muted' }, 'Frequency division  ' + div) : null, h('div', { class: 'muted' }, extra));
+    info.replaceChildren(h('div', null, 'State ', h('b', null, b.join('')), '   decimal ', h('b', null, mode === 'ring' || mode === 'johnson' ? '-' : val), '   clock pulses ', h('b', null, ticks)), div ? h('div', { class: 'muted' }, 'Frequency division  ' + div) : '', h('div', { class: 'muted' }, extra));
     const tr = [{ name: 'CLK', data: hist.clk }]; for (let i = Math.min(w, 4) - 1; i >= 0; i--) tr.push({ name: 'Q' + i, data: hist.q[i] });
     clear(wave).append(waveSvg(tr, { n: 24, step: 24, labelW: 40 }));
     // sequence chips
@@ -592,7 +779,7 @@ DEMOS[11] = (root) => {
       const tSel = h('select', { 'aria-label': 'Target memory', onchange: (e) => { ti = +e.target.value; calc(); } }, SH.map((s, i) => h('option', { value: i, selected: i === ti }, s[0])));
       function calc() {
         const w = 2 ** n, bits = w * m;
-        out.replaceChildren(h('div', null, `${n} address lines select 2^${n} = `, h('b', null, w.toLocaleString()), ' locations.'), h('div', null, `Capacity = ${w.toLocaleString()} × ${m} = `, h('b', null, bits.toLocaleString()), ` bits = `, h('b', null, (bits / 8).toLocaleString()), ' bytes', bits / 8 >= 1024 ? ` (${(bits / 8192).toLocaleString(undefined, { maximumFractionDigits: 2 })} KB)` : ''));
+        out.replaceChildren(h('div', null, `${n} address lines select `, powSup(n), ` = `, h('b', null, w.toLocaleString()), ' locations.'), h('div', null, `Capacity = ${w.toLocaleString()} × ${m} = `, h('b', null, bits.toLocaleString()), ` bits = `, h('b', null, (bits / 8).toLocaleString()), ' bytes', bits / 8 >= 1024 ? ` (${(bits / 8192).toLocaleString(undefined, { maximumFractionDigits: 2 })} KB)` : ''));
         const C = SH[ci], T = SH[ti];
         if (T[1] % C[1] || T[2] % C[2]) ex.replaceChildren('The target size is not a whole number of these chips.');
         else {
@@ -717,7 +904,6 @@ DEMOS[13] = (root) => {
       const disp = h('div', { class: 'out', style: { marginTop: '12px' } }), l = led(0);
       const cs = seg(['1011', '0110', '101', '1100'].map((c) => ({ v: c, l: c })), code, (v) => { code = v; st = 0; log = []; unlocked = false; paint(); });
       function nextState(s, x) {
-        if (s === code.length) return x === code[0] ? 1 : 0;
         const cand = code.slice(0, s) + x; for (let k = Math.min(cand.length, code.length); k >= 0; k--) if (cand.endsWith(code.slice(0, k))) return k; return 0;
       }
       function press(x) { st = nextState(st, x); log.push(x); if (log.length > 14) log.shift(); unlocked = st === code.length; paint(); }

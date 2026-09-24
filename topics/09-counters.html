@@ -6,15 +6,21 @@
 <meta name="description" content="Ripple, synchronous, up/down, MOD-N, ring and Johnson counters, and frequency division. Free interactive slides, worked examples and a quiz for Topic 9 of the Digital Logic Design course.">
 <meta name="keywords" content="counters, digital logic design, DLD notes, digital electronics, topic 9, live counter and clock simulation">
 <meta name="author" content="Digital Logic Design Notes">
+<link rel="icon" type="image/svg+xml" href="../img/logo-mark.svg">
+<link rel="alternate icon" type="image/png" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="canonical" href="topics/09-counters.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Counters – Topic 9 | Digital Logic Design Notes">
 <meta property="og:description" content="Ripple, synchronous, up/down, MOD-N, ring and Johnson counters, and frequency division. Free interactive slides, worked examples and a quiz for Topic 9 of the Digital Logic Design course.">
 <meta property="og:url" content="topics/09-counters.html">
+<meta property="og:image" content="../img/favicon-512.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Counters – Topic 9 | Digital Logic Design Notes">
 <meta name="twitter:description" content="Ripple, synchronous, up/down, MOD-N, ring and Johnson counters, and frequency division. Free interactive slides, worked examples and a quiz for Topic 9 of the Digital Logic Design course.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Counters", "description": "Ripple, synchronous, up/down, MOD-N, ring and Johnson counters, and frequency division.", "position": 9, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 21}</script>
+<meta name="twitter:image" content="../img/favicon-512.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Counters", "description": "Ripple, synchronous, up/down, MOD-N, ring and Johnson counters, and frequency division.", "position": 9, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 22}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Digital Logic Design", "item": "../index.html"}, {"@type": "ListItem", "position": 2, "name": "Topic 9: Counters", "item": "09-counters.html"}]}</script>
 
 <title>Counters – Topic 9 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +31,12 @@
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="../index.html">All topics</a>
+  <a class="home-link" href="../index.html" aria-label="Home: all topics"><img src="../img/logo-mark.svg" alt="" width="26" height="26"><span>Home</span></a>
   <div class="deck-title"><span class="badge">9</span><span>Counters</span></div>
   <div class="deck-actions">
-    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
-    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu" aria-label="Slides"><svg class="btn-ic" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="3" rx="1"></rect><rect x="3" y="10.5" width="18" height="3" rx="1"></rect><rect x="3" y="16.5" width="18" height="3" rx="1"></rect></svg><span>Slides</span></button>
+    <button type="button" class="btn sm" id="btn-theme" aria-pressed="false" aria-label="Toggle dark mode"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path></svg><span>Dark mode</span></button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false" aria-label="Full screen"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg><span>Full screen</span></button>
   </div>
 </header>
 <div class="deck-progress"><i id="progress-fill"></i></div>
@@ -42,8 +49,11 @@
 <div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
+<section class="slide " data-title="Why this matters" aria-label="Why this matters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Before we start</p><h2>Why this matters</h2><div class="hook"><p class="q">What's actually ticking inside a digital clock, and why does a car's odometer roll from 099999 to 100000 instead of just giving up?</p><p>A chain of flip-flops, each one flipping its neighbour the instant it overflows &mdash; the exact same domino effect as your car's odometer wheels nudging each other along. Wire it one way and you get a clock or a scoreboard; wire it backwards and you get a very confusing countdown to a party that already happened.</p></div>
+</div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Counter fundamentals</a></li><li><a href="#s=3">Binary counters</a></li><li><a href="#s=4">Asynchronous/ripple counters</a></li><li><a href="#s=5">Synchronous counters</a></li><li><a href="#s=5">Up/down counters</a></li><li><a href="#s=6">MOD-N counters</a></li><li><a href="#s=6">MOD-6, MOD-8, MOD-10, MOD-14, MOD-16</a></li><li><a href="#s=6">Truncated counters</a></li><li><a href="#s=6">Counter reset</a></li><li><a href="#s=6">Flip-flop requirements</a></li><li><a href="#s=7">Ring counters</a></li><li><a href="#s=7">Johnson counters</a></li><li><a href="#s=7">Frequency division</a></li><li><a href="#s=3">Counter applications</a></li></ol>
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=4">Counter fundamentals</a></li><li><a href="#s=4">Binary counters</a></li><li><a href="#s=5">Asynchronous/ripple counters</a></li><li><a href="#s=6">Synchronous counters</a></li><li><a href="#s=6">Up/down counters</a></li><li><a href="#s=7">MOD-N counters</a></li><li><a href="#s=7">MOD-6, MOD-8, MOD-10, MOD-14, MOD-16</a></li><li><a href="#s=7">Truncated counters</a></li><li><a href="#s=7">Counter reset</a></li><li><a href="#s=7">Flip-flop requirements</a></li><li><a href="#s=8">Ring counters</a></li><li><a href="#s=8">Johnson counters</a></li><li><a href="#s=8">Frequency division</a></li><li><a href="#s=4">Counter applications</a></li></ol>
 </div></section>
 <section class="slide " data-title="Counter basics" aria-label="Counter basics" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Concept 1 of 5</p><div class="concept"><h2>Counter basics</h2><div><p>A counter is a set of flip-flops that steps through a fixed sequence of states. An n-bit binary counter has 2<sup>n</sup> states. A <b>MOD-N</b> counter has N states. Counters count events, measure time, divide frequency and sequence control logic.</p></div></div>
@@ -94,7 +104,7 @@
 <p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Design a 3-bit ripple counter.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Three T flip-flops with T = 1. Clock the first, and connect Q′ of each stage to the clock of the next (for positive-edge flip-flops). Try the circuit below.</div></details></div><div class="ex"><div class="qq">2. Compare ripple and synchronous counters.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Ripple: clock passes stage to stage, simple, accumulating delay. Synchronous: common clock, faster, needs extra gates.</div></details></div><div class="ex"><div class="qq">3. Design an up/down counter.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Add a control input. For stage k use T<sub>k</sub> = (Q0·…·Q<sub>k−1</sub>)·UP + (Q0′·…·Q<sub>k−1</sub>′)·DOWN, with T0 = 1.</div></details></div>
 </div></section>
 <section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. How many flip-flops for a MOD-12 counter?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">4</div></details></div><div class="ex"><div class="qq">5. Explain ring and Johnson counters.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A ring counter circulates one 1 (n states). A Johnson counter feeds back the complement of the last stage (2n states).</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build a 3-bit ripple counter and a MOD-6 counter with a Clock, and read the Timing diagram.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. How many flip-flops for a MOD-12 counter?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">4</div></details></div><div class="ex"><div class="qq">5. Explain ring and Johnson counters.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A ring counter circulates one 1 (n states). A Johnson counter feeds back the complement of the last stage (2n states).</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build a 3-bit ripple counter and a MOD-6 counter with a Clock, and read the Timing diagram.</p></div><span class="tip-wrap"><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a><span class="tip-card"><img src="../img/gate-forge-og.png" alt="" loading="lazy"><b>Gate Forge</b><span>A free circuit simulator &mdash; place and wire gates, generate truth tables and timing diagrams, and work through 90+ guided problems.</span></span></span></div>
 </div></section>
 <section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="9"></div><script type="application/json" class="quiz-json">[{"q": "The minimum number of flip-flops for a MOD-10 counter is", "o": ["3", "4", "5", "10"], "a": 1, "w": "2⁴ = 16 ≥ 10."}, {"q": "The main disadvantage of a ripple counter is", "o": ["it needs a reset", "accumulated propagation delay", "it cannot count up", "it uses latches"], "a": 1, "w": "Each stage waits for the one before it."}, {"q": "A 4-bit Johnson counter has how many states?", "o": ["4", "8", "15", "16"], "a": 1, "w": "2n = 8."}, {"q": "A 3-bit binary counter is clocked at 80 Hz. The frequency of Q2 is", "o": ["40 Hz", "20 Hz", "10 Hz", "5 Hz"], "a": 2, "w": "80 / 2³ = 10 Hz."}]</script></div>
@@ -105,7 +115,7 @@
 </main>
 <footer class="deck-foot">
   <button type="button" class="btn" id="prev">Previous</button>
-  <span class="counter" id="counter">1 / 21</span>
+  <span class="counter" id="counter">1 / 22</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
 <aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>

@@ -28,13 +28,25 @@ function mountKMap(root, opts = {}) {
   }
   function fromText(txt) {
     txt = txt.trim();
-    if (!txt) { st.msg = 'Type minterms such as Σm(1,3,7) + d(0,2), or an expression such as AB + A\'C.'; render(); return; }
+    if (!txt) { st.msg = 'Type minterms such as Σm(1,3,7) + d(0,2), maxterms such as ΠM(0,2,4) + d(5), or an expression such as AB + A\'C.'; render(); return; }
     try {
-      if (/[Σσ]|m\s*\(|d\s*\(|^[\d,\s]+$/i.test(txt)) {
+      if (/[ΣσΠπ]|[mM]\s*\(|d\s*\(|^[\d,\s]+$/.test(txt)) {
         const nums = (s) => (s.match(/\d+/g) || []).map(Number);
-        const dm = txt.match(/d\s*\(([^)]*)\)/i), mm = txt.match(/m\s*\(([^)]*)\)/i);
+        const dm = txt.match(/d\s*\(([^)]*)\)/i);
+        const mm = txt.match(/(?:^|[^A-Za-z])m\s*\(([^)]*)\)/); // lowercase m( ) = minterms (SOP)
+        const MM = txt.match(/(?:^|[^A-Za-z])M\s*\(([^)]*)\)/); // uppercase M( ) = maxterms (POS)
         const dcs = dm ? nums(dm[1]) : [];
-        const ones = mm ? nums(mm[1]) : nums(dm ? txt.replace(dm[0], '') : txt);
+        let ones;
+        if (MM) {
+          const zeros = nums(MM[1]);
+          const mx = Math.max(0, ...zeros, ...dcs);
+          const n = Math.max(2, Math.min(4, mx < 4 ? 2 : mx < 8 ? 3 : mx < 16 ? 4 : 5));
+          if (n > 4) throw new Error('This lab handles up to 4 variables (maxterms 0 to 15).');
+          ones = range(1 << n).filter((i) => !zeros.includes(i) && !dcs.includes(i));
+          setCells(Math.max(n, st.n === 4 ? 4 : n), ones, dcs);
+          return;
+        }
+        ones = mm ? nums(mm[1]) : nums(dm ? txt.replace(dm[0], '') : txt);
         const mx = Math.max(0, ...ones, ...dcs);
         const n = Math.max(2, Math.min(4, mx < 4 ? 2 : mx < 8 ? 3 : mx < 16 ? 4 : 5));
         if (n > 4) throw new Error('This lab handles up to 4 variables (minterms 0 to 15).');
@@ -74,7 +86,7 @@ function mountKMap(root, opts = {}) {
       h('option', { value: '' }, 'Load an example'), K_EXAMPLES.map((ex, i) => h('option', { value: i }, ex.label)));
     const controls = h('div', null,
       h('div', { class: 'row', style: { marginBottom: '10px' } }, nSeg.el, modeSeg.el, viewSeg.el),
-      h('div', { class: 'row tight', style: { marginBottom: '14px' } }, inp, h('button', { type: 'button', class: 'btn sm pri', onclick: () => fromText(inp.value) }, 'Fill map'), exSel,
+      h('div', { class: 'row tight', style: { marginBottom: '14px' } }, exprField('Minterms or expression', inp, { canonical: true }), h('button', { type: 'button', class: 'btn sm pri', onclick: () => fromText(inp.value) }, 'Fill map'), exSel,
         h('button', { type: 'button', class: 'btn sm', onclick: () => { st.cells = Array(N).fill(0); st.step = 0; st.msg = ''; render(); } }, 'Clear map')),
       st.msg ? h('p', { class: 'bad small', role: 'alert' }, st.msg) : null);
 

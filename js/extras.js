@@ -1,6 +1,8 @@
 /* ===================== extras.js : drills, reference, projects helpers ===================== */
 const GF_URL = 'https://gate-forge.netlify.app';
 const subs = { 2: '₂', 8: '₈', 10: '₁₀', 16: '₁₆' };
+const SUP_DIG = { '0': '⁰', '1': '¹', '2': '²', '3': '³', '4': '⁴', '5': '⁵', '6': '⁶', '7': '⁷', '8': '⁸', '9': '⁹', '-': '⁻' };
+const supN = (n) => String(n).split('').map((c) => SUP_DIG[c] || c).join('');
 const DRILLS = [
   { id: 'base', label: 'Base conversion', gen() {
     const [f, t] = pick([[10, 2], [2, 10], [2, 16], [16, 2], [8, 2], [2, 8], [16, 10], [10, 16]]); const v = 9 + rnd(240);
@@ -31,7 +33,7 @@ const DRILLS = [
     const j = rnd(2), k = rnd(2), nq = j && k ? q0 ^ 1 : j ? 1 : k ? 0 : q0; return { q: `A JK flip-flop has Q = ${q0}, J = ${j}, K = ${k}. What is Q after the clock edge?`, ans: String(nq), hint: '00 hold, 01 reset, 10 set, 11 toggle.' };
   } },
   { id: 'mod', label: 'Counter size', gen() { const N = 3 + rnd(38); return { q: `How many flip-flops does a MOD-${N} counter need at minimum?`, ans: String(clog2(N)), hint: 'Find the smallest n with 2ⁿ ≥ N.' }; } },
-  { id: 'mem', label: 'Memory capacity', gen() { const n = 4 + rnd(9), m = pick([4, 8, 16]); return { q: `A memory has ${n} address lines and ${m}-bit words. How many bits does it store in total?`, ans: String((2 ** n) * m), hint: `Locations = 2^${n} = ${2 ** n}. Multiply by the word width.` }; } }
+  { id: 'mem', label: 'Memory capacity', gen() { const n = 4 + rnd(9), m = pick([4, 8, 16]); return { q: `A memory has ${n} address lines and ${m}-bit words. How many bits does it store in total?`, ans: String((2 ** n) * m), hint: `Locations = 2${supN(n)} = ${2 ** n}. Multiply by the word width.` }; } }
 ];
 function mountDrills(root) {
   let cur = DRILLS[0], item = null, streak = 0;
@@ -45,7 +47,7 @@ function mountDrills(root) {
     if (item.custom) r = item.custom(inp.value);
     else { const norm = item.norm || ((s) => s.replace(/\s/g, '').toUpperCase()); r = norm(inp.value) === norm(item.ans) ? { ok: true, msg: 'Correct.' } : { ok: false, msg: 'Not quite. The answer is ' + item.ans + '.' + (item.hint ? ' Hint: ' + item.hint : '') }; }
     st.done++; if (r.ok) { st.right++; streak++; } else streak = 0; Store.set('drills', st); paintTally();
-    fb.replaceChildren(h('span', { class: r.ok ? 'ok' : 'bad' }, r.msg), !r.ok && item.custom ? h('span', { class: 'muted' }, ' Answer: ' + item.ans) : null);
+    fb.replaceChildren(h('span', { class: r.ok ? 'ok' : 'bad' }, r.msg), !r.ok && item.custom ? h('span', { class: 'muted' }, ' Answer: ' + item.ans) : '');
   }
   const ds = seg(DRILLS.map((d) => ({ v: d.id, l: d.label })), cur.id, (v) => { cur = DRILLS.find((d) => d.id === v); newQ(); });
   root.append(h('div', { class: 'demo' }, h('h3', null, 'Drills'), h('p', { class: 'sub' }, 'Endless questions with instant checking. Press Enter to check.'), h('div', { class: 'row', style: { marginBottom: '14px' } }, ds.el), qEl,
@@ -70,7 +72,7 @@ function refSections() {
     { t: 'Decoders, encoders, multiplexers', k: 'decoder encoder priority mux demux multiplexer select', el: T('<div class="formula">2-to-4 decoder: Yi = minterm i<br>4-to-2 encoder: A = D2+D3, B = D1+D3<br>2-to-1 MUX: Y = S′I0 + S·I1<br>4-to-1 MUX: Y = Σ (select minterm)·Ii<br>n select lines → 2ⁿ data inputs<br>Decoder with enable = DEMUX</div>') },
     { t: 'Flip-flop tables', k: 'flip flop sr jk d t characteristic excitation latch', el: T('<div class="formula">D:  Q+ = D<br>T:  Q+ = T⊕Q<br>JK: Q+ = JQ′ + K′Q<br>SR: Q+ = S + R′Q  (SR = 0)</div><table class="doc"><thead><tr><th>Q → Q+</th><th>D</th><th>T</th><th>J K</th><th>S R</th></tr></thead><tbody><tr><td class="m">0 → 0</td><td class="m">0</td><td class="m">0</td><td class="m">0 X</td><td class="m">0 X</td></tr><tr><td class="m">0 → 1</td><td class="m">1</td><td class="m">1</td><td class="m">1 X</td><td class="m">1 0</td></tr><tr><td class="m">1 → 0</td><td class="m">0</td><td class="m">1</td><td class="m">X 1</td><td class="m">0 1</td></tr><tr><td class="m">1 → 1</td><td class="m">1</td><td class="m">0</td><td class="m">X 0</td><td class="m">X 0</td></tr></tbody></table>') },
     { t: 'Sequential design', k: 'state machine moore mealy state reduction flip flops number', el: T('<div class="formula">Flip-flops for N states = ⌈log₂N⌉<br>Moore: y = f(state)   Mealy: y = f(state, input)<br>D flip-flop: D = next state<br>Steps: spec, states, diagram, table, reduce, assign, equations, circuit, verify</div>') },
-    { t: 'Counters and registers', k: 'counter ripple synchronous mod ring johnson frequency division shift register', el: T('<div class="formula">MOD-N flip-flops: 2ⁿ ≥ N<br>Sync up counter: T0 = 1, T1 = Q0, T2 = Q0Q1, T3 = Q0Q1Q2<br>Ring: n states   Johnson: 2n states<br>Stage k of a binary counter: f / 2^(k+1)<br>Shift right: bits move to LSB, serial in at MSB</div>') },
+    { t: 'Counters and registers', k: 'counter ripple synchronous mod ring johnson frequency division shift register', el: T('<div class="formula">MOD-N flip-flops: 2ⁿ ≥ N<br>Sync up counter: T0 = 1, T1 = Q0, T2 = Q0Q1, T3 = Q0Q1Q2<br>Ring: n states   Johnson: 2n states<br>Stage k of a binary counter: f / 2<sup>k+1</sup><br>Shift right: bits move to LSB, serial in at MSB</div>') },
     { t: 'Memory', k: 'memory ram sram dram address capacity chip select expansion', el: T('<div class="formula">Locations = 2ⁿ   Capacity = 2ⁿ × m bits<br>Chips for expansion = (Twords/Cwords) × (Tbits/Cbits)<br>Extra address bits = log₂(Twords/Cwords)<br>SRAM: no refresh   DRAM: refresh, dense</div>') },
     { t: 'ROM, PLA and PAL', k: 'rom pla pal programmable logic mask prom eprom eeprom flash', el: T('<table class="doc"><thead><tr><th>Device</th><th>AND array</th><th>OR array</th></tr></thead><tbody><tr><td>ROM</td><td>Fixed (decoder)</td><td>Programmable</td></tr><tr><td>PLA</td><td>Programmable</td><td>Programmable</td></tr><tr><td>PAL</td><td>Programmable</td><td>Fixed</td></tr></tbody></table><p>ROM size for n inputs and m outputs: 2ⁿ × m. Mask ROM: factory. PROM: once. EPROM: UV erase. EEPROM: electrical. Flash: electrical, by block.</p>') }
   ];

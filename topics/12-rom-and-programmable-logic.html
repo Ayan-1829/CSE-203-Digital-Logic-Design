@@ -6,15 +6,21 @@
 <meta name="description" content="ROM as a lookup table, then PLA and PAL: configurable AND and OR arrays. Free interactive slides, worked examples and a quiz for Topic 12 of the Digital Logic Design course.">
 <meta name="keywords" content="rom & programmable logic, digital logic design, DLD notes, digital electronics, topic 12, programmable-logic simulation">
 <meta name="author" content="Digital Logic Design Notes">
+<link rel="icon" type="image/svg+xml" href="../img/logo-mark.svg">
+<link rel="alternate icon" type="image/png" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="canonical" href="topics/12-rom-and-programmable-logic.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="ROM & Programmable Logic – Topic 12 | Digital Logic Design Notes">
 <meta property="og:description" content="ROM as a lookup table, then PLA and PAL: configurable AND and OR arrays. Free interactive slides, worked examples and a quiz for Topic 12 of the Digital Logic Design course.">
 <meta property="og:url" content="topics/12-rom-and-programmable-logic.html">
+<meta property="og:image" content="../img/favicon-512.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ROM & Programmable Logic – Topic 12 | Digital Logic Design Notes">
 <meta name="twitter:description" content="ROM as a lookup table, then PLA and PAL: configurable AND and OR arrays. Free interactive slides, worked examples and a quiz for Topic 12 of the Digital Logic Design course.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "ROM & Programmable Logic", "description": "ROM as a lookup table, then PLA and PAL: configurable AND and OR arrays.", "position": 12, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 15}</script>
+<meta name="twitter:image" content="../img/favicon-512.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "ROM & Programmable Logic", "description": "ROM as a lookup table, then PLA and PAL: configurable AND and OR arrays.", "position": 12, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 16}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Digital Logic Design", "item": "../index.html"}, {"@type": "ListItem", "position": 2, "name": "Topic 12: ROM & Programmable Logic", "item": "12-rom-and-programmable-logic.html"}]}</script>
 
 <title>ROM & Programmable Logic – Topic 12 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +31,12 @@
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="../index.html">All topics</a>
+  <a class="home-link" href="../index.html" aria-label="Home: all topics"><img src="../img/logo-mark.svg" alt="" width="26" height="26"><span>Home</span></a>
   <div class="deck-title"><span class="badge">12</span><span>ROM &amp; Programmable Logic</span></div>
   <div class="deck-actions">
-    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
-    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu" aria-label="Slides"><svg class="btn-ic" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="3" rx="1"></rect><rect x="3" y="10.5" width="18" height="3" rx="1"></rect><rect x="3" y="16.5" width="18" height="3" rx="1"></rect></svg><span>Slides</span></button>
+    <button type="button" class="btn sm" id="btn-theme" aria-pressed="false" aria-label="Toggle dark mode"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path></svg><span>Dark mode</span></button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false" aria-label="Full screen"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg><span>Full screen</span></button>
   </div>
 </header>
 <div class="deck-progress"><i id="progress-fill"></i></div>
@@ -42,8 +49,11 @@
 <div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
+<section class="slide " data-title="Why this matters" aria-label="Why this matters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Before we start</p><h2>Why this matters</h2><div class="hook"><p class="q">How did a 1980s arcade machine know exactly which pixel-art villain to throw at you next, with zero software as we'd recognise it today?</p><p>It was hard-wired straight into a ROM chip &mdash; a lookup table baked into silicon that will never, ever change its mind. This chapter shows you that a ROM is basically a truth table you can buy off a shelf, and how PLAs and PALs let you &ldquo;program&rdquo; the wiring yourself instead of begging a chip factory for a custom favour.</p></div>
+</div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">ROM organization</a></li><li><a href="#s=3">ROM read operation</a></li><li><a href="#s=3">Address decoder</a></li><li><a href="#s=3">ROM-based logic implementation</a></li><li><a href="#s=4">Mask ROM</a></li><li><a href="#s=4">PROM</a></li><li><a href="#s=4">EPROM</a></li><li><a href="#s=4">EEPROM</a></li><li><a href="#s=4">Flash memory</a></li><li><a href="#s=5">PLA structure</a></li><li><a href="#s=5">PAL structure</a></li><li><a href="#s=5">PLA vs. PAL</a></li><li><a href="#s=5">ROM vs. PLA</a></li><li><a href="#s=6">Programmable logic design flow</a></li><li><a href="#s=6">CPLD and FPGA introduction</a></li></ol>
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=4">ROM organization</a></li><li><a href="#s=4">ROM read operation</a></li><li><a href="#s=4">Address decoder</a></li><li><a href="#s=4">ROM-based logic implementation</a></li><li><a href="#s=5">Mask ROM</a></li><li><a href="#s=5">PROM</a></li><li><a href="#s=5">EPROM</a></li><li><a href="#s=5">EEPROM</a></li><li><a href="#s=5">Flash memory</a></li><li><a href="#s=6">PLA structure</a></li><li><a href="#s=6">PAL structure</a></li><li><a href="#s=6">PLA vs. PAL</a></li><li><a href="#s=6">ROM vs. PLA</a></li><li><a href="#s=7">Programmable logic design flow</a></li><li><a href="#s=7">CPLD and FPGA introduction</a></li></ol>
 </div></section>
 <section class="slide " data-title="ROM organisation and logic" aria-label="ROM organisation and logic" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Concept 1 of 4</p><div class="concept"><h2>ROM organisation and logic</h2><div><p>A 2<sup>n</sup> × m ROM has n address lines feeding a decoder, and the decoder’s word lines feed OR gates that form the m output bits. A 32 × 8 ROM has 5 inputs and 8 outputs. Reading applies an address, decodes it, selects one word and outputs its bits.</p><p>Because the decoder generates every minterm, a ROM implements <b>any</b> combinational function of its address bits. The inputs are the address, and the stored bits are the truth table. A full adder (3 inputs, 2 outputs) fits in an 8 × 2 ROM.</p></div></div>
@@ -76,7 +86,7 @@
 <p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Explain ROM organization.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Address lines feed a decoder. Each decoder output selects one stored word, and the OR gates present that word’s bits at the outputs.</div></details></div><div class="ex"><div class="qq">2. Compare PROM, EPROM, EEPROM and Flash.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">PROM: programmed once. EPROM: UV erase. EEPROM: electrical erase by byte. Flash: electrical erase in blocks.</div></details></div><div class="ex"><div class="qq">3. Describe the PLA architecture.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Inputs and their complements feed a programmable AND array (product terms), which feeds a programmable OR array (outputs).</div></details></div>
 </div></section>
 <section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Compare PLA and PAL.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">PLA: both arrays programmable. PAL: only the AND array is programmable.</div></details></div><div class="ex"><div class="qq">5. Implement F = AB + A′C with programmable logic.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Two product terms, AB and A′C, both connected to the OR gate of the output.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build a decoder plus OR gates that behaves like a small ROM, and Save it as a component.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Compare PLA and PAL.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">PLA: both arrays programmable. PAL: only the AND array is programmable.</div></details></div><div class="ex"><div class="qq">5. Implement F = AB + A′C with programmable logic.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Two product terms, AB and A′C, both connected to the OR gate of the output.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build a decoder plus OR gates that behaves like a small ROM, and Save it as a component.</p></div><span class="tip-wrap"><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a><span class="tip-card"><img src="../img/gate-forge-og.png" alt="" loading="lazy"><b>Gate Forge</b><span>A free circuit simulator &mdash; place and wire gates, generate truth tables and timing diagrams, and work through 90+ guided problems.</span></span></span></div>
 </div></section>
 <section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="12"></div><script type="application/json" class="quiz-json">[{"q": "A ROM that implements a 4-input, 3-output function must be at least", "o": ["4 × 3", "8 × 3", "16 × 3", "16 × 4"], "a": 2, "w": "2⁴ = 16 words of 3 bits."}, {"q": "A PAL has", "o": ["programmable AND, fixed OR", "fixed AND, programmable OR", "both programmable", "both fixed"], "a": 0, "w": "That is the difference from a PLA."}, {"q": "EEPROM is erased by", "o": ["ultraviolet light", "electrical signals", "heat", "it cannot be erased"], "a": 1, "w": "Electrically Erasable PROM."}, {"q": "Which device has a fixed AND array (a full decoder) and a programmable OR array?", "o": ["PLA", "PAL", "ROM", "CPLD"], "a": 2, "w": "The ROM decoder makes every minterm."}]</script></div>
@@ -87,7 +97,7 @@
 </main>
 <footer class="deck-foot">
   <button type="button" class="btn" id="prev">Previous</button>
-  <span class="counter" id="counter">1 / 15</span>
+  <span class="counter" id="counter">1 / 16</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
 <aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>

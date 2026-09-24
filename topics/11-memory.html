@@ -6,15 +6,21 @@
 <meta name="description" content="How memory is organised, decoded and expanded, and how errors are detected and corrected. Free interactive slides, worked examples and a quiz for Topic 11 of the Digital Logic Design course.">
 <meta name="keywords" content="memory & error correction, digital logic design, DLD notes, digital electronics, topic 11, address/data read-write simulation">
 <meta name="author" content="Digital Logic Design Notes">
+<link rel="icon" type="image/svg+xml" href="../img/logo-mark.svg">
+<link rel="alternate icon" type="image/png" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="canonical" href="topics/11-memory.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Memory & Error Correction – Topic 11 | Digital Logic Design Notes">
 <meta property="og:description" content="How memory is organised, decoded and expanded, and how errors are detected and corrected. Free interactive slides, worked examples and a quiz for Topic 11 of the Digital Logic Design course.">
 <meta property="og:url" content="topics/11-memory.html">
+<meta property="og:image" content="../img/favicon-512.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Memory & Error Correction – Topic 11 | Digital Logic Design Notes">
 <meta name="twitter:description" content="How memory is organised, decoded and expanded, and how errors are detected and corrected. Free interactive slides, worked examples and a quiz for Topic 11 of the Digital Logic Design course.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Memory & Error Correction", "description": "How memory is organised, decoded and expanded, and how errors are detected and corrected.", "position": 11, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 15}</script>
+<meta name="twitter:image" content="../img/favicon-512.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Memory & Error Correction", "description": "How memory is organised, decoded and expanded, and how errors are detected and corrected.", "position": 11, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 16}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Digital Logic Design", "item": "../index.html"}, {"@type": "ListItem", "position": 2, "name": "Topic 11: Memory & Error Correction", "item": "11-memory.html"}]}</script>
 
 <title>Memory & Error Correction – Topic 11 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +31,12 @@
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="../index.html">All topics</a>
+  <a class="home-link" href="../index.html" aria-label="Home: all topics"><img src="../img/logo-mark.svg" alt="" width="26" height="26"><span>Home</span></a>
   <div class="deck-title"><span class="badge">11</span><span>Memory &amp; Error Correction</span></div>
   <div class="deck-actions">
-    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
-    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu" aria-label="Slides"><svg class="btn-ic" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="3" rx="1"></rect><rect x="3" y="10.5" width="18" height="3" rx="1"></rect><rect x="3" y="16.5" width="18" height="3" rx="1"></rect></svg><span>Slides</span></button>
+    <button type="button" class="btn sm" id="btn-theme" aria-pressed="false" aria-label="Toggle dark mode"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path></svg><span>Dark mode</span></button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false" aria-label="Full screen"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg><span>Full screen</span></button>
   </div>
 </header>
 <div class="deck-progress"><i id="progress-fill"></i></div>
@@ -42,8 +49,11 @@
 <div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
+<section class="slide " data-title="Why this matters" aria-label="Why this matters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Before we start</p><h2>Why this matters</h2><div class="hook"><p class="q">When Voyager 1 beams a photo home from over 15 billion miles away and cosmic rays casually flip a few of its bits mid-flight, how does the picture still turn out fine?</p><p>Error-correcting codes let the receiver catch a flipped bit and quietly fix it, no &ldquo;can you resend that?&rdquo; across a round trip that takes over a day one-way. It's the same superpower that lets a scratched CD keep playing and your Wi-Fi survive the microwave reheating last night's leftovers. It all starts with memory organised into tidy, addressable rows and columns.</p></div>
+</div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Memory terminology</a></li><li><a href="#s=3">Memory organization</a></li><li><a href="#s=3">Words, bits, addresses, and data</a></li><li><a href="#s=3">Read/write operations</a></li><li><a href="#s=4">SRAM and DRAM</a></li><li><a href="#s=3">Memory capacity calculations</a></li><li><a href="#s=5">Address decoding</a></li><li><a href="#s=5">Chip select</a></li><li><a href="#s=5">Memory expansion</a></li><li><a href="#s=5">Address mapping and memory maps</a></li><li><a href="#s=5">Tri-state data buses</a></li><li><a href="#s=6">Error detection</a></li><li><a href="#s=6">Error correction</a></li><li><a href="#s=6">SEC-DED</a></li></ol>
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=4">Memory terminology</a></li><li><a href="#s=4">Memory organization</a></li><li><a href="#s=4">Words, bits, addresses, and data</a></li><li><a href="#s=4">Read/write operations</a></li><li><a href="#s=5">SRAM and DRAM</a></li><li><a href="#s=4">Memory capacity calculations</a></li><li><a href="#s=6">Address decoding</a></li><li><a href="#s=6">Chip select</a></li><li><a href="#s=6">Memory expansion</a></li><li><a href="#s=6">Address mapping and memory maps</a></li><li><a href="#s=6">Tri-state data buses</a></li><li><a href="#s=7">Error detection</a></li><li><a href="#s=7">Error correction</a></li><li><a href="#s=7">SEC-DED</a></li></ol>
 </div></section>
 <section class="slide " data-title="Memory organisation" aria-label="Memory organisation" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Concept 1 of 4</p><div class="concept"><h2>Memory organisation</h2><div><p>Memory stores binary words at numbered addresses. It is described as <b>words × bits per word</b>: 1K × 8 means 1024 words of 8 bits. n address lines select 2<sup>n</sup> locations. Data lines carry the word to or from memory.</p><ul><li><b>Read:</b> apply the address, enable the memory, activate read, and the word appears on the data lines.</li><li><b>Write:</b> apply address and data, enable the memory, activate write, and the word is stored.</li></ul><div class="formula">capacity = 2ⁿ words × m bits<br>10 address lines, 8 data lines: 1024 × 8 = 8192 bits = 1 KB</div></div></div>
@@ -76,7 +86,7 @@
 <p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. How many locations can 12 address lines select?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">4096</div></details></div><div class="ex"><div class="qq">2. Calculate the capacity of a 2K × 8 memory.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">16384 bits, which is 2 KB.</div></details></div><div class="ex"><div class="qq">3. Explain address decoding.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A decoder converts the address bits into one select line, which activates the addressed location or chip.</div></details></div>
 </div></section>
 <section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Design a 3-to-8 decoder-based selection system.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">The top three address bits drive a 3-to-8 decoder. Each output is the chip select of one of eight memory chips.</div></details></div><div class="ex"><div class="qq">5. Distinguish word expansion from bit expansion.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Word expansion increases the number of locations and needs decoding. Bit expansion widens the word by putting chips in parallel.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build an address decoder from gates, or a one-bit storage cell from latches.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Design a 3-to-8 decoder-based selection system.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">The top three address bits drive a 3-to-8 decoder. Each output is the chip select of one of eight memory chips.</div></details></div><div class="ex"><div class="qq">5. Distinguish word expansion from bit expansion.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Word expansion increases the number of locations and needs decoding. Bit expansion widens the word by putting chips in parallel.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build an address decoder from gates, or a one-bit storage cell from latches.</p></div><span class="tip-wrap"><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a><span class="tip-card"><img src="../img/gate-forge-og.png" alt="" loading="lazy"><b>Gate Forge</b><span>A free circuit simulator &mdash; place and wire gates, generate truth tables and timing diagrams, and work through 90+ guided problems.</span></span></span></div>
 </div></section>
 <section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="11"></div><script type="application/json" class="quiz-json">[{"q": "How many locations do 10 address lines select?", "o": ["10", "100", "1024", "2048"], "a": 2, "w": "2¹⁰ = 1024."}, {"q": "DRAM differs from SRAM because DRAM", "o": ["keeps data without power", "needs periodic refresh", "has no address lines", "is faster"], "a": 1, "w": "Its charge leaks."}, {"q": "An SEC-DED code can", "o": ["detect one error only", "correct single errors and detect double errors", "correct any number of errors", "detect no errors"], "a": 1, "w": "That is what the name says."}, {"q": "How can many devices share one data bus?", "o": ["All drive it at once", "Tri-state outputs, with only the selected device driving", "Each uses a different clock", "They cannot share"], "a": 1, "w": "Others stay in high impedance."}]</script></div>
@@ -87,7 +97,7 @@
 </main>
 <footer class="deck-foot">
   <button type="button" class="btn" id="prev">Previous</button>
-  <span class="counter" id="counter">1 / 15</span>
+  <span class="counter" id="counter">1 / 16</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
 <aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>

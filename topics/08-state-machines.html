@@ -6,15 +6,21 @@
 <meta name="description" content="Describe behaviour as states and transitions, reduce it, and turn it into flip-flops and gates. Free interactive slides, worked examples and a quiz for Topic 8 of the Digital Logic Design course.">
 <meta name="keywords" content="state machines & sequential circuit design, digital logic design, DLD notes, digital electronics, topic 8, state-diagram simulator">
 <meta name="author" content="Digital Logic Design Notes">
+<link rel="icon" type="image/svg+xml" href="../img/logo-mark.svg">
+<link rel="alternate icon" type="image/png" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="canonical" href="topics/08-state-machines.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="State Machines & Sequential Circuit Design – Topic 8 | Digital Logic Design Notes">
 <meta property="og:description" content="Describe behaviour as states and transitions, reduce it, and turn it into flip-flops and gates. Free interactive slides, worked examples and a quiz for Topic 8 of the Digital Logic Design course.">
 <meta property="og:url" content="topics/08-state-machines.html">
+<meta property="og:image" content="../img/favicon-512.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="State Machines & Sequential Circuit Design – Topic 8 | Digital Logic Design Notes">
 <meta name="twitter:description" content="Describe behaviour as states and transitions, reduce it, and turn it into flip-flops and gates. Free interactive slides, worked examples and a quiz for Topic 8 of the Digital Logic Design course.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "State Machines & Sequential Circuit Design", "description": "Describe behaviour as states and transitions, reduce it, and turn it into flip-flops and gates.", "position": 8, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 15}</script>
+<meta name="twitter:image" content="../img/favicon-512.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "State Machines & Sequential Circuit Design", "description": "Describe behaviour as states and transitions, reduce it, and turn it into flip-flops and gates.", "position": 8, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 16}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Digital Logic Design", "item": "../index.html"}, {"@type": "ListItem", "position": 2, "name": "Topic 8: State Machines & Sequential Circuit Design", "item": "08-state-machines.html"}]}</script>
 
 <title>State Machines & Sequential Circuit Design – Topic 8 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +31,12 @@
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="../index.html">All topics</a>
+  <a class="home-link" href="../index.html" aria-label="Home: all topics"><img src="../img/logo-mark.svg" alt="" width="26" height="26"><span>Home</span></a>
   <div class="deck-title"><span class="badge">8</span><span>State Machines &amp; Sequential Circuit Design</span></div>
   <div class="deck-actions">
-    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
-    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu" aria-label="Slides"><svg class="btn-ic" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="3" rx="1"></rect><rect x="3" y="10.5" width="18" height="3" rx="1"></rect><rect x="3" y="16.5" width="18" height="3" rx="1"></rect></svg><span>Slides</span></button>
+    <button type="button" class="btn sm" id="btn-theme" aria-pressed="false" aria-label="Toggle dark mode"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path></svg><span>Dark mode</span></button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false" aria-label="Full screen"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg><span>Full screen</span></button>
   </div>
 </header>
 <div class="deck-progress"><i id="progress-fill"></i></div>
@@ -42,8 +49,11 @@
 <div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
+<section class="slide " data-title="Why this matters" aria-label="Why this matters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Before we start</p><h2>Why this matters</h2><div class="hook"><p class="q">How does a vending machine know you've paid exactly 75 cents, without caring one bit whether you fed it three quarters or fifteen sweaty nickels?</p><p>It isn't doing your maths homework &mdash; it just tracks which state it's in (0&cent;, 25&cent;, 50&cent;, 75&cent;&hellip;) and hops to the next one per coin, forgetting the coins the instant they're counted. That's a finite state machine, and the same trick runs traffic lights, video-game bosses, and your Wi-Fi's slightly awkward opening handshake.</p></div>
+</div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">States, state tables, and state diagrams</a></li><li><a href="#s=3">Moore vs. Mealy machines</a></li><li><a href="#s=4">State reduction</a></li><li><a href="#s=4">Equivalent states</a></li><li><a href="#s=5">State assignment</a></li><li><a href="#s=3">Number of flip-flops</a></li><li><a href="#s=5">Sequential circuit design procedure</a></li><li><a href="#s=5">D, JK, and T flip-flop design</a></li><li><a href="#s=5">Excitation equations</a></li><li><a href="#s=5">K-map-based sequential design</a></li><li><a href="#s=6">Sequence detectors</a></li><li><a href="#s=6">Overlapping sequences</a></li><li><a href="#s=5">Unused states and recovery</a></li><li><a href="#s=6">FSM applications</a></li></ol>
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=4">States, state tables, and state diagrams</a></li><li><a href="#s=4">Moore vs. Mealy machines</a></li><li><a href="#s=5">State reduction</a></li><li><a href="#s=5">Equivalent states</a></li><li><a href="#s=6">State assignment</a></li><li><a href="#s=4">Number of flip-flops</a></li><li><a href="#s=6">Sequential circuit design procedure</a></li><li><a href="#s=6">D, JK, and T flip-flop design</a></li><li><a href="#s=6">Excitation equations</a></li><li><a href="#s=6">K-map-based sequential design</a></li><li><a href="#s=7">Sequence detectors</a></li><li><a href="#s=7">Overlapping sequences</a></li><li><a href="#s=6">Unused states and recovery</a></li><li><a href="#s=7">FSM applications</a></li></ol>
 </div></section>
 <section class="slide " data-title="States and machine types" aria-label="States and machine types" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Concept 1 of 4</p><div class="concept"><h2>States and machine types</h2><div><p>A <b>state</b> is the stored condition of the system. A <b>state diagram</b> draws states as circles and transitions as arrows labelled with the input (and output). A <b>state table</b> lists present state, input, next state and output.</p><ul><li><b>Moore machine:</b> output = f(present state). Outputs are attached to states.</li><li><b>Mealy machine:</b> output = f(present state, input). Outputs are attached to transitions and can react to the input immediately. Mealy machines often need fewer states.</li></ul><p>N states need at least ⌈log₂N⌉ flip-flops. Five states need 3, ten states need 4.</p></div></div>
@@ -76,7 +86,7 @@
 <p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Convert a state diagram into a state table.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">For each state and each input value, write the next state and the output. One row per (state, input) pair.</div></details></div><div class="ex"><div class="qq">2. How do you identify equivalent states?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Compare rows: same outputs for every input, and next states that are the same or themselves equivalent.</div></details></div><div class="ex"><div class="qq">3. How many flip-flops for 10 states?</div><details class="reveal"><summary>Show the answer</summary><div class="ans">4</div></details></div>
 </div></section>
 <section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Design a 101 sequence detector.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Use the simulator to get the state table and D equations, then build the circuit with D flip-flops in Gate Forge.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build the 101 detector from D flip-flops using the equations from the simulator.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Design a 101 sequence detector.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Use the simulator to get the state table and D equations, then build the circuit with D flip-flops in Gate Forge.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Build the 101 detector from D flip-flops using the equations from the simulator.</p></div><span class="tip-wrap"><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a><span class="tip-card"><img src="../img/gate-forge-og.png" alt="" loading="lazy"><b>Gate Forge</b><span>A free circuit simulator &mdash; place and wire gates, generate truth tables and timing diagrams, and work through 90+ guided problems.</span></span></span></div>
 </div></section>
 <section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="8"></div><script type="application/json" class="quiz-json">[{"q": "In a Moore machine the output depends on", "o": ["the present state only", "the input only", "the present state and the input", "the clock only"], "a": 0, "w": "Outputs are attached to states."}, {"q": "How many flip-flops are needed for 5 states?", "o": ["2", "3", "4", "5"], "a": 1, "w": "⌈log₂5⌉ = 3."}, {"q": "Two states are equivalent when", "o": ["they have the same name", "they give the same outputs and go to equivalent states for every input", "they use the same flip-flop", "they have equal binary codes"], "a": 1, "w": "Then one can replace the other without changing behaviour."}, {"q": "Unused states in a binary-encoded design should be", "o": ["ignored completely", "checked so the circuit recovers to a valid state", "given the same code as S0", "removed from the flip-flops"], "a": 1, "w": "Otherwise noise can lock the machine."}]</script></div>
@@ -87,7 +97,7 @@
 </main>
 <footer class="deck-foot">
   <button type="button" class="btn" id="prev">Previous</button>
-  <span class="counter" id="counter">1 / 15</span>
+  <span class="counter" id="counter">1 / 16</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
 <aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>

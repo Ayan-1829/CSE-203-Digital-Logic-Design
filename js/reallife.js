@@ -111,6 +111,136 @@ function switchAnalogy(root) {
   root.append(box); draw();
 }
 
+/* ---------- switch analogies for the rest of the basic gates ---------- */
+const wireX = (d, on) => sv('path', { d, fill: 'none', stroke: on ? 'var(--hi)' : 'var(--lo)', 'stroke-width': 3.5, 'stroke-linecap': 'round', 'stroke-linejoin': 'round' });
+function lampX(x, y, on) {
+  const g = sv('g');
+  if (on) g.append(sv('circle', { cx: x, cy: y, r: 30, fill: 'var(--led)', opacity: 0.25 }));
+  g.append(sv('circle', { cx: x, cy: y, r: 18, fill: on ? 'var(--led)' : 'var(--led-off)', stroke: 'var(--ink)', 'stroke-width': 2.5 }),
+    sv('path', { d: `M${x - 12},${y - 12} L${x + 12},${y + 12} M${x + 12},${y - 12} L${x - 12},${y + 12}`, stroke: 'var(--ink)', 'stroke-width': 2 }));
+  return g;
+}
+function batteryX(x, y) {
+  const g = sv('g');
+  g.append(sv('line', { x1: x - 14, y1: y, x2: x + 14, y2: y, stroke: 'var(--ink)', 'stroke-width': 2.5 }), sv('line', { x1: x - 8, y1: y + 10, x2: x + 8, y2: y + 10, stroke: 'var(--ink)', 'stroke-width': 6 }), sv('text', { x: x + 22, y: y + 10, class: 'lt' }, 'battery'));
+  return g;
+}
+/* visClosed: whether the contact is drawn made (this is what the wire highlighting follows). wireOn: whether current actually reaches this point. labelText is shown verbatim, so callers control whether it reads as the raw input or its complement. */
+function swX(x, y, visClosed, wireOn, labelText, onclick) {
+  const g = sv('g', { style: { cursor: 'pointer' }, tabindex: '0', role: 'switch', 'aria-checked': String(!!visClosed), 'aria-label': labelText,
+    onclick, onkeydown: (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); e.stopPropagation(); onclick(); } } });
+  g.append(sv('rect', { x: x - 6, y: y - 34, width: 84, height: 50, fill: 'transparent' }), sv('circle', { cx: x, cy: y, r: 5, fill: 'var(--ink)' }), sv('circle', { cx: x + 72, cy: y, r: 5, fill: 'var(--ink)' }),
+    sv('line', { x1: x, y1: y, x2: visClosed ? x + 72 : x + 62, y2: visClosed ? y : y - 30, stroke: wireOn ? 'var(--hi)' : 'var(--ink)', 'stroke-width': 4, 'stroke-linecap': 'round' }),
+    sv('text', { x: x + 36, y: y + 26, 'text-anchor': 'middle', class: 'lt' }, labelText));
+  return g;
+}
+
+/* Buffer: switch in series with the lamp, same idea as AND/OR. */
+function bufferNotAnalogy(root) {
+  const st = { buf: 0, not: 0 };
+  const box = h('div', { class: 'scrollx' });
+  function bufferSvg(val, onclick) {
+    const on = !!val;
+    const svg = sv('svg', { viewBox: '0 0 360 190', style: { width: '100%', maxWidth: '360px' }, role: 'img', 'aria-label': 'One switch with a lamp' });
+    svg.append(wireX('M40,50 H100', on), wireX('M172,50 H310 V78', on), wireX('M310,114 V150 H40 V110', on), wireX('M40,90 V50', on),
+      batteryX(40, 92), swX(100, 50, on, on, `A = ${val}`, onclick), lampX(310, 96, on));
+    return { svg, on };
+  }
+  /* NOT: the switch is wired in PARALLEL with the lamp, not in series. Closing it shorts the lamp out
+     (current takes the easy path through the switch instead), so the lamp goes off exactly when A turns on. */
+  function notSvg(val, onclick) {
+    const branchOn = !!val, mainOn = !branchOn;
+    const svg = sv('svg', { viewBox: '0 0 360 220', style: { width: '100%', maxWidth: '360px' }, role: 'img', 'aria-label': 'A switch wired in parallel with the lamp, to short it out' });
+    svg.append(
+      // current always reaches the split point and always returns to the battery afterward,
+      // whichever of the two paths (lamp or short) it actually took in between
+      wireX('M40,110 V50 H120', true), wireX('M120,50 H192', mainOn), wireX('M228,50 H300', mainOn), wireX('M300,50 V170 H40 V130', true),
+      wireX('M120,50 V140 H156', branchOn), wireX('M228,140 H300 V50', branchOn),
+      batteryX(40, 110), lampX(210, 50, mainOn), swX(156, 140, branchOn, branchOn, `A = ${val}`, onclick));
+    return { svg, on: mainOn };
+  }
+  function draw() {
+    const bufR = bufferSvg(st.buf, () => { st.buf ^= 1; draw(); });
+    const notR = notSvg(st.not, () => { st.not ^= 1; draw(); });
+    clear(box).append(h('div', { class: 'rl-analogy' },
+      h('div', null, h('h4', null, 'Buffer: the lamp just follows the switch'), bufR.svg, h('p', { class: 'small' }, `Lamp is ${bufR.on ? 'ON' : 'OFF'}. A buffer's output is simply its input, repeated — handy for boosting a weak signal without changing what it means.`)),
+      h('div', null, h('h4', null, 'NOT: a switch wired around the lamp, not into its path'), notR.svg, h('p', { class: 'small' }, `Lamp is ${notR.on ? 'ON' : 'OFF'}. Closing switch A gives current an easy shortcut straight past the lamp — it "shorts" the lamp out, so the lamp goes dark exactly when A turns on, and lights up again once A opens and current has nowhere to go but through it.`))));
+  }
+  root.append(box); draw();
+}
+
+/* NAND and NOR reuse the exact AND/OR wiring shapes (series = AND, parallel = OR), but as a shorting
+   branch wired around the lamp instead of as the lamp's only path — the same trick as NOT, just with
+   the AND/OR switch combination doing the shorting instead of a single switch. */
+function nandNorAnalogy(root) {
+  const state = { n: [0, 0], r: [0, 0] };
+  const box = h('div', { class: 'scrollx' });
+  function nandSvg(a, b, onA, onB) {
+    const branchOn = !!(a && b), mainOn = !branchOn;
+    const svg = sv('svg', { viewBox: '0 0 460 220', style: { width: '100%', maxWidth: '460px' }, role: 'img', 'aria-label': 'Two switches in series, wired as a shorting branch around the lamp' });
+    svg.append(
+      wireX('M40,110 V50 H120', true), wireX('M120,50 H232', mainOn), wireX('M268,50 H420', mainOn), wireX('M420,50 V170 H40 V130', true),
+      wireX('M120,50 V140 H140', branchOn), wireX('M212,140 H280', branchOn), wireX('M352,140 H420 V50', branchOn),
+      batteryX(40, 110), lampX(250, 50, mainOn),
+      swX(140, 140, !!a, branchOn, `A = ${a}`, onA), swX(280, 140, !!b, branchOn, `B = ${b}`, onB));
+    return { svg, on: mainOn };
+  }
+  function norSvg(a, b, onA, onB) {
+    // A single trunk taps off the main wire before the lamp, splits into the two switches
+    // (stacked in the middle of the diagram), and both rejoin the same wire on the way to the
+    // battery — the same shape as two switches in parallel across a lamp in a textbook diagram.
+    const vcA = !!a, vcB = !!b, branchOn = vcA || vcB, onA_ = branchOn && vcA, onB_ = branchOn && vcB, mainOn = !branchOn;
+    const svg = sv('svg', { viewBox: '0 0 460 230', style: { width: '100%', maxWidth: '460px' }, role: 'img', 'aria-label': 'Two switches in parallel, tapped off the middle of a branch that shorts the lamp' });
+    svg.append(
+      wireX('M40,190 V50 H120', true), wireX('M120,50 H262', mainOn), wireX('M298,50 H420', mainOn),
+      wireX('M420,50 V110', mainOn), wireX('M420,110 V230 H40 V190', true),
+      wireX('M120,50 V110', branchOn), wireX('M120,110 H190', onA_), wireX('M120,110 V170 H190', onB_),
+      wireX('M262,110 H330', onA_), wireX('M262,170 H330 V110', onB_), wireX('M330,110 H420', branchOn),
+      batteryX(40, 190), lampX(280, 50, mainOn),
+      swX(190, 110, vcA, onA_, `A = ${a}`, onA), swX(190, 170, vcB, onB_, `B = ${b}`, onB));
+    return { svg, on: mainOn };
+  }
+  function draw() {
+    const nandR = nandSvg(state.n[0], state.n[1], () => { state.n[0] ^= 1; draw(); }, () => { state.n[1] ^= 1; draw(); });
+    const norR = norSvg(state.r[0], state.r[1], () => { state.r[0] ^= 1; draw(); }, () => { state.r[1] ^= 1; draw(); });
+    clear(box).append(h('div', { class: 'rl-analogy' },
+      h('div', null, h('h4', null, 'NAND: an AND pair, shorting the lamp'), nandR.svg, h('p', { class: 'small' }, `Lamp is ${nandR.on ? 'ON' : 'OFF'}. The two switches are wired in series, exactly like AND — so that branch only completes (and shorts the lamp out) when both A and B are closed. Any other combination leaves the branch open, so current has to go through the lamp.`)),
+      h('div', null, h('h4', null, 'NOR: an OR pair, shorting the lamp'), norR.svg, h('p', { class: 'small' }, `Lamp is ${norR.on ? 'ON' : 'OFF'}. The two switches are wired in parallel, exactly like OR — so the branch shorts the lamp out if A or B (or both) is closed. Only when both stay open does the lamp get any current.`))));
+  }
+  root.append(box); draw();
+}
+
+/* XOR and XNOR: a bridge of two series pairs in parallel, using SOP form directly (XOR = AB′ + A′B, XNOR = AB + A′B′) */
+function xorXnorAnalogy(root) {
+  const st = { xa: 0, xb: 0, na: 0, nb: 0 };
+  const box = h('div', { class: 'scrollx' });
+  function bridge(aVal, bVal, row1, row2, onA, onB) {
+    const vc = (val, inv) => (inv ? !val : !!val);
+    const r1a = vc(aVal, row1.aInv), r1b = vc(bVal, row1.bInv), r1 = r1a && r1b;
+    const r2a = vc(aVal, row2.aInv), r2b = vc(bVal, row2.bInv), r2 = r2a && r2b;
+    const lampOn = r1 || r2;
+    const labA = (inv) => `${inv ? "A′" : 'A'} = ${inv ? (aVal ? 0 : 1) : aVal}`;
+    const labB = (inv) => `${inv ? "B′" : 'B'} = ${inv ? (bVal ? 0 : 1) : bVal}`;
+    const svg = sv('svg', { viewBox: '0 0 560 235', style: { width: '100%', maxWidth: '560px' }, role: 'img', 'aria-label': 'Bridge circuit with four switches and a lamp' });
+    svg.append(wireX('M40,140 V50 H110', r1), wireX('M182,50 H250', r1), wireX('M322,50 H420 V95', r1),
+      wireX('M40,140 H110', r2), wireX('M182,140 H250', r2), wireX('M322,140 H420 V95', r2),
+      wireX('M420,95 H480 V132', lampOn), wireX('M480,168 V215 H40 V180', lampOn), wireX('M40,160 V140', lampOn),
+      batteryX(40, 160),
+      swX(110, 50, r1a, r1, labA(row1.aInv), onA), swX(250, 50, r1b, r1, labB(row1.bInv), onB),
+      swX(110, 140, r2a, r2, labA(row2.aInv), onA), swX(250, 140, r2b, r2, labB(row2.bInv), onB),
+      lampX(480, 150, lampOn));
+    return { svg, lampOn };
+  }
+  function draw() {
+    const xorR = bridge(st.xa, st.xb, { aInv: false, bInv: true }, { aInv: true, bInv: false }, () => { st.xa ^= 1; draw(); }, () => { st.xb ^= 1; draw(); });
+    const xnorR = bridge(st.na, st.nb, { aInv: false, bInv: false }, { aInv: true, bInv: true }, () => { st.na ^= 1; draw(); }, () => { st.nb ^= 1; draw(); });
+    clear(box).append(h('div', { class: 'rl-analogy' },
+      h('div', null, h('h4', null, 'XOR: on when the inputs disagree'), xorR.svg, h('p', { class: 'small' }, `Lamp is ${xorR.lampOn ? 'ON' : 'OFF'}. The top row conducts when A is 1 and B is 0; the bottom row conducts when A is 0 and B is 1. Either path lights the lamp — this is exactly the two-way staircase-light switch.`)),
+      h('div', null, h('h4', null, 'XNOR: on when the inputs agree'), xnorR.svg, h('p', { class: 'small' }, `Lamp is ${xnorR.lampOn ? 'ON' : 'OFF'}. The top row conducts when both are 1; the bottom row when both are 0. It's the mirror image of XOR: swap which pair of contacts is inverted, and "different" turns into "the same".`))));
+  }
+  root.append(box); draw();
+}
+
 /* ---------- mount everything on a topic page ---------- */
 function mountPage() {
   const seen = {};
@@ -122,6 +252,9 @@ function mountPage() {
   document.querySelectorAll('[data-circuit]').forEach((ph) => { const k = ph.getAttribute('data-circuit'); try { createLab(ph, { compact: true, locked: true, preset: k, wave: k === 'sr-latch', noTable: k === 'sr-latch' }); } catch (e) { ph.append(h('p', { class: 'bad' }, e.message)); } });
   document.querySelectorAll('[data-reallife]').forEach((ph) => realLife(ph, ph.getAttribute('data-reallife')));
   document.querySelectorAll('[data-switch-analogy]').forEach((ph) => switchAnalogy(ph));
+  document.querySelectorAll('[data-switch-analogy-bufnot]').forEach((ph) => bufferNotAnalogy(ph));
+  document.querySelectorAll('[data-switch-analogy-nandnor]').forEach((ph) => nandNorAnalogy(ph));
+  document.querySelectorAll('[data-switch-analogy-xorxnor]').forEach((ph) => xorXnorAnalogy(ph));
   document.querySelectorAll('[data-gates]').forEach((ph) => ['AND', 'OR', 'NOT', 'NAND', 'NOR', 'XOR', 'XNOR'].forEach((t) => ph.append(h('div', { class: 'gatefig-item' }, gateSvg(t, { scale: 1.25 }), h('div', { class: 'small muted' }, GATE_LABEL[t])))));
   document.querySelectorAll('.quiz-host').forEach((ph) => { const j = ph.parentNode.querySelector('script.quiz-json'); if (j) mountQuiz(ph, JSON.parse(j.textContent), ph.getAttribute('data-quiz-key')); });
 }

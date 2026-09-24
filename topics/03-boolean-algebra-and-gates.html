@@ -6,15 +6,21 @@
 <meta name="description" content="The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms. Free interactive slides, worked examples and a quiz for Topic 3 of the Digital Logic Design course.">
 <meta name="keywords" content="boolean algebra & logic gates, digital logic design, DLD notes, digital electronics, topic 3, boolean expression simplifier">
 <meta name="author" content="Digital Logic Design Notes">
+<link rel="icon" type="image/svg+xml" href="../img/logo-mark.svg">
+<link rel="alternate icon" type="image/png" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="canonical" href="topics/03-boolean-algebra-and-gates.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Boolean Algebra & Logic Gates – Topic 3 | Digital Logic Design Notes">
 <meta property="og:description" content="The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms. Free interactive slides, worked examples and a quiz for Topic 3 of the Digital Logic Design course.">
 <meta property="og:url" content="topics/03-boolean-algebra-and-gates.html">
+<meta property="og:image" content="../img/favicon-512.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Boolean Algebra & Logic Gates – Topic 3 | Digital Logic Design Notes">
 <meta name="twitter:description" content="The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms. Free interactive slides, worked examples and a quiz for Topic 3 of the Digital Logic Design course.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Boolean Algebra & Logic Gates", "description": "The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms.", "position": 3, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 28}</script>
+<meta name="twitter:image" content="../img/favicon-512.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Boolean Algebra & Logic Gates", "description": "The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms.", "position": 3, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 32}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Digital Logic Design", "item": "../index.html"}, {"@type": "ListItem", "position": 2, "name": "Topic 3: Boolean Algebra & Logic Gates", "item": "03-boolean-algebra-and-gates.html"}]}</script>
 
 <title>Boolean Algebra & Logic Gates – Topic 3 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +31,12 @@
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="../index.html">All topics</a>
+  <a class="home-link" href="../index.html" aria-label="Home: all topics"><img src="../img/logo-mark.svg" alt="" width="26" height="26"><span>Home</span></a>
   <div class="deck-title"><span class="badge">3</span><span>Boolean Algebra &amp; Logic Gates</span></div>
   <div class="deck-actions">
-    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
-    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu" aria-label="Slides"><svg class="btn-ic" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="3" rx="1"></rect><rect x="3" y="10.5" width="18" height="3" rx="1"></rect><rect x="3" y="16.5" width="18" height="3" rx="1"></rect></svg><span>Slides</span></button>
+    <button type="button" class="btn sm" id="btn-theme" aria-pressed="false" aria-label="Toggle dark mode"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path></svg><span>Dark mode</span></button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false" aria-label="Full screen"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg><span>Full screen</span></button>
   </div>
 </header>
 <div class="deck-progress"><i id="progress-fill"></i></div>
@@ -42,8 +49,11 @@
 <div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
+<section class="slide " data-title="Why this matters" aria-label="Why this matters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Before we start</p><h2>Why this matters</h2><div class="hook"><p class="q">Ever flicked a light switch downstairs and watched the same lamp turn off from a switch upstairs, like the house was gaslighting you?</p><p>Relax, it's not haunted &mdash; it's a logic gate hiding inside your wall, and by the end of this chapter you'll know exactly which one (spoiler: it's the drama queen of gates). Boolean algebra turns out to be the exact same rules you already use to win an argument, except now a light bulb has to obey them too.</p></div>
+</div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Boolean variables and operations</a></li><li><a href="#s=4">Boolean laws and identities</a></li><li><a href="#s=4">Duality</a></li><li><a href="#s=5">DeMorgan&#x27;s theorems</a></li><li><a href="#s=4">Algebraic simplification</a></li><li><a href="#s=6">Basic and universal gates</a></li><li><a href="#s=6">XOR and XNOR</a></li><li><a href="#s=6">Switch-level analogy</a></li><li><a href="#s=16">Truth table ↔ Boolean expression ↔ circuit</a></li><li><a href="#s=16">Minterms and maxterms</a></li><li><a href="#s=16">Canonical SOP and POS</a></li><li><a href="#s=16">Standard forms</a></li></ol>
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=4">Boolean variables and operations</a></li><li><a href="#s=5">Boolean laws and identities</a></li><li><a href="#s=5">Duality</a></li><li><a href="#s=6">DeMorgan&#x27;s theorems</a></li><li><a href="#s=5">Algebraic simplification</a></li><li><a href="#s=7">Basic and universal gates</a></li><li><a href="#s=7">XOR and XNOR</a></li><li><a href="#s=7">Switch-level analogy</a></li><li><a href="#s=20">Truth table ↔ Boolean expression ↔ circuit</a></li><li><a href="#s=20">Minterms and maxterms</a></li><li><a href="#s=20">Canonical SOP and POS</a></li><li><a href="#s=20">Standard forms</a></li></ol>
 </div></section>
 <section class="slide " data-title="Variables and operations" aria-label="Variables and operations" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Concept 1 of 5</p><div class="concept"><h2>Variables and operations</h2><div><p>A Boolean variable is 0 or 1. The three operations are AND (A·B or AB), OR (A+B) and NOT (<span class="ov">A</span>). NOT binds tightest, then AND, then OR.</p></div></div>
@@ -59,6 +69,15 @@
 </div></section>
 <section class="slide " data-title="Switch analogy: series and parallel" aria-label="Switch analogy: series and parallel" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Real life</p><h2>Switch analogy: series and parallel</h2><p>Click the switches. Two switches in series behave like AND. Two switches in parallel behave like OR.</p><div data-switch-analogy></div>
+</div></section>
+<section class="slide " data-title="Switch analogy: buffer and NOT" aria-label="Switch analogy: buffer and NOT" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Real life</p><h2>Switch analogy: buffer and NOT</h2><p>Click the switch. A buffer wires it in series with the lamp, so the lamp just repeats it. A NOT wires the same switch in parallel with the lamp instead &mdash; closing it shorts the lamp out, so the lamp shows the opposite.</p><div data-switch-analogy-bufnot></div>
+</div></section>
+<section class="slide " data-title="Switch analogy: NAND and NOR" aria-label="Switch analogy: NAND and NOR" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Real life</p><h2>Switch analogy: NAND and NOR</h2><p>The exact same series (AND) and parallel (OR) switch pairs as before, but now wired in parallel with the lamp instead of in its path &mdash; so closing the AND pair shorts the lamp out for NAND, and closing the OR pair shorts it out for NOR.</p><div data-switch-analogy-nandnor></div>
+</div></section>
+<section class="slide " data-title="Switch analogy: XOR and XNOR" aria-label="Switch analogy: XOR and XNOR" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Real life</p><h2>Switch analogy: XOR and XNOR</h2><p>A single series/parallel pair can&#x27;t tell &ldquo;A and B differ&rdquo; from &ldquo;A and B agree&rdquo;. Wire up their SOP form directly &mdash; two series pairs in parallel &mdash; and you get exactly that: the two-way staircase-light switch.</p><div data-switch-analogy-xorxnor></div>
 </div></section>
 <section class="slide " data-title="AND in real life: microwave oven" aria-label="AND in real life: microwave oven" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Real life · AND gate</p><h2>AND in real life: microwave oven</h2><div data-reallife="AND"></div>
@@ -115,7 +134,7 @@
 <p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Simplify A + AB.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A, by absorption.</div></details></div><div class="ex"><div class="qq">2. Apply DeMorgan to <span class="ov">AB + C</span>.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">(<span class="ov">A</span> + <span class="ov">B</span>)<span class="ov">C</span></div></details></div><div class="ex"><div class="qq">3. A 2-input function is 1 only for inputs 01 and 10. Write its canonical SOP and POS.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">SOP: <span class="ov">A</span>B + A<span class="ov">B</span> = Σm(1,2). POS: (A+B)(<span class="ov">A</span>+<span class="ov">B</span>) = ΠM(0,3). This is XOR.</div></details></div>
 </div></section>
 <section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Write the dual of A + B<span class="ov">C</span>.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A(B + <span class="ov">C</span>)</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Wire each gate yourself and check it with the Truth table tester. Try building <span class="ov">AB</span> and <span class="ov">A</span> + <span class="ov">B</span> side by side.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. Write the dual of A + B<span class="ov">C</span>.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">A(B + <span class="ov">C</span>)</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Wire each gate yourself and check it with the Truth table tester. Try building <span class="ov">AB</span> and <span class="ov">A</span> + <span class="ov">B</span> side by side.</p></div><span class="tip-wrap"><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a><span class="tip-card"><img src="../img/gate-forge-og.png" alt="" loading="lazy"><b>Gate Forge</b><span>A free circuit simulator &mdash; place and wire gates, generate truth tables and timing diagrams, and work through 90+ guided problems.</span></span></span></div>
 </div></section>
 <section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="3"></div><script type="application/json" class="quiz-json">[{"q": "(A + B)′ equals", "o": ["A′ + B′", "A′B′", "AB", "A′B"], "a": 1, "w": "DeMorgan’s first theorem."}, {"q": "Which two-input gate outputs 1 only when its inputs differ?", "o": ["XNOR", "NAND", "XOR", "NOR"], "a": 2, "w": "That is the definition of XOR."}, {"q": "For variables A, B, C the minterm m₅ is", "o": ["A′BC′", "AB′C", "ABC′", "A′B′C"], "a": 1, "w": "5 = 101 → A, B′, C."}, {"q": "A + A′B simplifies to", "o": ["A", "B", "A + B", "AB"], "a": 2, "w": "A + A′B = (A+A′)(A+B) = A + B."}]</script></div>
@@ -126,7 +145,7 @@
 </main>
 <footer class="deck-foot">
   <button type="button" class="btn" id="prev">Previous</button>
-  <span class="counter" id="counter">1 / 28</span>
+  <span class="counter" id="counter">1 / 32</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
 <aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>

@@ -49,6 +49,22 @@ const PRESETS = {
   'full-adder': ['Full adder (two half adders + OR)', () => NL([['a', 'SWITCH', 30, 30, 'A'], ['b', 'SWITCH', 30, 110, 'B'], ['ci', 'SWITCH', 30, 200, 'Cin'],
     ['x1', 'XOR', 150, 40], ['a1', 'AND', 150, 110], ['x2', 'XOR', 290, 70], ['a2', 'AND', 290, 160], ['o', 'OR', 430, 130], ['s', 'LED', 440, 70, 'S'], ['co', 'LED', 540, 134, 'Cout']],
     [['a', 0, 'x1', 0], ['b', 0, 'x1', 1], ['a', 0, 'a1', 0], ['b', 0, 'a1', 1], ['x1', 0, 'x2', 0], ['ci', 0, 'x2', 1], ['x1', 0, 'a2', 0], ['ci', 0, 'a2', 1], ['a1', 0, 'o', 0], ['a2', 0, 'o', 1], ['x2', 0, 's', 0], ['o', 0, 'co', 0]])],
+  'full-sub': ['Full subtractor (two half subtractors + OR)', () => NL([
+    ['a', 'SWITCH', 30, 20, 'A'], ['b', 'SWITCH', 30, 140, 'B'], ['bi', 'SWITCH', 30, 260, 'Bin'],
+    ['na', 'NOT', 160, 140], ['x1', 'XOR', 160, 20],
+    ['b1', 'AND', 310, 140], ['nx1', 'NOT', 310, 260], ['x2', 'XOR', 310, 60],
+    ['b2', 'AND', 460, 260], ['o', 'OR', 580, 200],
+    ['d', 'LED', 440, 64, 'D'], ['bo', 'LED', 720, 204, 'Bout']],
+    [['a', 0, 'na', 0], ['a', 0, 'x1', 0], ['b', 0, 'x1', 1], ['na', 0, 'b1', 0], ['b', 0, 'b1', 1],
+      ['x1', 0, 'x2', 0], ['bi', 0, 'x2', 1], ['x1', 0, 'nx1', 0], ['nx1', 0, 'b2', 0], ['bi', 0, 'b2', 1],
+      ['b1', 0, 'o', 0], ['b2', 0, 'o', 1], ['x2', 0, 'd', 0], ['o', 0, 'bo', 0]])],
+  'comparator-1bit': ['1-bit magnitude comparator', () => NL([
+    ['a', 'SWITCH', 30, 20, 'A'], ['b', 'SWITCH', 30, 180, 'B'],
+    ['na', 'NOT', 150, 20], ['nb', 'NOT', 150, 180],
+    ['g', 'AND', 290, 60], ['e', 'XNOR', 290, 120], ['l', 'AND', 290, 180],
+    ['lg', 'LED', 430, 64, 'A>B'], ['le', 'LED', 430, 124, 'A=B'], ['ll', 'LED', 430, 184, 'A<B']],
+    [['a', 0, 'na', 0], ['b', 0, 'nb', 0], ['a', 0, 'g', 0], ['nb', 0, 'g', 1], ['na', 0, 'l', 0], ['b', 0, 'l', 1],
+      ['a', 0, 'e', 0], ['b', 0, 'e', 1], ['g', 0, 'lg', 0], ['e', 0, 'le', 0], ['l', 0, 'll', 0]])],
   'sr-latch': ['SR latch from two NOR gates', () => NL([['r', 'SWITCH', 30, 30, 'R'], ['s', 'SWITCH', 30, 170, 'S'], ['n1', 'NOR', 200, 40], ['n2', 'NOR', 200, 150], ['q', 'LED', 340, 44, 'Q'], ['qb', 'LED', 340, 154, "Q'"]],
     [['r', 0, 'n1', 0], ['s', 0, 'n2', 0], ['n2', 0, 'n1', 1], ['n1', 0, 'n2', 1], ['n1', 0, 'q', 0], ['n2', 0, 'qb', 0]])],
   'd-ff': ['D flip-flop', () => NL([['d', 'SWITCH', 30, 40, 'D'], ['k', 'CLOCK', 30, 130, 'CLK'], ['f', 'DFF', 180, 50], ['q', 'LED', 310, 54, 'Q'], ['qb', 'LED', 310, 94, "Q'"]],
@@ -78,9 +94,17 @@ const PRESETS = {
     ['d0', 'AND', 260, 0], ['d1', 'AND', 260, 70], ['d2', 'AND', 260, 140], ['d3', 'AND', 260, 210],
     ['y0', 'LED', 380, 4, 'Y0'], ['y1', 'LED', 380, 74, 'Y1'], ['y2', 'LED', 380, 144, 'Y2'], ['y3', 'LED', 380, 214, 'Y3']],
     [['a', 0, 'na', 0], ['b', 0, 'nb', 0], ['na', 0, 'd0', 0], ['nb', 0, 'd0', 1], ['na', 0, 'd1', 0], ['b', 0, 'd1', 1], ['a', 0, 'd2', 0], ['nb', 0, 'd2', 1], ['a', 0, 'd3', 0], ['b', 0, 'd3', 1],
-      ['d0', 0, 'y0', 0], ['d1', 0, 'y1', 0], ['d2', 0, 'y2', 0], ['d3', 0, 'y3', 0]])]
+      ['d0', 0, 'y0', 0], ['d1', 0, 'y1', 0], ['d2', 0, 'y2', 0], ['d3', 0, 'y3', 0]])],
+  'priority-enc-4to2': ['4-to-2 priority encoder (D3 highest)', () => NL([
+    ['d0', 'SWITCH', 30, 10, 'D0'], ['d1', 'SWITCH', 30, 90, 'D1'], ['d2', 'SWITCH', 30, 170, 'D2'], ['d3', 'SWITCH', 30, 250, 'D3'],
+    ['n2', 'NOT', 150, 170], ['o1', 'OR', 150, 10], ['a1', 'OR', 150, 250],
+    ['p', 'AND', 290, 140], ['v', 'OR', 290, 60], ['a0', 'OR', 430, 140],
+    ['lv', 'LED', 430, 64, 'V'], ['la1', 'LED', 430, 254, 'A1'], ['la0', 'LED', 570, 144, 'A0']],
+    [['d0', 0, 'o1', 0], ['d1', 0, 'o1', 1], ['d2', 0, 'n2', 0], ['d2', 0, 'a1', 0], ['d3', 0, 'a1', 1],
+      ['n2', 0, 'p', 0], ['d1', 0, 'p', 1], ['d3', 0, 'a0', 0], ['p', 0, 'a0', 1],
+      ['o1', 0, 'v', 0], ['a1', 0, 'v', 1], ['v', 0, 'lv', 0], ['a1', 0, 'la1', 0], ['a0', 0, 'la0', 0]])]
 };
-const PRESET_ORDER = ['demorgan', 'not-nand', 'and-nand', 'or-nand', 'not-nor', 'or-nor', 'and-nor', 'half-adder', 'full-adder', 'mux-2to1', 'decoder-2to4', 'sr-latch', 'd-ff', 'jk-ff', 'div2', 'ripple-3', 'sync-3', 'shift-4'];
+const PRESET_ORDER = ['demorgan', 'not-nand', 'and-nand', 'or-nand', 'not-nor', 'or-nor', 'and-nor', 'half-adder', 'full-adder', 'full-sub', 'comparator-1bit', 'mux-2to1', 'decoder-2to4', 'priority-enc-4to2', 'sr-latch', 'd-ff', 'jk-ff', 'div2', 'ripple-3', 'sync-3', 'shift-4'];
 const presetNetlist = (k) => PRESETS[k][1]();
 
 /* ---------- expression -> netlist ---------- */
@@ -280,6 +304,55 @@ function createLab(root, opts) {
   const outPos = (c, i) => { const d = pinDefs(c.type); return [c.x + d.outs[i].x, c.y + d.outs[i].y]; };
   const inPos = (c, i) => { const d = pinDefs(c.type); return [c.x + d.ins[i].x, c.y + d.ins[i].y]; };
   const bez = (x1, y1, x2, y2) => { const dx = Math.max(34, Math.abs(x2 - x1) / 2); return `M${x1},${y1} C${x1 + dx},${y1} ${x2 - dx},${y2} ${x2},${y2}`; };
+  /* Orthogonal (right-angle) wire routing, as an ordered list of points, plus a small deterministic
+     per-wire jitter on the elbow's x so that unrelated wires sharing a default midpoint don't run
+     exactly on top of each other. */
+  function elbowPoints(x1, y1, x2, y2, seed) {
+    if (Math.abs(y1 - y2) < 0.5) return [[x1, y1], [x2, y2]];
+    const span = x2 - x1, jitter = ((seed % 7) - 3) * 14;
+    let midX = x1 + span / 2 + jitter;
+    if (span >= 0) midX = Math.min(Math.max(midX, x1 + 20), x2 - 20 < x1 + 20 ? x1 + 20 : x2 - 20);
+    else midX = Math.max(Math.min(midX, x1 - 20), x2 + 20 > x1 - 20 ? x1 - 20 : x2 + 20);
+    return [[x1, y1], [midX, y1], [midX, y2], [x2, y2]];
+  }
+  /* Find every place a horizontal segment of one wire crosses a vertical segment of a DIFFERENT
+     wire (well inside both, so shared corners/junctions at a pin don't count), and record it
+     against the horizontal wire's segment so a small bump can be drawn there. */
+  function findBumps(routed) {
+    const bumps = {};
+    for (let i = 0; i < routed.length; i++) {
+      const A = routed[i];
+      for (let j = 0; j < routed.length; j++) {
+        if (i === j) continue;
+        const B = routed[j];
+        A.segs.forEach((sa, ai) => {
+          if (Math.abs(sa[0][1] - sa[1][1]) >= 0.5) return; // A's segment must be horizontal
+          const hy = sa[0][1], hx0 = Math.min(sa[0][0], sa[1][0]), hx1 = Math.max(sa[0][0], sa[1][0]);
+          B.segs.forEach((sb) => {
+            if (Math.abs(sb[0][0] - sb[1][0]) >= 0.5) return; // B's segment must be vertical
+            const vx = sb[0][0], vy0 = Math.min(sb[0][1], sb[1][1]), vy1 = Math.max(sb[0][1], sb[1][1]);
+            if (vx > hx0 + 6 && vx < hx1 - 6 && hy > vy0 + 6 && hy < vy1 - 6) {
+              (bumps[A.id] = bumps[A.id] || {}); (bumps[A.id][ai] = bumps[A.id][ai] || []).push(vx);
+            }
+          });
+        });
+      }
+    }
+    return bumps;
+  }
+  function pathWithBumps(points, bumpsByIdx) {
+    let d = `M${points[0][0]},${points[0][1]}`;
+    for (let i = 0; i < points.length - 1; i++) {
+      const [x1, y1] = points[i], [x2, y2] = points[i + 1];
+      const horiz = Math.abs(y1 - y2) < 0.5, xs = (bumpsByIdx && bumpsByIdx[i]) || [];
+      if (horiz && xs.length) {
+        const dir = x2 >= x1 ? 1 : -1;
+        xs.slice().sort((a, b) => dir * (a - b)).forEach((bx) => { d += ` L${bx - dir * 7},${y1} Q${bx},${y1 - 9} ${bx + dir * 7},${y1}`; });
+        d += ` L${x2},${y2}`;
+      } else d += ` L${x2},${y2}`;
+    }
+    return d;
+  }
   function drawComp(c) {
     const d = pinDefs(c.type), g = sv('g', { class: 'comp', 'data-id': c.id, transform: `translate(${c.x},${c.y})` });
     const T = (x, y, txt, cls, anchor) => sv('text', { class: cls || 'lt', x, y, 'text-anchor': anchor || 'middle' }, txt);
@@ -315,8 +388,8 @@ function createLab(root, opts) {
       g.append(T(32, d.h / 2 + 4, 'Q=' + c.q, 'lt m'));
       g.append(T(32, -7, { DFF: 'D flip-flop', JKFF: 'JK flip-flop', TFF: 'T flip-flop' }[c.type]));
     }
-    d.ins.forEach((p, i) => g.append(sv('circle', { class: 'pin' + (iv(c, i) ? ' hi' : ''), cx: p.x, cy: p.y, r: 4.5 })));
-    d.outs.forEach((p, i) => g.append(sv('circle', { class: 'pin' + (c.out[i] ? ' hi' : ''), cx: p.x, cy: p.y, r: 4.5 })));
+    d.ins.forEach((p, i) => g.append(sv('circle', { class: 'pin' + (iv(c, i) ? ' hi' : ''), cx: p.x, cy: p.y, r: 2.5 })));
+    d.outs.forEach((p, i) => g.append(sv('circle', { class: 'pin' + (c.out[i] ? ' hi' : ''), cx: p.x, cy: p.y, r: 2.5 })));
     if (!opts.locked) {
       d.ins.forEach((p, i) => g.append(sv('circle', { class: 'pinhit', cx: p.x, cy: p.y, r: 11, 'data-pin': '1', 'data-c': c.id, 'data-k': 'in', 'data-p': i })));
       d.outs.forEach((p, i) => g.append(sv('circle', { class: 'pinhit', cx: p.x, cy: p.y, r: 11, 'data-pin': '1', 'data-c': c.id, 'data-k': 'out', 'data-p': i })));
@@ -326,16 +399,22 @@ function createLab(root, opts) {
   }
   function draw() {
     clear(gW); clear(gC); clear(gR);
-    wires.forEach((w) => {
-      const a = byId[w.fc], b = byId[w.tc]; if (!a || !b) return;
+    const routed = wires.map((w) => {
+      const a = byId[w.fc], b = byId[w.tc]; if (!a || !b) return null;
       const [x1, y1] = outPos(a, w.fp), [x2, y2] = inPos(b, w.tp);
-      const d = bez(x1, y1, x2, y2), on = a.out[w.fp];
+      const pts = elbowPoints(x1, y1, x2, y2, +w.id.slice(1));
+      const segs = []; for (let i = 0; i < pts.length - 1; i++) segs.push([pts[i], pts[i + 1]]);
+      return { id: w.id, w, on: a.out[w.fp], pts, segs };
+    }).filter(Boolean);
+    const bumps = findBumps(routed);
+    routed.forEach(({ id, w, on, pts }) => {
+      const d = pathWithBumps(pts, bumps[id]);
       gW.append(sv('path', { class: 'w' + (on ? ' hi' : '') + (sel && sel.kind === 'wire' && sel.id === w.id ? ' sel' : ''), d }));
       if (!opts.locked) gW.append(sv('path', { class: 'whit', d, 'data-wire': w.id }));
     });
     comps.forEach((c) => gC.append(drawComp(c)));
     if (wiring) {
-      const a = byId[wiring.c]; if (a) { const [x1, y1] = outPos(a, wiring.p); gR.append(sv('path', { class: 'w rub', d: bez(x1, y1, wiring.x, wiring.y) })); }
+      const a = byId[wiring.c]; if (a) { const [x1, y1] = outPos(a, wiring.p); gR.append(sv('path', { class: 'w rub', d: pathWithBumps(elbowPoints(x1, y1, wiring.x, wiring.y, 0)) })); }
     }
   }
 
@@ -485,7 +564,7 @@ function createLab(root, opts) {
       h('button', { type: 'button', class: 'btn sm', onclick: () => { io.style.display = 'block'; io.value = JSON.stringify(serialize()); io.select && io.select(); say('Circuit JSON is in the box below. Copy it to keep it.'); } }, 'Export'),
       h('button', { type: 'button', class: 'btn sm', onclick: () => { io.style.display = 'block'; try { const nl = JSON.parse(io.value); if (!nl.comps || !nl.wires) throw new Error('x'); load(nl); say('Imported.'); } catch (err) { say('Paste circuit JSON in the box, then press Import again.'); } } }, 'Import'));
     const acts3 = h('div', { class: 'row tight', style: { marginBottom: '10px' } },
-      h('label', { class: 'fld' }, 'Boolean expression to circuit', h('span', { class: 'row tight' }, exprIn, h('button', { type: 'button', class: 'btn sm pri', onclick: () => buildExpr(exprIn.value) }, 'Build circuit'))),
+      h('div', { class: 'row tight' }, exprField('Boolean expression to circuit', exprIn), h('button', { type: 'button', class: 'btn sm pri', onclick: () => buildExpr(exprIn.value) }, 'Build circuit')),
       h('span', { style: { width: '10px' } }),
       h('label', { class: 'fld' }, 'Circuit to truth table', h('button', { type: 'button', class: 'btn sm pri', onclick: showTruth }, 'Show truth table and expression')));
     el.append(pal, acts, acts2, acts3, h('div', { class: 'scrollx' }, svg), status, h('p', { class: 'small muted', style: { margin: '2px 0 8px' } }, 'Drag a component to move it. Drag from an output pin (right side) to an input pin (left side) to draw a wire. Click a switch to toggle it. Select a wire or component and press Delete to remove it.'), waveBox, analysis, io);
@@ -494,11 +573,12 @@ function createLab(root, opts) {
     const bar = h('div', { class: 'row tight', style: { marginTop: '8px' } });
     let tabOpen = false;
     const tblBtn = h('button', { type: 'button', class: 'btn sm', onclick: () => { tabOpen = !tabOpen; if (tabOpen) showTruth(); else clear(analysis); tblBtn.textContent = tabOpen ? 'Hide truth table' : 'Show truth table'; } }, 'Show truth table');
-    bar.append(runBtn,
+    const barKids = [runBtn,
       h('button', { type: 'button', class: 'btn sm', onclick: () => { if (running) setRun(false); tick(); } }, 'Step clock'),
-      h('button', { type: 'button', class: 'btn sm', onclick: () => { setRun(false); resetStates(); } }, 'Reset'),
-      LEGACY ? h('button', { type: 'button', class: 'btn sm', onclick: () => { App.pendingLab = { netlist: serialize() }; App.go('#/logic-lab'); } }, 'Open in Logic Lab') : null,
-      !LEGACY && !opts.noTable ? tblBtn : null);
+      h('button', { type: 'button', class: 'btn sm', onclick: () => { setRun(false); resetStates(); } }, 'Reset')];
+    if (LEGACY) barKids.push(h('button', { type: 'button', class: 'btn sm', onclick: () => { App.pendingLab = { netlist: serialize() }; App.go('#/logic-lab'); } }, 'Open in Logic Lab'));
+    if (!LEGACY && !opts.noTable) barKids.push(tblBtn);
+    bar.append(...barKids);
     const hasClk = () => hasClock();
     el.append(svg, waveBox, bar, status, analysis);
     const upd = () => { const seqC = comps.some((c) => isFF(c.type) || c.type === 'CLOCK'); runBtn.style.display = hasClk() ? '' : 'none'; bar.children[1].style.display = hasClk() ? '' : 'none'; bar.children[2].style.display = hasClk() ? '' : 'none'; tblBtn.style.display = seqC ? 'none' : ''; if (tabOpen) showTruth(); };

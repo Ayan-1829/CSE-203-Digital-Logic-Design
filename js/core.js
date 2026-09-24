@@ -4,6 +4,39 @@ const LEGACY = false;
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => Array.from(r.querySelectorAll(s));
 
+/* ---------- light/dark theme toggle, shared by every page ---------- */
+(function () {
+  const KEY = 'dld-theme';
+  let saved = null;
+  try { saved = localStorage.getItem(KEY); } catch (e) { /* storage unavailable */ }
+  function effective() {
+    if (saved === 'dark' || saved === 'light') return saved;
+    return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  function apply() {
+    if (saved === 'dark' || saved === 'light') document.documentElement.setAttribute('data-theme', saved);
+    else document.documentElement.removeAttribute('data-theme');
+  }
+  const SUN = '<circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4 12H2M22 12h-2M5 5l1.4 1.4M17.6 17.6L19 19M19 5l-1.4 1.4M6.4 17.6L5 19"></path>';
+  const MOON = '<path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path>';
+  function paint(btn) {
+    const dark = effective() === 'dark', label = btn.querySelector('span'), icon = btn.querySelector('.btn-ic');
+    if (label) label.textContent = dark ? 'Light mode' : 'Dark mode'; else btn.textContent = dark ? 'Light mode' : 'Dark mode';
+    if (icon) icon.innerHTML = dark ? SUN : MOON;
+    btn.setAttribute('aria-pressed', String(dark));
+  }
+  apply();
+  const btn = document.getElementById('btn-theme');
+  if (btn) {
+    paint(btn);
+    btn.addEventListener('click', () => {
+      saved = effective() === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem(KEY, saved); } catch (e) { /* storage unavailable */ }
+      apply(); paint(btn);
+    });
+  }
+})();
+
 function mk(ns, tag, attrs, kids) {
   const e = ns ? document.createElementNS('http://www.w3.org/2000/svg', tag) : document.createElement(tag);
   if (attrs) for (const k in attrs) {
@@ -87,6 +120,27 @@ function seg(options, value, onChange) {
     set(v, silent) { cur = v; opts.forEach((o, i) => btns[i].classList.toggle('on', o.v === v)); if (!silent && onChange) onChange(v); }
   };
   return api;
+}
+function insertAtCursor(input, text, caretFromEnd) {
+  const start = input.selectionStart == null ? input.value.length : input.selectionStart;
+  const end = input.selectionEnd == null ? input.value.length : input.selectionEnd;
+  input.value = input.value.slice(0, start) + text + input.value.slice(end);
+  const pos = start + text.length - (caretFromEnd || 0);
+  input.focus();
+  input.setSelectionRange(pos, pos);
+  input.dispatchEvent(new Event('input', { bubbles: true }));
+}
+/* boxed field for typing Boolean expressions: a button row (AND/OR/XOR, and optionally Σm()/ΠM()) above the input */
+function exprField(label, input, opts = {}) {
+  const ops = [['·', 'AND', '·', 0], ['+', 'OR', '+', 0], ['⊕', 'XOR', '⊕', 0]];
+  if (opts.canonical) {
+    ops.push(['Σm()', 'Sum of minterms', 'Σm()', 1], ['ΠM()', 'Product of maxterms', 'ΠM()', 1]);
+  }
+  const tools = h('div', { class: 'eqin-ops' }, ops.map(([sym, name, ins, caret]) =>
+    h('button', { type: 'button', class: 'eqop', 'aria-label': 'Insert ' + name + ' (' + sym + ')', title: name + ' (' + sym + ')', onclick: () => insertAtCursor(input, ins, caret) }, sym)));
+  return h('div', { class: 'eqin' },
+    h('div', { class: 'eqin-top' }, h('span', { class: 'eqin-label' }, label), tools),
+    h('div', { class: 'eqin-body' }, input));
 }
 function tabs(items, initial, render) {
   const body = h('div');

@@ -6,15 +6,21 @@
 <meta name="description" content="Put the blocks together: a small ALU, a traffic light, a digital lock, and design workflows. Free interactive slides, worked examples and a quiz for Topic 13 of the Digital Logic Design course.">
 <meta name="keywords" content="digital systems & practice, digital logic design, DLD notes, digital electronics, topic 13, complete mini digital systems">
 <meta name="author" content="Digital Logic Design Notes">
+<link rel="icon" type="image/svg+xml" href="../img/logo-mark.svg">
+<link rel="alternate icon" type="image/png" href="../img/favicon-32.png">
+<link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
 <link rel="canonical" href="topics/13-digital-systems.html">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Digital Systems & Practice – Topic 13 | Digital Logic Design Notes">
 <meta property="og:description" content="Put the blocks together: a small ALU, a traffic light, a digital lock, and design workflows. Free interactive slides, worked examples and a quiz for Topic 13 of the Digital Logic Design course.">
 <meta property="og:url" content="topics/13-digital-systems.html">
+<meta property="og:image" content="../img/favicon-512.png">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Digital Systems & Practice – Topic 13 | Digital Logic Design Notes">
 <meta name="twitter:description" content="Put the blocks together: a small ALU, a traffic light, a digital lock, and design workflows. Free interactive slides, worked examples and a quiz for Topic 13 of the Digital Logic Design course.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Digital Systems & Practice", "description": "Put the blocks together: a small ALU, a traffic light, a digital lock, and design workflows.", "position": 13, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 15}</script>
+<meta name="twitter:image" content="../img/favicon-512.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Digital Systems & Practice", "description": "Put the blocks together: a small ALU, a traffic light, a digital lock, and design workflows.", "position": 13, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 16}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Digital Logic Design", "item": "../index.html"}, {"@type": "ListItem", "position": 2, "name": "Topic 13: Digital Systems & Practice", "item": "13-digital-systems.html"}]}</script>
 
 <title>Digital Systems & Practice – Topic 13 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -25,11 +31,12 @@
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="../index.html">All topics</a>
+  <a class="home-link" href="../index.html" aria-label="Home: all topics"><img src="../img/logo-mark.svg" alt="" width="26" height="26"><span>Home</span></a>
   <div class="deck-title"><span class="badge">13</span><span>Digital Systems &amp; Practice</span></div>
   <div class="deck-actions">
-    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
-    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false">Full screen</button>
+    <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu" aria-label="Slides"><svg class="btn-ic" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true"><rect x="3" y="4.5" width="18" height="3" rx="1"></rect><rect x="3" y="10.5" width="18" height="3" rx="1"></rect><rect x="3" y="16.5" width="18" height="3" rx="1"></rect></svg><span>Slides</span></button>
+    <button type="button" class="btn sm" id="btn-theme" aria-pressed="false" aria-label="Toggle dark mode"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5Z"></path></svg><span>Dark mode</span></button>
+    <button type="button" class="btn sm" id="btn-fs" aria-pressed="false" aria-label="Full screen"><svg class="btn-ic" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path></svg><span>Full screen</span></button>
   </div>
 </header>
 <div class="deck-progress"><i id="progress-fill"></i></div>
@@ -42,8 +49,11 @@
 <div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
+<section class="slide " data-title="Why this matters" aria-label="Why this matters" tabindex="-1"><div class="slide-inner">
+<p class="kicker">Before we start</p><h2>Why this matters</h2><div class="hook"><p class="q">You've now built gates, memory, counters and state machines one lonely piece at a time &mdash; so what happens when you finally let them all hang out in the same box?</p><p>A digital lock that never forgets its combination (unlike you, probably). A traffic light that will never show green in both directions and start a demolition derby. A tiny ALU that adds and compares like a miniature CPU running on too much coffee. This closing chapter is the reunion episode.</p></div>
+</div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=3">Digital system building blocks</a></li><li><a href="#s=3">Complete combinational design workflow</a></li><li><a href="#s=3">Complete sequential design workflow</a></li><li><a href="#s=4">CPU: ALU, registers, control unit, memory, buses</a></li><li><a href="#s=4">4-bit ALU</a></li><li><a href="#s=5">Traffic light controller</a></li><li><a href="#s=5">Digital lock</a></li><li><a href="#s=5">Vending machine</a></li><li><a href="#s=5">Digital clock</a></li><li><a href="#s=6">Troubleshooting</a></li><li><a href="#s=6">Logic Bench</a></li><li><a href="#s=6">Practice projects</a></li><li><a href="#s=6">3×3 multiplier</a></li><li><a href="#s=6">101 sequence detector</a></li><li><a href="#s=6">MOD-6 counter</a></li><li><a href="#s=6">Mini digital system</a></li><li><a href="#s=6">Comprehensive review</a></li><li><a href="#s=6">Viva questions</a></li><li><a href="#s=6">Final project</a></li></ol>
+<p class="kicker">Outline</p><h2>Topics in this chapter</h2><p class="muted">Select a topic to jump to the slide that explains it.</p><ol class="outline-list"><li><a href="#s=4">Digital system building blocks</a></li><li><a href="#s=4">Complete combinational design workflow</a></li><li><a href="#s=4">Complete sequential design workflow</a></li><li><a href="#s=5">CPU: ALU, registers, control unit, memory, buses</a></li><li><a href="#s=5">4-bit ALU</a></li><li><a href="#s=6">Traffic light controller</a></li><li><a href="#s=6">Digital lock</a></li><li><a href="#s=6">Vending machine</a></li><li><a href="#s=6">Digital clock</a></li><li><a href="#s=7">Troubleshooting</a></li><li><a href="#s=7">Logic Bench</a></li><li><a href="#s=7">Practice projects</a></li><li><a href="#s=7">3×3 multiplier</a></li><li><a href="#s=7">101 sequence detector</a></li><li><a href="#s=7">MOD-6 counter</a></li><li><a href="#s=7">Mini digital system</a></li><li><a href="#s=7">Comprehensive review</a></li><li><a href="#s=7">Viva questions</a></li><li><a href="#s=7">Final project</a></li></ol>
 </div></section>
 <section class="slide " data-title="Building blocks and workflows" aria-label="Building blocks and workflows" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Concept 1 of 4</p><div class="concept"><h2>Building blocks and workflows</h2><div><div class="fig"><div class="flow"><span>Gates</span><i>›</i><span>Combinational circuits</span><i>›</i><span>Sequential circuits</span><i>›</i><span>Registers and counters</span><i>›</i><span>Memory</span><i>›</i><span>Control logic</span></div></div><p><b>Combinational workflow:</b> specification → truth table → Boolean expression → K-map → implementation → verification.</p><p><b>Sequential workflow:</b> identify states → state diagram → state table → state assignment → choose flip-flops → equations → implement and verify.</p></div></div>
@@ -76,7 +86,7 @@
 <p class="kicker">Practice</p><h2>Practice (1 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">1. Design a 3×3 multiplier.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Generate nine partial products with AND gates, then add the shifted rows with half and full adders. See the multiplier on the Projects page.</div></details></div><div class="ex"><div class="qq">2. Design an FSM that detects 101.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Use the Chapter 8 simulator for the table and equations.</div></details></div><div class="ex"><div class="qq">3. Design a MOD-6 counter.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">3 flip-flops, states 000 to 101, reset on 110 or use next-state logic.</div></details></div>
 </div></section>
 <section class="slide " data-title="Practice (2 of 2)" aria-label="Practice (2 of 2)" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. List the blocks in a mini digital system.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Input switches, combinational logic, a register, a counter, display logic and a control FSM.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Combine an adder, a multiplexer and flip-flops into a tiny ALU, and Save the parts as components.</p></div><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a></div>
+<p class="kicker">Practice</p><h2>Practice (2 of 2)</h2><p class="muted">Try each one on paper first, then check your answer.</p><div class="ex"><div class="qq">4. List the blocks in a mini digital system.</div><details class="reveal"><summary>Show the answer</summary><div class="ans">Input switches, combinational logic, a register, a counter, display logic and a control FSM.</div></details></div><div class="gf"><div><b>Practice in Gate Forge</b><p class="small">Combine an adder, a multiplexer and flip-flops into a tiny ALU, and Save the parts as components.</p></div><span class="tip-wrap"><a class="btn pri sm" href="https://gate-forge.netlify.app" target="_blank" rel="noopener noreferrer">Open Gate Forge</a><span class="tip-card"><img src="../img/gate-forge-og.png" alt="" loading="lazy"><b>Gate Forge</b><span>A free circuit simulator &mdash; place and wire gates, generate truth tables and timing diagrams, and work through 90+ guided problems.</span></span></span></div>
 </div></section>
 <section class="slide " data-title="Quiz" aria-label="Quiz" tabindex="-1"><div class="slide-inner">
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="13"></div><script type="application/json" class="quiz-json">[{"q": "Which block coordinates the operations of the datapath?", "o": ["ALU", "Register file", "Control unit", "Bus"], "a": 2, "w": "The control unit is an FSM that issues control signals."}, {"q": "In a digital clock, counters are used to", "o": ["store the display font", "divide the clock frequency", "decode the display", "hold the alarm time only"], "a": 1, "w": "They turn a fast clock into seconds, minutes and hours."}, {"q": "The partial products of a 3×3 multiplier come from", "o": ["XOR gates", "AND gates", "flip-flops", "decoders"], "a": 1, "w": "Each partial product is a·b."}, {"q": "What should you check first when a sequential circuit misbehaves?", "o": ["The font colour", "Clock and input assumptions", "The package size", "Nothing"], "a": 1, "w": "Most faults are wrong clocks, inputs or reset."}]</script></div>
@@ -87,7 +97,7 @@
 </main>
 <footer class="deck-foot">
   <button type="button" class="btn" id="prev">Previous</button>
-  <span class="counter" id="counter">1 / 15</span>
+  <span class="counter" id="counter">1 / 16</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
 <aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>

@@ -51,7 +51,15 @@
 
   /* full screen (with a "presentation mode" fallback where the Fullscreen API is not available) */
   function isFs() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
-  function paintFs() { var on = isFs() || document.body.classList.contains('presenting'); fsBtn.textContent = on ? 'Exit full screen' : 'Full screen'; fsBtn.setAttribute('aria-pressed', String(on)); document.body.classList.toggle('is-fs', on); }
+  function paintFs() {
+    var on = isFs() || document.body.classList.contains('presenting');
+    var label = fsBtn.querySelector('span'), icon = fsBtn.querySelector('.btn-ic');
+    if (label) label.textContent = on ? 'Exit full screen' : 'Full screen'; else fsBtn.textContent = on ? 'Exit full screen' : 'Full screen';
+    if (icon) icon.innerHTML = on
+      ? '<path d="M9 3v3a2 2 0 0 1-2 2H4M15 3v3a2 2 0 0 0 2 2h3M9 21v-3a2 2 0 0 0-2-2H4M15 21v-3a2 2 0 0 1 2-2h3"></path>'
+      : '<path d="M8 3H5a2 2 0 0 0-2 2v3M16 3h3a2 2 0 0 1 2 2v3M8 21H5a2 2 0 0 1-2-2v-3M16 21h3a2 2 0 0 0 2-2v-3"></path>';
+    fsBtn.setAttribute('aria-pressed', String(on)); document.body.classList.toggle('is-fs', on);
+  }
   function toggleFs() {
     var el = document.documentElement;
     if (isFs()) { (document.exitFullscreen || document.webkitExitFullscreen).call(document); return; }
