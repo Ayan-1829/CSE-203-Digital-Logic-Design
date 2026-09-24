@@ -307,13 +307,44 @@ function createLab(root, opts) {
   /* Orthogonal (right-angle) wire routing, as an ordered list of points, plus a small deterministic
      per-wire jitter on the elbow's x so that unrelated wires sharing a default midpoint don't run
      exactly on top of each other. */
-  function elbowPoints(x1, y1, x2, y2, seed) {
+  function elbowPoints(x1, y1, x2, y2, seed, excludeIds) {
     if (Math.abs(y1 - y2) < 0.5) return [[x1, y1], [x2, y2]];
     const span = x2 - x1, jitter = ((seed % 7) - 3) * 14;
     let midX = x1 + span / 2 + jitter;
     if (span >= 0) midX = Math.min(Math.max(midX, x1 + 20), x2 - 20 < x1 + 20 ? x1 + 20 : x2 - 20);
     else midX = Math.max(Math.min(midX, x1 - 20), x2 + 20 > x1 - 20 ? x1 - 20 : x2 + 20);
+    if (excludeIds) midX = clearOfBodies(midX, x1, y1, x2, y2, excludeIds);
     return [[x1, y1], [midX, y1], [midX, y2], [x2, y2]];
+  }
+  /* A fan-out wire (one source feeding several targets further along, e.g. a shared CLK or a
+     constant tied HIGH) can have its elbow's vertical jog, or one of its horizontal runs, land
+     right on top of a component that just happens to sit between the source and that particular
+     target, even though the wire has nothing to do with it. A component blocks the *trailing*
+     horizontal run (midX to x2, at height y2) only if it sits to the right of midX, so that run
+     must start after the rightmost such blocker; symmetrically a component blocking the leading
+     run (x1 to midX, at height y1) forces the bend to happen before the leftmost such blocker. */
+  function clearOfBodies(midX, x1, y1, x2, y2, excludeIds) {
+    let rightBound = -Infinity, leftBound = Infinity;
+    for (const c of comps) {
+      if (excludeIds.has(c.id)) continue;
+      const d = pinDefs(c.type);
+      const cx0 = c.x - 6, cx1 = c.x + d.w + 6, cy0 = c.y - 6, cy1 = c.y + d.h + 6;
+      if (cx1 <= Math.min(x1, x2) || cx0 >= Math.max(x1, x2)) continue; // not between the pins at all
+      if (y2 > cy0 && y2 < cy1) rightBound = Math.max(rightBound, cx1 + 1);
+      if (y1 > cy0 && y1 < cy1) leftBound = Math.min(leftBound, cx0 - 1);
+    }
+    /* A blocker that sits at both pins' heights at once can demand midX go both right AND left
+       of it, which no single bend can satisfy - route around it on the target side, since that
+       keeps the wire's own endpoint approach clean (the more visually important of the two). */
+    if (rightBound > -Infinity && leftBound < Infinity && rightBound > leftBound) leftBound = Infinity;
+    /* Bend as close to the target as the blocker allows, not just past the blocker's edge: a
+       trailing run that starts right after the blocker still shares the blocker's own row with
+       whatever short stub wire reaches the *previous* pin at that same height (e.g. a flip-flop's
+       own Q-to-LED wire), so the two visually fuse into one line. Ending the run close to the
+       target instead keeps it clear of that unrelated stub. */
+    if (rightBound > -Infinity) midX = Math.max(rightBound, x2 - 20);
+    if (leftBound < Infinity) midX = Math.min(midX, leftBound);
+    return midX;
   }
   /* Find every place a horizontal segment of one wire crosses a vertical segment of a DIFFERENT
      wire (well inside both, so shared corners/junctions at a pin don't count), and record it
@@ -402,13 +433,19 @@ function createLab(root, opts) {
     const routed = wires.map((w) => {
       const a = byId[w.fc], b = byId[w.tc]; if (!a || !b) return null;
       const [x1, y1] = outPos(a, w.fp), [x2, y2] = inPos(b, w.tp);
-      const pts = elbowPoints(x1, y1, x2, y2, +w.id.slice(1));
-      const segs = []; for (let i = 0; i < pts.length - 1; i++) segs.push([pts[i], pts[i + 1]]);
-      return { id: w.id, w, on: a.out[w.fp], pts, segs };
+      /* A wire whose target pin sits to the LEFT of its source pin is a feedback loop (a
+         cross-coupled latch, a flip-flop's own Q' back to its D, ...). The orthogonal elbow
+         router assumes left-to-right flow and, for these, threads its elbow straight back
+         through the gate body it just left. Route those as a diagonal curve that bulges
+         outward from each pin instead, so it swings clear of both gate bodies. */
+      const backward = x1 > x2;
+      const pts = backward ? null : elbowPoints(x1, y1, x2, y2, +w.id.slice(1), new Set([a.id, b.id]));
+      const segs = pts ? (() => { const s = []; for (let i = 0; i < pts.length - 1; i++) s.push([pts[i], pts[i + 1]]); return s; })() : [];
+      return { id: w.id, w, on: a.out[w.fp], pts, segs, backward, bezD: backward ? bez(x1, y1, x2, y2) : null };
     }).filter(Boolean);
     const bumps = findBumps(routed);
-    routed.forEach(({ id, w, on, pts }) => {
-      const d = pathWithBumps(pts, bumps[id]);
+    routed.forEach(({ id, w, on, pts, backward, bezD }) => {
+      const d = backward ? bezD : pathWithBumps(pts, bumps[id]);
       gW.append(sv('path', { class: 'w' + (on ? ' hi' : '') + (sel && sel.kind === 'wire' && sel.id === w.id ? ' sel' : ''), d }));
       if (!opts.locked) gW.append(sv('path', { class: 'whit', d, 'data-wire': w.id }));
     });
