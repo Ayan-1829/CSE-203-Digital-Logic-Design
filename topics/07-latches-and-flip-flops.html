@@ -3,16 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sequential Logic: Latches &amp; Flip-Flops · Digital Logic Design</title>
+<meta name="description" content="Memory for digital circuits: clocks, latches, flip-flops and the timing rules they obey. Free interactive slides, worked examples and a quiz for Topic 7 of the Digital Logic Design course.">
+<meta name="keywords" content="sequential logic: latches & flip-flops, digital logic design, DLD notes, digital electronics, topic 7, clock and timing-diagram simulator">
+<meta name="author" content="Digital Logic Design Notes">
+<link rel="canonical" href="topics/07-latches-and-flip-flops.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sequential Logic: Latches & Flip-Flops – Topic 7 | Digital Logic Design Notes">
+<meta property="og:description" content="Memory for digital circuits: clocks, latches, flip-flops and the timing rules they obey. Free interactive slides, worked examples and a quiz for Topic 7 of the Digital Logic Design course.">
+<meta property="og:url" content="topics/07-latches-and-flip-flops.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Sequential Logic: Latches & Flip-Flops – Topic 7 | Digital Logic Design Notes">
+<meta name="twitter:description" content="Memory for digital circuits: clocks, latches, flip-flops and the timing rules they obey. Free interactive slides, worked examples and a quiz for Topic 7 of the Digital Logic Design course.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Sequential Logic: Latches & Flip-Flops", "description": "Memory for digital circuits: clocks, latches, flip-flops and the timing rules they obey.", "position": 7, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 21}</script>
+
+<title>Sequential Logic: Latches & Flip-Flops – Topic 7 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="index.html">All topics</a>
+  <a class="home-link" href="../index.html">All topics</a>
   <div class="deck-title"><span class="badge">7</span><span>Sequential Logic: Latches &amp; Flip-Flops</span></div>
   <div class="deck-actions">
     <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
@@ -26,7 +39,7 @@
 <p class="kicker">Topic 7 of 13</p>
 <h1>Sequential Logic: Latches &amp; Flip-Flops</h1>
 <p class="lead">Memory for digital circuits: clocks, latches, flip-flops and the timing rules they obey.</p>
-<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
@@ -87,7 +100,7 @@
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="7"></div><script type="application/json" class="quiz-json">[{"q": "A latch differs from a flip-flop because a latch is", "o": ["edge-triggered", "level-sensitive", "always asynchronous", "unable to store data"], "a": 1, "w": "It follows its inputs while enabled."}, {"q": "A JK flip-flop with J = K = 1 on a clock edge will", "o": ["hold", "set", "reset", "toggle"], "a": 3, "w": "JK = 11 toggles."}, {"q": "Which input combination is invalid for a NOR SR latch?", "o": ["S=0, R=0", "S=1, R=0", "S=0, R=1", "S=1, R=1"], "a": 3, "w": "Both outputs go to 0."}, {"q": "The JK excitation for the transition 0 → 1 is", "o": ["J=0, K=X", "J=1, K=X", "J=X, K=1", "J=X, K=0"], "a": 1, "w": "Set is J=1, and K does not matter."}]</script></div>
 </div></section>
 <section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>Latches are level-sensitive. Flip-flops are edge-triggered.</li><li>JK: 00 hold, 01 reset, 10 set, 11 toggle. T: toggle when T = 1. D: Q+ = D.</li><li>Characteristic tables are for analysis, excitation tables are for design.</li><li>Respect setup and hold time around the clock edge.</li><li>f = 1/T.</li></ul><div class="nextcard"><a class="btn pri" href="08-state-machines.html">Next topic: FSM &amp; Sequential Design</a><a class="btn" href="index.html">All topics</a></div>
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>Latches are level-sensitive. Flip-flops are edge-triggered.</li><li>JK: 00 hold, 01 reset, 10 set, 11 toggle. T: toggle when T = 1. D: Q+ = D.</li><li>Characteristic tables are for analysis, excitation tables are for design.</li><li>Respect setup and hold time around the clock edge.</li><li>f = 1/T.</li></ul><div class="nextcard"><a class="btn pri" href="08-state-machines.html">Next topic: FSM &amp; Sequential Design</a><a class="btn" href="../index.html">All topics</a></div>
 </div></section>
 </main>
 <footer class="deck-foot">
@@ -95,16 +108,16 @@
   <span class="counter" id="counter">1 / 21</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
-<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>
 <noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
-<script src="js/core.js"></script>
-<script src="js/lab.js"></script>
-<script src="js/kmap.js"></script>
-<script src="js/demos.js"></script>
-<script src="js/reallife.js"></script>
-<script src="js/quiz.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/lab.js"></script>
+<script src="../js/kmap.js"></script>
+<script src="../js/demos.js"></script>
+<script src="../js/reallife.js"></script>
+<script src="../js/quiz.js"></script>
 <script>window.DLD_TOPIC = {"id": 7, "prev": "06-decoders-encoders-mux.html", "next": "08-state-machines.html"};</script>
 <script>mountPage();</script>
-<script src="js/slides.js"></script>
+<script src="../js/slides.js"></script>
 </body>
 </html>

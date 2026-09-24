@@ -358,13 +358,13 @@ body.deck-page{margin:0;display:flex;flex-direction:column;height:100vh;height:1
 .deck-progress{height:4px;background:var(--line);flex:none}
 .deck-progress i{display:block;height:100%;width:0;background:var(--accent);transition:width .25s}
 .deck{flex:1;min-height:0;position:relative}
-.slide{position:absolute;inset:0;display:none;overflow:auto;padding:clamp(18px,3.4vw,48px) clamp(16px,6vw,96px) 40px;font-size:clamp(16px,1.35vw,21px);outline:none}
+.slide{position:absolute;inset:0;display:none;overflow:auto;padding:clamp(18px,3.4vw,48px) clamp(16px,6vw,96px) 40px;font-size:clamp(18px,1.6vw,24px);outline:none}
 .slide.active{display:block}
 .slide-inner{max-width:1120px;margin:0 auto}
-.slide h2{font-size:clamp(26px,3.2vw,42px);line-height:1.12;margin:0 0 18px;display:flex;align-items:center;gap:14px}
+.slide h2{font-size:clamp(28px,3.5vw,46px);line-height:1.12;margin:0 0 18px;display:flex;align-items:center;gap:14px}
 .slide h2::before{content:"";flex:none;width:8px;height:1em;border-radius:4px;background:var(--accent)}
 .slide h3{font-size:1.15em;color:var(--ac-ink);margin:0 0 8px}
-.slide .kicker{font:600 14px var(--f-head);color:var(--ink-3);margin:0 0 6px}
+.slide .kicker{font:600 15px var(--f-head);color:var(--ink-3);margin:0 0 6px}
 .slide p,.slide li{max-width:72ch}
 .slide .concept{max-width:none;margin:0}
 .slide .concept>div>p,.slide .concept>div>ul,.slide .concept>div>ol{max-width:72ch}
@@ -372,10 +372,13 @@ body.deck-page{margin:0;display:flex;flex-direction:column;height:100vh;height:1
 .deck-foot .counter{font:700 15px var(--f-head);color:var(--ink-2);min-width:70px;text-align:center}
 #slide-menu{position:fixed;top:0;right:0;bottom:0;width:min(360px,90vw);z-index:60;background:var(--sheet);border-left:1px solid var(--line);box-shadow:-8px 0 24px rgba(0,0,0,.14);overflow:auto;padding:18px 16px 30px}
 #slide-menu[hidden]{display:none}
-#slide-menu h3{margin:0 0 10px}
+#slide-menu .menu-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+#slide-menu .menu-head h3{margin:0}
+#slide-menu .menu-close{flex:none;width:34px;height:34px;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid var(--ink);border-radius:8px;background:var(--sheet);color:var(--ink);font-size:16px;line-height:1;cursor:pointer;padding:0}
+#slide-menu .menu-close:hover{background:var(--sheet-2)}
 #slide-menu ol{margin:0;padding-left:26px}
 #slide-menu li{margin-bottom:2px}
-#slide-menu a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font:500 15px/1.35 var(--f-head)}
+#slide-menu a{display:block;padding:5px 8px;border-radius:6px;text-decoration:none;color:var(--ink);font:500 16px/1.35 var(--f-head)}
 #slide-menu a:hover{background:var(--ac-soft)}
 #slide-menu a.cur{background:var(--ac-soft);font-weight:700;box-shadow:inset 3px 0 0 var(--accent)}
 .sr-only{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
@@ -386,12 +389,12 @@ body.is-fs .deck-bar .home-link{display:none}
 .title-slide .slide-inner{min-height:60vh;display:flex;flex-direction:column;justify-content:center}
 .title-slide .badge.big{width:64px;height:64px;font-size:30px;border-radius:18px;margin-bottom:18px}
 .title-slide h1{font-size:clamp(34px,5.4vw,72px);line-height:1.04;margin:0 0 16px;max-width:18ch}
-.title-slide .lead{font-size:clamp(18px,1.9vw,26px);max-width:44ch;margin-bottom:26px}
-.hint{font:500 14px var(--f-head);color:var(--ink-3);margin-top:22px}
+.title-slide .lead{font-size:clamp(19px,2.1vw,28px);max-width:44ch;margin-bottom:26px}
+.hint{font:500 15px var(--f-head);color:var(--ink-3);margin-top:22px}
 kbd{font:600 12.5px var(--f-mono);background:var(--sheet-2);border:1px solid var(--line);border-bottom-width:2px;border-radius:5px;padding:1px 6px}
 
 /* outline slide */
-.outline-list{columns:2;column-gap:40px;padding-left:28px;margin:0;font:500 clamp(15px,1.3vw,19px)/1.5 var(--f-head)}
+.outline-list{columns:2;column-gap:40px;padding-left:28px;margin:0;font:500 clamp(16px,1.5vw,21px)/1.5 var(--f-head)}
 .outline-list li{break-inside:avoid;margin-bottom:4px}
 .outline-list a{text-decoration:none;color:var(--ink)}
 .outline-list a:hover{color:var(--ac-ink);text-decoration:underline}
@@ -401,7 +404,7 @@ kbd{font:600 12.5px var(--f-mono);background:var(--sheet-2);border:1px solid var
 .tgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px;align-items:start}
 .tcard{background:var(--sheet);border:1px solid var(--line);border-radius:12px;padding:14px 16px}
 .tcard h4{margin:0 0 8px;font:650 16px var(--f-head)}
-.slide table.tt{font-size:clamp(13px,1.15vw,17px)}
+.slide table.tt{font-size:clamp(14px,1.3vw,19px)}
 .gatefig{display:flex;flex-wrap:wrap;gap:6px 22px;margin:8px 0 16px}
 .gatefig-item{text-align:center}
 .cols{display:grid;grid-template-columns:1fr 1fr;gap:28px}

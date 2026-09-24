@@ -3,16 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Memory &amp; Error Correction · Digital Logic Design</title>
+<meta name="description" content="How memory is organised, decoded and expanded, and how errors are detected and corrected. Free interactive slides, worked examples and a quiz for Topic 11 of the Digital Logic Design course.">
+<meta name="keywords" content="memory & error correction, digital logic design, DLD notes, digital electronics, topic 11, address/data read-write simulation">
+<meta name="author" content="Digital Logic Design Notes">
+<link rel="canonical" href="topics/11-memory.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Memory & Error Correction – Topic 11 | Digital Logic Design Notes">
+<meta property="og:description" content="How memory is organised, decoded and expanded, and how errors are detected and corrected. Free interactive slides, worked examples and a quiz for Topic 11 of the Digital Logic Design course.">
+<meta property="og:url" content="topics/11-memory.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Memory & Error Correction – Topic 11 | Digital Logic Design Notes">
+<meta name="twitter:description" content="How memory is organised, decoded and expanded, and how errors are detected and corrected. Free interactive slides, worked examples and a quiz for Topic 11 of the Digital Logic Design course.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Memory & Error Correction", "description": "How memory is organised, decoded and expanded, and how errors are detected and corrected.", "position": 11, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 15}</script>
+
+<title>Memory & Error Correction – Topic 11 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="index.html">All topics</a>
+  <a class="home-link" href="../index.html">All topics</a>
   <div class="deck-title"><span class="badge">11</span><span>Memory &amp; Error Correction</span></div>
   <div class="deck-actions">
     <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
@@ -26,7 +39,7 @@
 <p class="kicker">Topic 11 of 13</p>
 <h1>Memory &amp; Error Correction</h1>
 <p class="lead">How memory is organised, decoded and expanded, and how errors are detected and corrected.</p>
-<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
@@ -69,7 +82,7 @@
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="11"></div><script type="application/json" class="quiz-json">[{"q": "How many locations do 10 address lines select?", "o": ["10", "100", "1024", "2048"], "a": 2, "w": "2¹⁰ = 1024."}, {"q": "DRAM differs from SRAM because DRAM", "o": ["keeps data without power", "needs periodic refresh", "has no address lines", "is faster"], "a": 1, "w": "Its charge leaks."}, {"q": "An SEC-DED code can", "o": ["detect one error only", "correct single errors and detect double errors", "correct any number of errors", "detect no errors"], "a": 1, "w": "That is what the name says."}, {"q": "How can many devices share one data bus?", "o": ["All drive it at once", "Tri-state outputs, with only the selected device driving", "Each uses a different clock", "They cannot share"], "a": 1, "w": "Others stay in high impedance."}]</script></div>
 </div></section>
 <section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>n address lines select 2<sup>n</sup> locations.</li><li>SRAM: fast, no refresh. DRAM: dense, needs refresh.</li><li>Decoders and chip selects choose the active device.</li><li>Word expansion adds locations, bit expansion adds width.</li><li>SEC-DED corrects one error and detects two.</li></ul><div class="nextcard"><a class="btn pri" href="12-rom-and-programmable-logic.html">Next topic: ROM &amp; PLD</a><a class="btn" href="index.html">All topics</a></div>
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>n address lines select 2<sup>n</sup> locations.</li><li>SRAM: fast, no refresh. DRAM: dense, needs refresh.</li><li>Decoders and chip selects choose the active device.</li><li>Word expansion adds locations, bit expansion adds width.</li><li>SEC-DED corrects one error and detects two.</li></ul><div class="nextcard"><a class="btn pri" href="12-rom-and-programmable-logic.html">Next topic: ROM &amp; PLD</a><a class="btn" href="../index.html">All topics</a></div>
 </div></section>
 </main>
 <footer class="deck-foot">
@@ -77,16 +90,16 @@
   <span class="counter" id="counter">1 / 15</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
-<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>
 <noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
-<script src="js/core.js"></script>
-<script src="js/lab.js"></script>
-<script src="js/kmap.js"></script>
-<script src="js/demos.js"></script>
-<script src="js/reallife.js"></script>
-<script src="js/quiz.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/lab.js"></script>
+<script src="../js/kmap.js"></script>
+<script src="../js/demos.js"></script>
+<script src="../js/reallife.js"></script>
+<script src="../js/quiz.js"></script>
 <script>window.DLD_TOPIC = {"id": 11, "prev": "10-registers.html", "next": "12-rom-and-programmable-logic.html"};</script>
 <script>mountPage();</script>
-<script src="js/slides.js"></script>
+<script src="../js/slides.js"></script>
 </body>
 </html>

@@ -6,8 +6,8 @@ Open index.html in any modern browser. No server, build step or internet connect
 
 Folder layout
 -------------
-index.html                     list of topics
-01-introduction.html ...       one HTML file per topic (13 topics), each made of <section class="slide"> elements
+index.html                     list of topics (kept at the site root)
+topics/01-introduction.html …  one HTML file per topic (13 topics), each made of <section class="slide"> elements
 practice.html                  drills, all practice problems, link to Gate Forge
 reference.html                 searchable formulas and tables
 projects.html                  project checklists, 3x3 multiplier, viva questions
@@ -20,6 +20,13 @@ js/reallife.js                 real-life gate examples and the series/parallel s
 js/quiz.js                     quiz widget
 js/slides.js                   slide engine: keys, swipe, slide list, progress, full screen
 js/extras.js                   drills, quick reference and project helpers
+robots.txt, sitemap.xml        SEO crawling files (update the placeholder domain before publishing)
+DEVLOG.md                      running log of changes made to this site, with the prompt used for each update
+
+Files inside topics/ reference the shared css/ and js/ folders and index.html
+one level up (e.g. "../css/style.css", "../index.html"), since they live in
+their own subfolder. Topic-to-topic links (e.g. topic 1 -> topic 2) stay as
+plain filenames because both files are siblings inside topics/.
 
 Using the slides
 ----------------

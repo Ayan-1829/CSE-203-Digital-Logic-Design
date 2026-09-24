@@ -7,6 +7,7 @@
   var prevBtn = document.getElementById('prev'), nextBtn = document.getElementById('next');
   var fsBtn = document.getElementById('btn-fs'), menuBtn = document.getElementById('btn-menu');
   var menu = document.getElementById('slide-menu'), live = document.getElementById('live');
+  var menuCloseBtn = document.getElementById('btn-menu-close');
   var key = 'dld-slide-' + (cfg.id || 'x');
 
   function save(n) { try { localStorage.setItem(key, String(n)); } catch (e) { /* storage may be blocked */ } }
@@ -72,6 +73,12 @@
   nextBtn.addEventListener('click', next);
   fsBtn.addEventListener('click', toggleFs);
   menuBtn.addEventListener('click', function () { toggleMenu(); });
+  if (menuCloseBtn) menuCloseBtn.addEventListener('click', function () { toggleMenu(false); menuBtn.focus(); });
+  document.addEventListener('click', function (e) {
+    if (menu.hasAttribute('hidden')) return;
+    if (menu.contains(e.target) || e.target === menuBtn || menuBtn.contains(e.target)) return;
+    toggleMenu(false);
+  });
   document.addEventListener('click', function (e) {
     var a = e.target.closest ? e.target.closest('a[href^="#s="]') : null;
     if (!a) return;

@@ -3,16 +3,29 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Registers · Digital Logic Design</title>
+<meta name="description" content="Groups of flip-flops that store and move data: parallel load, shift registers and register transfer. Free interactive slides, worked examples and a quiz for Topic 10 of the Digital Logic Design course.">
+<meta name="keywords" content="registers, digital logic design, DLD notes, digital electronics, topic 10, bit-shifting simulator">
+<meta name="author" content="Digital Logic Design Notes">
+<link rel="canonical" href="topics/10-registers.html">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Registers – Topic 10 | Digital Logic Design Notes">
+<meta property="og:description" content="Groups of flip-flops that store and move data: parallel load, shift registers and register transfer. Free interactive slides, worked examples and a quiz for Topic 10 of the Digital Logic Design course.">
+<meta property="og:url" content="topics/10-registers.html">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Registers – Topic 10 | Digital Logic Design Notes">
+<meta name="twitter:description" content="Groups of flip-flops that store and move data: parallel load, shift registers and register transfer. Free interactive slides, worked examples and a quiz for Topic 10 of the Digital Logic Design course.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Registers", "description": "Groups of flip-flops that store and move data: parallel load, shift registers and register transfer.", "position": 10, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 15}</script>
+
+<title>Registers – Topic 10 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="deck-page">
 <div class="sr-only" id="live" aria-live="polite"></div>
 <header class="deck-bar">
-  <a class="home-link" href="index.html">All topics</a>
+  <a class="home-link" href="../index.html">All topics</a>
   <div class="deck-title"><span class="badge">10</span><span>Registers</span></div>
   <div class="deck-actions">
     <button type="button" class="btn sm" id="btn-menu" aria-expanded="false" aria-controls="slide-menu">Slides</button>
@@ -26,7 +39,7 @@
 <p class="kicker">Topic 10 of 13</p>
 <h1>Registers</h1>
 <p class="lead">Groups of flip-flops that store and move data: parallel load, shift registers and register transfer.</p>
-<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="index.html">All topics</a></div>
+<div class="row"><a class="btn pri" href="#s=2">Start</a><a class="btn" href="../index.html">All topics</a></div>
 <p class="hint"><kbd>←</kbd> <kbd>→</kbd> move between slides · <kbd>F</kbd> full screen · <kbd>M</kbd> slide list</p>
 </div></section>
 <section class="slide " data-title="Topics in this chapter" aria-label="Topics in this chapter" tabindex="-1"><div class="slide-inner">
@@ -69,7 +82,7 @@
 <p class="kicker">Check yourself</p><h2>Quiz</h2><div><div class="quiz-host" data-quiz-key="10"></div><script type="application/json" class="quiz-json">[{"q": "A serial-in parallel-out register is used to", "o": ["add numbers", "convert serial data to parallel data", "store one bit only", "divide the clock"], "a": 1, "w": "Bits arrive one by one and are then read together."}, {"q": "An n-bit register uses", "o": ["n latches only", "n flip-flops", "2n flip-flops", "a counter"], "a": 1, "w": "One flip-flop per bit."}, {"q": "The statement R2 ← R1 means", "o": ["R1 gets the value of R2", "R2 gets the value of R1", "the registers swap", "R1 and R2 are ANDed"], "a": 1, "w": "Copy R1 into R2."}, {"q": "A universal shift register can", "o": ["only shift left", "hold, shift left, shift right and load in parallel", "only load in parallel", "only count"], "a": 1, "w": "It combines all the register operations."}]</script></div>
 </div></section>
 <section class="slide " data-title="Summary" aria-label="Summary" tabindex="-1"><div class="slide-inner">
-<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>A register is n flip-flops with a shared clock.</li><li>Controls: clear, load, enable. Load = 0 means hold.</li><li>SISO, SIPO, PISO, PIPO describe serial or parallel in and out.</li><li>RTL: R2 ← R1 copies a register.</li><li>Registers are fast and small compared with memory.</li></ul><div class="nextcard"><a class="btn pri" href="11-memory.html">Next topic: Memory</a><a class="btn" href="index.html">All topics</a></div>
+<p class="kicker">Summary</p><h2>Summary</h2><ul class="sumlist"><li>A register is n flip-flops with a shared clock.</li><li>Controls: clear, load, enable. Load = 0 means hold.</li><li>SISO, SIPO, PISO, PIPO describe serial or parallel in and out.</li><li>RTL: R2 ← R1 copies a register.</li><li>Registers are fast and small compared with memory.</li></ul><div class="nextcard"><a class="btn pri" href="11-memory.html">Next topic: Memory</a><a class="btn" href="../index.html">All topics</a></div>
 </div></section>
 </main>
 <footer class="deck-foot">
@@ -77,16 +90,16 @@
   <span class="counter" id="counter">1 / 15</span>
   <button type="button" class="btn pri" id="next">Next</button>
 </footer>
-<aside id="slide-menu" hidden aria-label="Slide list"><h3>Slides in this topic</h3></aside>
+<aside id="slide-menu" hidden aria-label="Slide list"><div class="menu-head"><h3>Slides in this topic</h3><button type="button" id="btn-menu-close" class="menu-close" aria-label="Close slide list">&#10005;</button></div></aside>
 <noscript><p style="padding:20px">This lesson needs JavaScript for the slides and the interactive examples.</p></noscript>
-<script src="js/core.js"></script>
-<script src="js/lab.js"></script>
-<script src="js/kmap.js"></script>
-<script src="js/demos.js"></script>
-<script src="js/reallife.js"></script>
-<script src="js/quiz.js"></script>
+<script src="../js/core.js"></script>
+<script src="../js/lab.js"></script>
+<script src="../js/kmap.js"></script>
+<script src="../js/demos.js"></script>
+<script src="../js/reallife.js"></script>
+<script src="../js/quiz.js"></script>
 <script>window.DLD_TOPIC = {"id": 10, "prev": "09-counters.html", "next": "11-memory.html"};</script>
 <script>mountPage();</script>
-<script src="js/slides.js"></script>
+<script src="../js/slides.js"></script>
 </body>
 </html>
