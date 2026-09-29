@@ -14,10 +14,10 @@ function blockDiagram(title, ins, outs, ctrls) {
   const rows = Math.max(ins.length, outs.length), boxW = 116, boxX = 148, boxY = 15, boxH = 34 * rows + 16;
   const boxBottom = boxY + boxH, ctrlH = ctrls.length ? 62 : 0;
   const W = 400, H = boxBottom + ctrlH + 15;
-  const svg = sv('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', maxWidth: '400px', display: 'block', margin: '0 auto' }, role: 'img', 'aria-label': title + ' block diagram' });
+  const svg = sv('svg', { viewBox: `0 0 ${W} ${H}`, style: { width: '100%', maxWidth: `calc(${W} * var(--u))`, display: 'block', margin: '0 auto' }, role: 'img', 'aria-label': title + ' block diagram' });
   svg.append(sv('rect', { x: boxX, y: boxY, width: boxW, height: boxH, rx: 10, fill: 'var(--sheet)', stroke: 'var(--ink)', 'stroke-width': 2 }));
   const lines = title.split('\n');
-  lines.forEach((line, i) => svg.append(sv('text', { x: boxX + boxW / 2, y: boxY + boxH / 2 + (i - (lines.length - 1) / 2) * 17 + 5, 'text-anchor': 'middle', class: 'lt', style: { fontWeight: 700, fontSize: '13.5px', fill: 'var(--ink)' } }, line)));
+  lines.forEach((line, i) => svg.append(sv('text', { x: boxX + boxW / 2, y: boxY + boxH / 2 + (i - (lines.length - 1) / 2) * 17 + 5, 'text-anchor': 'middle', class: 'lt', style: { fontWeight: 700, fontSize: '15px', fill: 'var(--ink)' } }, line)));
   const place = (arr, lineX1, lineX2, textX, anchor) => arr.forEach((it, i) => {
     const y = boxY + (i + 1) * (boxH / (arr.length + 1));
     const color = it.on ? (it.accent ? 'var(--accent)' : 'var(--hi)') : (it.accent ? 'var(--accent)' : 'var(--lo)');
@@ -69,7 +69,7 @@ DEMOS[1] = (root) => {
   const box = h('div', { class: 'scrollx' }), info = h('div', { class: 'out', style: { marginTop: '10px' } });
   function draw() {
     const W = 660, H = 230, x0 = 10, x1 = 650, Y = (v) => 205 - (v + 0.4) * (185 / 1.8), X = (i) => x0 + (i / (N * S - 1)) * (x1 - x0);
-    const svg = sv('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Signal with noise', style: { width: '100%', maxWidth: '720px' } });
+    const svg = sv('svg', { viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Signal with noise', style: { width: '100%', maxWidth: `calc(${W} * var(--u))` } });
     const clean = range(N * S).map((i) => mode === 'digital' ? bits[Math.floor(i / S)] : 0.5 + 0.34 * Math.sin((i / (N * S)) * 2 * Math.PI * 2.2) + 0.14 * Math.sin((i / (N * S)) * 2 * Math.PI * 5.1));
     const noisy = clean.map((v, i) => v + noise[i] * amt * 1.7);
     const line = (arr, cls, style) => sv('polyline', { fill: 'none', 'stroke-width': cls, points: arr.map((v, i) => X(i) + ',' + Y(v)).join(' '), style });
@@ -91,13 +91,23 @@ DEMOS[1] = (root) => {
     if (mode === 'digital') {
       const errs = rec.filter((v, i) => v !== bits[i]).length;
       const bitRowEl = (label, arr, against) => h('div', { class: 'row', style: { alignItems: 'center', gap: '10px', margin: '3px 0' } },
-        h('span', { class: 'small muted', style: { width: '84px', flex: 'none' } }, label),
+        h('span', { class: 'small muted', style: { width: '5.5em', flex: 'none' } }, label),
         h('div', { class: 'bits' }, arr.map((b, i) => h('div', { class: 'bit ro' + (b ? ' on' : '') + (against && against[i] !== b ? ' bad' : ''), 'aria-label': `bit ${i + 1}: ${b}` }, b))));
       info.replaceChildren(bitRowEl('Sent', bits), bitRowEl('Recovered', rec, bits),
-        h('div', { class: errs ? 'bad' : 'ok', style: { marginTop: '8px' } }, errs ? `${errs} bit${errs > 1 ? 's' : ''} wrong (marked red above, same column as the sent bit). The dots mark each sample: red means that reading crossed the 0.5 threshold on the wrong side.` : 'All bits recovered exactly (green dots). Every bit was read against a threshold, so the noise disappeared.'));
+        h('div', { class: 'sev sev-' + (errs === 0 ? 'ok' : errs === 1 ? 'low' : errs < 4 ? 'mid' : 'high') }, errs ? `${errs} bit${errs > 1 ? 's' : ''} wrong (marked orange above, same column as the sent bit). The dots mark each sample: an orange dot means that reading landed on the wrong side of the 0.5 threshold.` : 'All bits recovered exactly: every dot landed on the correct side of the threshold, so the noise disappeared.'));
     } else {
       const rms = Math.sqrt(clean.reduce((s, v, i) => s + (noisy[i] - v) ** 2, 0) / clean.length);
-      info.replaceChildren(h('div', null, 'The analog value itself moved. Nothing marks which part is noise.'), h('div', { class: rms > 0.02 ? 'bad' : 'ok' }, `RMS error: ${(rms * 100).toFixed(1)}% of full scale, and it stays in the signal.`));
+      const pct = (rms * 100).toFixed(1);
+      const verdict = rms === 0
+        ? ['ok', 'No noise added: the received signal is exactly the signal that was sent.', 'RMS error: 0% of full scale.']
+        : rms < 0.05
+          ? ['low', 'Slight distortion: the waveform still looks right, but every value is a little off.', `RMS error: ${pct}% of full scale. Small, but it cannot be removed, because nothing marks which part is noise.`]
+          : rms < 0.15
+            ? ['mid', 'Noticeable distortion: the shape is recognisable, but the exact values are lost.', `RMS error: ${pct}% of full scale. A receiver cannot tell the noise apart from the real signal, so the error is kept.`]
+            : rms < 0.35
+              ? ['high', 'Heavy distortion: the noise hides much of the original waveform.', `RMS error: ${pct}% of full scale. The true values cannot be recovered. Switch to Digital signal at this noise level to compare.`]
+              : ['high', 'Severe distortion: what arrives is mostly noise.', `RMS error: ${pct}% of full scale. The original signal is effectively lost. At the same noise level, a digital signal usually still recovers most of its bits.`];
+      info.replaceChildren(h('div', { class: 'sev sev-' + verdict[0] }, h('div', null, verdict[1]), h('div', null, verdict[2])));
     }
   }
   const range1 = h('input', { type: 'range', min: 0, max: 100, value: 25, 'aria-label': 'Noise level', oninput: (e) => { amt = e.target.value / 100; draw(); } });
@@ -154,12 +164,36 @@ function fracToBinarySteps(fr, maxBits = 12) {
 function targetCard(cardCls, intNode, fracNode, label, resultVal) {
   return h('div', { class: `conv-card ${cardCls}` },
     h('h4', { class: 'conv-card-title' }, '→ ', label),
-    h('h5', { style: { margin: '0 0 6px' } }, 'Integer'), intNode,
-    fracNode ? h('div', { style: { marginTop: '12px' } }, h('h5', { style: { margin: '0 0 6px' } }, 'Fraction'), fracNode) : null,
+    h('div', { class: 'conv-parts' },
+      h('div', null, h('h5', { style: { margin: '0 0 6px' } }, 'Integer'), intNode),
+      fracNode ? h('div', null, h('h5', { style: { margin: '0 0 6px' } }, 'Fraction'), fracNode) : null),
     h('p', { class: 'out fit', style: { marginTop: '10px' } }, `${label}: `, h('b', { class: 'mono' }, resultVal)));
 }
-/* lay out however many target cards a step produced (1, 2 or 3) side by side */
-const stepRow = (...cardArrays) => h('div', { class: 'dp' }, cardArrays.flat());
+/* show the target cards one at a time behind tabs, so a whole conversion fits on one screen.
+   `st` keeps the chosen tab across re-runs (typing a new number keeps the same tab open). */
+function cardTabs(cards, labels, st) {
+  if (!(st.i < cards.length)) st.i = 0;
+  const body = h('div'), tabs = h('div', { class: 'tabs', role: 'tablist' });
+  const show = () => { body.replaceChildren(cards[st.i]); [...tabs.children].forEach((b, k) => { b.classList.toggle('on', k === st.i); b.setAttribute('aria-selected', String(k === st.i)); }); };
+  labels.forEach((l, k) => tabs.append(h('button', { type: 'button', role: 'tab', onclick: () => { st.i = k; show(); } }, l)));
+  show();
+  return h('div', null, tabs, body);
+}
+/* repeated multiplication of a fraction by `base`: one row per digit, read top-down */
+function fracSteps(fr, base, maxDigits = 8) {
+  let f = fr; const rows = []; let digits = '';
+  for (let k = 0; k < maxDigits && f > 1e-9; k++) { f *= base; const d = Math.floor(f + 1e-9); rows.push([`${+(f / base).toFixed(6)} × ${base}`, +f.toFixed(6), DIG[d]]); digits += DIG[d]; f -= d; }
+  return { rows, digits };
+}
+/* if both bases are powers of one smaller base (2, 4, 8, 16 or 3, 9), return it and the two exponents */
+function sharedRoot(a, b) {
+  for (let r = 2; r <= 16; r++) {
+    const pw = (x) => { let p = 0, y = 1; while (y < x) { y *= r; p++; } return y === x ? p : 0; };
+    const p = pw(a), q = pw(b);
+    if (p && q) return { r, p, q };
+  }
+  return null;
+}
 function decToBinaryBlock(iv, fr) {
   const ivBits = iv > 0 ? iv.toString(2) : '0';
   const fracInfo = fracToBinarySteps(fr);
@@ -245,8 +279,8 @@ DEMOS[2] = (root) => {
       h('div', null, `Gray code of ${iv} in ${nb} bits: `, inGray ? h('span', null, h('b', null, bin(iv, nb)), ' → ', h('b', null, bin(iv ^ (iv >> 1), nb))) : h('span', { class: 'bad' }, `${iv} does not fit in ${nb} bits`))));
   }
   const bcdOut = h('div');
-  const ia = h('input', { type: 'number', min: 0, max: 99, value: 58, style: { width: '86px' }, 'aria-label': 'First BCD number', oninput: () => bcdRun() });
-  const ib = h('input', { type: 'number', min: 0, max: 99, value: 27, style: { width: '86px' }, 'aria-label': 'Second BCD number', oninput: () => bcdRun() });
+  const ia = h('input', { type: 'number', min: 0, max: 99, value: 58, style: { width: '4.5em' }, 'aria-label': 'First BCD number', oninput: () => bcdRun() });
+  const ib = h('input', { type: 'number', min: 0, max: 99, value: 27, style: { width: '4.5em' }, 'aria-label': 'Second BCD number', oninput: () => bcdRun() });
   function bcdRun() {
     const A = Math.max(0, Math.min(99, Math.floor(+ia.value || 0))), B = Math.max(0, Math.min(99, Math.floor(+ib.value || 0)));
     const da = [Math.floor(A / 10), A % 10], db = [Math.floor(B / 10), B % 10];
@@ -266,7 +300,7 @@ DEMOS[2] = (root) => {
     }
     const total = A + B;
     clear(bcdOut).append(
-      h('p', { class: 'sub', style: { margin: '0 0 10px' } }, `Each decimal digit of A and B is stored in its own 4-bit BCD group. Add corresponding groups (plus any carry from the digit before), starting from the units. A 4-bit binary adder can only ever produce 0000–1111 (0–15), but BCD only uses 0000–1001 (0–9) — so whenever the raw sum lands in the unused range 10–15, or overflows past 15 into a carry, add 0110 (6) to jump over the six unused codes and back into a valid digit. That's exactly what pushes a carry into the next digit, the same way carrying works in ordinary decimal addition.`),
+      h('details', { class: 'reveal', style: { margin: '0 0 10px' } }, h('summary', null, 'Why add 0110 (6)?'), h('p', { class: 'sub', style: { margin: '6px 0 0' } }, `Each decimal digit of A and B is stored in its own 4-bit BCD group. Add corresponding groups (plus any carry from the digit before), starting from the units. A 4-bit binary adder can only ever produce 0000–1111 (0–15), but BCD only uses 0000–1001 (0–9) — so whenever the raw sum lands in the unused range 10–15, or overflows past 15 into a carry, add 0110 (6) to jump over the six unused codes and back into a valid digit. That's exactly what pushes a carry into the next digit, the same way carrying works in ordinary decimal addition.`)),
       h('ol', { style: { margin: '0 0 12px', paddingLeft: '22px' } }, steps),
       h('div', { class: 'scrollx' }, tableEl(['Digit', 'A', 'B', 'Carry in', 'Binary sum', 'Correction', 'BCD digit', 'Carry out'], rows)),
       h('p', { class: 'out', style: { marginTop: '10px' } }, `${A} + ${B} = `, h('b', null, total), '  →  BCD ', h('b', null, (carry ? bin(1, 4) + ' ' : '') + res.map((d) => bin(d, 4)).join(' '))));
@@ -274,47 +308,97 @@ DEMOS[2] = (root) => {
   /* -- one-way demos: pick a starting base, convert into the other three, steps shown -- */
   function oneWayPanel(fromBase, defaultVal) {
     const inp2 = h('input', { type: 'text', value: defaultVal, size: 16, 'aria-label': `${BASE_NAME[fromBase]} number`, oninput: () => run2() });
-    const out2 = h('div'), body2 = h('div');
+    const out2 = h('div'), body2 = h('div'), tab = { i: 0 };
     function run2() {
       const r = parseBase(inp2.value, fromBase);
       clear(out2); clear(body2);
       if (r.err) { out2.append(h('p', { class: 'bad' }, r.err)); return; }
       const v = r.val, others = [2, 8, 10, 16].filter((b) => b !== fromBase);
-      out2.append(tableEl(['Base', 'Value'], others.map((b) => [`${BASE_NAME[b]} (${b})`, toBase(v, b)]), 'doc'));
+      out2.append(h('p', { class: 'out conv-sum' }, others.map((b) => h('span', null, `${BASE_NAME[b]}: `, h('b', null, toBase(v, b))))));
       if (fromBase === 10) {
         const iv = Math.floor(Math.abs(v)), fr = Math.abs(v) - iv;
         const step1 = decToBinaryBlock(iv, fr), octHex = binGroupBlock(step1.ivBits, step1.fracBits);
-        body2.append(h('h4', { style: { margin: '14px 0 6px' } }, 'Decimal to binary, octal and hex (binary first, by division — octal and hex then group those bits)'),
-          stepRow(step1.cards, octHex.cards));
+        body2.append(h('h4', { style: { margin: '10px 0 6px' } }, 'Decimal to binary, octal and hex (binary first, by division — octal and hex then group those bits)'),
+          cardTabs([...step1.cards, ...octHex.cards], ['1 · Binary', '2 · Octal', '2 · Hex'], tab));
       } else if (fromBase === 2) {
         const ivBits = r.ip || '0', fracBits = r.fp || '';
         const dec = binToDecBlock(ivBits, fracBits), octHex = binGroupBlock(ivBits, fracBits);
-        body2.append(h('h4', { style: { margin: '14px 0 6px' } }, 'Binary to decimal, octal and hex'), stepRow(dec.cards, octHex.cards));
+        body2.append(h('h4', { style: { margin: '10px 0 6px' } }, 'Binary to decimal, octal and hex'),
+          cardTabs([...dec.cards, ...octHex.cards], ['Decimal', 'Octal', 'Hex'], tab));
       } else {
         const size = fromBase === 8 ? 3 : 4, srcCls = fromBase === 8 ? 'oct' : 'hex';
         const step1 = digitExpandBlock(r.ip, r.fp, fromBase, size, 'Binary', srcCls);
         const other = fromBase === 8 ? { size: 4, cls: 'hex', label: 'Hex' } : { size: 3, cls: 'oct', label: 'Octal' };
         const dec = binToDecBlock(step1.ivBits, step1.fracBits);
         const otherCard = targetGroupCard(other.cls, other.label, step1.ivBits, step1.fracBits, other.size);
-        body2.append(h('h4', { style: { margin: '14px 0 6px' } }, `${BASE_NAME[fromBase]} to binary, decimal and ${other.label.toLowerCase()} (binary first, by expanding each digit — decimal and ${other.label.toLowerCase()} then come from those bits)`),
-          stepRow(step1.cards, dec.cards, [otherCard]));
+        body2.append(h('h4', { style: { margin: '10px 0 6px' } }, `${BASE_NAME[fromBase]} to binary, decimal and ${other.label.toLowerCase()} (binary first, by expanding each digit — decimal and ${other.label.toLowerCase()} then come from those bits)`),
+          cardTabs([...step1.cards, ...dec.cards, otherCard], ['1 · Binary', '2 · Decimal', '2 · ' + other.label], tab));
       }
     }
     return { inp: inp2, out: out2, body: body2, run: run2 };
+  }
+  /* -- any base to any base (2–16): through decimal, with the shortcut named when one exists -- */
+  const baseOpts = (sel) => [...Array(15)].map((_, k) => h('option', { value: k + 2, selected: k + 2 === sel ? '' : null }, `Base ${k + 2}`));
+  const anyInp = h('input', { type: 'text', value: '2012', size: 14, 'aria-label': 'Number to convert', oninput: () => anyRun() });
+  const anyFrom = h('select', { 'aria-label': 'From base', onchange: () => anyRun() }, baseOpts(3));
+  const anyTo = h('select', { 'aria-label': 'To base', onchange: () => anyRun() }, baseOpts(5));
+  const anyOut = h('div');
+  function anyRun() {
+    const b1 = +anyFrom.value, b2 = +anyTo.value, r = parseBase(anyInp.value, b1);
+    clear(anyOut);
+    if (r.err) { anyOut.append(h('p', { class: 'bad' }, r.err)); return; }
+    const sign = r.neg ? '−' : '', dec = Math.abs(r.val), iv = Math.floor(dec), fr = dec - iv;
+    const fs = fracSteps(fr, b2), res = sign + (iv.toString(b2).toUpperCase()) + (fs.digits ? '.' + fs.digits : '');
+    const decStr = sign + +dec.toFixed(8);
+    const src = (r.ip || '0') + (r.fp ? '.' + r.fp : '');
+    anyOut.append(h('p', { class: 'out conv-sum' }, h('span', null, h('b', null, sign + src), h('sub', null, b1), ' = ', h('b', null, decStr), h('sub', null, 10), ' = ', h('b', null, res), h('sub', null, b2))));
+    // step 1: place values
+    let step1;
+    if (b1 === 10) step1 = h('p', { class: 'small muted' }, 'The number is already decimal, so there is nothing to do in this step.');
+    else {
+      const rows = [], ok = DIG.slice(0, b1);
+      [...(r.ip || '0')].forEach((ch, k, a) => { const e = a.length - 1 - k; rows.push([ch, ok.indexOf(ch), powSup(e, String(b1)), +(ok.indexOf(ch) * b1 ** e).toFixed(8)]); });
+      [...r.fp].forEach((ch, k) => { const e = -(k + 1); rows.push([ch, ok.indexOf(ch), powSup(e, String(b1)), +(ok.indexOf(ch) * b1 ** e).toFixed(8)]); });
+      step1 = h('div', null, h('div', { class: 'scrollx' }, tableEl(['Digit', 'Value', 'Place value', 'Value × place'], rows)),
+        h('p', { class: 'out fit' }, 'Add them: ', h('b', null, +dec.toFixed(8))));
+    }
+    // step 2: divide (integer part) and multiply (fraction) by the new base
+    let step2;
+    if (b2 === 10) step2 = h('p', { class: 'small muted' }, 'The target is decimal, so the answer is the result of step 1.');
+    else step2 = h('div', { class: 'conv-parts' },
+      h('div', null, h('h5', { style: { margin: '0 0 6px' } }, 'Integer'),
+        iv === 0 ? h('p', { class: 'small muted' }, 'Integer part is 0.')
+          : h('div', null, h('div', { class: 'scrollx' }, tableEl(['Division', 'Quotient', 'Remainder'], divisionSteps(iv, b2))),
+            h('p', { class: 'small muted' }, 'Read the remainders from the bottom up: ', h('b', { class: 'mono' }, iv.toString(b2).toUpperCase())))),
+      fs.rows.length ? h('div', null, h('h5', { style: { margin: '0 0 6px' } }, 'Fraction'),
+        h('div', { class: 'scrollx' }, tableEl(['Multiply', 'Product', 'Digit'], fs.rows)),
+        h('p', { class: 'small muted' }, 'Read the digits from the top down: ', h('b', { class: 'mono' }, fs.digits))) : null);
+    anyOut.append(h('div', { class: 'dp any-steps' },
+      h('div', { class: 'conv-card dec' }, h('h4', { class: 'conv-card-title' }, `Step 1 · base ${b1} → decimal`), step1),
+      h('div', { class: 'conv-card hex' }, h('h4', { class: 'conv-card-title' }, `Step 2 · decimal → base ${b2}`), step2)));
+    const sr = b1 !== b2 ? sharedRoot(b1, b2) : null;
+    if (b1 === b2) anyOut.append(h('p', { class: 'note' }, 'Both bases are the same, so the number does not change.'));
+    else if (sr) anyOut.append(h('p', { class: 'note' }, h('b', null, 'Shortcut: '),
+      `${b1} and ${b2} are both powers of ${sr.r}, so you can skip decimal. `,
+      sr.p === 1 ? `The digits are already base ${sr.r}` : `Write each base-${b1} digit as ${sr.p} base-${sr.r} digits`,
+      sr.q === 1 ? '; that string is the answer: ' : `, then regroup them in blocks of ${sr.q} from the point: `,
+      h('b', { class: 'mono' }, sign + toBase(dec, sr.r)), sr.q === 1 ? '' : [' → ', h('b', { class: 'mono' }, res)]));
   }
   const decP = oneWayPanel(10, '45.625'), binP = oneWayPanel(2, '101101.101'), octP = oneWayPanel(8, '55.5'), hexP = oneWayPanel(16, '2D.A');
   root.append(
     panel('Base-conversion calculator', 'Type a number, choose its base and read it in the others. Fractions work too.',
       h('div', { class: 'row', style: { marginBottom: '4px' } }, bs.el, inp, ns.el),
-      h('p', { class: 'small muted', style: { marginBottom: '12px' } }, 'The bit width only sets the range for the signed formats and Gray code below — e.g. 8 bits gives a two’s-complement range of −128 to +127.'),
-      out, signed),
+      h('p', { class: 'small muted', style: { marginBottom: '8px' } }, 'The bit width only sets the range for the signed formats and Gray code — e.g. 8 bits gives a two’s-complement range of −128 to +127.'),
+      h('div', { class: 'cols calc-cols' }, out, signed)),
     panel('BCD adder', 'Add two decimal numbers (0–99) digit by digit. When a 4-bit sum exceeds 9, add 0110 and carry 1.',
-      h('div', { class: 'row tight', style: { marginBottom: '12px' } }, ia, h('span', null, '+'), ib), bcdOut),
-    panel('Decimal → binary, octal, hex', 'Type a decimal number and see it converted step by step.', h('div', { class: 'row', style: { marginBottom: '12px' } }, fld('Decimal', decP.inp)), decP.out, decP.body),
-    panel('Binary → decimal, octal, hex', 'Type a binary number (0s and 1s only) and see it converted step by step.', h('div', { class: 'row', style: { marginBottom: '12px' } }, fld('Binary', binP.inp)), binP.out, binP.body),
-    panel('Octal → binary, decimal, hex', 'Type an octal number (digits 0–7) and see it converted step by step.', h('div', { class: 'row', style: { marginBottom: '12px' } }, fld('Octal', octP.inp)), octP.out, octP.body),
-    panel('Hex → binary, decimal, octal', 'Type a hexadecimal number (digits 0–9, A–F) and see it converted step by step.', h('div', { class: 'row', style: { marginBottom: '12px' } }, fld('Hex', hexP.inp)), hexP.out, hexP.body));
-  run(); bcdRun(); decP.run(); binP.run(); octP.run(); hexP.run();
+      h('div', { class: 'row tight', style: { marginBottom: '10px' } }, ia, h('span', null, '+'), ib), bcdOut),
+    panel('Decimal → binary, octal, hex', 'Type a decimal number and see it converted step by step.', h('div', { class: 'row conv-top' }, fld('Decimal', decP.inp), decP.out), decP.body),
+    panel('Binary → decimal, octal, hex', 'Type a binary number (0s and 1s only) and see it converted step by step.', h('div', { class: 'row conv-top' }, fld('Binary', binP.inp), binP.out), binP.body),
+    panel('Octal → binary, decimal, hex', 'Type an octal number (digits 0–7) and see it converted step by step.', h('div', { class: 'row conv-top' }, fld('Octal', octP.inp), octP.out), octP.body),
+    panel('Hex → binary, decimal, octal', 'Type a hexadecimal number (digits 0–9, A–F) and see it converted step by step.', h('div', { class: 'row conv-top' }, fld('Hex', hexP.inp), hexP.out), hexP.body),
+    panel('Any base → any base', 'Type a number, pick its base and the base you want. Digits above 9 are A–F, so bases 2 to 16 work, fractions too.',
+      h('div', { class: 'row conv-top' }, fld('Number', anyInp), fld('From', anyFrom), fld('To', anyTo)), anyOut));
+  run(); bcdRun(); decP.run(); binP.run(); octP.run(); hexP.run(); anyRun();
 };
 
 /* ---------- Chapter 3 ---------- */
@@ -336,8 +420,8 @@ DEMOS[3] = (root) => {
     const rows = t.map((f, i) => [...vars.map((_, k) => (i >> (vars.length - 1 - k)) & 1), f]);
     const circ = h('div', { style: { marginTop: '12px' } });
     res.append(
-      h('div', { class: 'dp' },
-        h('div', null, h('h4', null, 'Truth table'), h('div', { class: 'scrollx', style: { maxHeight: '300px', overflowY: 'auto' } }, tableEl([...vars, 'F'], rows))),
+      h('div', { class: 'dp tt-side' },
+        h('div', null, h('h4', null, 'Truth table'), h('div', { class: 'scrollx', style: { maxHeight: '42vh', overflowY: 'auto' } }, tableEl([...vars, 'F'], rows))),
         h('div', null,
           h('h4', null, 'Results'),
           h('div', { class: 'out' },
@@ -349,15 +433,14 @@ DEMOS[3] = (root) => {
             h('div', null, 'Dual:  ', h('b', null, astStr(dualAst(ast)))),
             h('div', null, 'Complement (DeMorgan):  ', h('b', null, astStr(nnf(ast, true))))),
           h('p', { class: 'small muted', style: { margin: '8px 0' } }, ls < lo ? `The minimal SOP uses ${ls} literals, ${lo - ls} fewer than what you typed.` : 'Your expression is already as small as the minimal SOP.'),
-          h('div', { class: 'row tight' }, h('button', { type: 'button', class: 'btn sm pri', onclick: () => { showC = !showC; run(); } }, showC ? 'Hide the circuit' : 'Show minimal SOP as a circuit'), vars.length <= 4 ? h('a', { class: 'btn sm', href: '04-universal-gates-and-k-maps.html#s=9' }, 'Try it on a K-map') : null),
+          h('div', { class: 'row tight' }, h('button', { type: 'button', class: 'btn sm pri', onclick: () => { showC = !showC; run(); } }, showC ? 'Hide the circuit' : 'Show minimal SOP as a circuit'), vars.length <= 4 ? h('a', { class: 'btn sm', href: '04-universal-gates-and-k-maps.html#s=14' }, 'Try it on a K-map') : null),
           circ)));
     if (showC) { try { createLab(circ, { compact: true, locked: true, netlist: layoutExpr(parseExpr(m.sop.expr)) }); } catch (e) { circ.append(h('p', { class: 'bad' }, e.message)); } }
     eq();
   }
   const cbar = h('div', { class: 'row tight', style: { marginBottom: '12px' } }, chips.map((c) => h('button', { type: 'button', class: 'btn sm', onclick: () => { inp.value = c; run(); } }, c)));
   const p1 = panel('Boolean expression simplifier', "Use letters for variables, + for OR, ⊕ for XOR, ' after a letter or bracket for NOT, and write AND by placing terms side by side. Or use the ·, + and ⊕ buttons.",
-    cbar, h('div', { class: 'row', style: { marginBottom: '14px' } }, exprField('Expression', inp)), res,
-    h('div', { class: 'row', style: { marginTop: '16px', paddingTop: '14px', borderTop: '1px solid var(--line)' } }, exprField('Is it equivalent to another expression?', inp2), eqOut));
+    cbar, h('div', { class: 'row', style: { marginBottom: '10px', alignItems: 'flex-end' } }, exprField('Expression', inp), exprField('Equivalent to another expression?', inp2), eqOut), res);
   const gp = panel('Gates: switches, symbols and LEDs', 'Pick a gate, flip its input switches and watch the output LED and the highlighted truth-table row.', h('div'));
   gateExplorer(gp.lastChild, { gate: 'AND' });
   root.append(p1, gp);
@@ -570,7 +653,7 @@ DEMOS[8] = (root) => {
     return Object.values(map);
   }
   function draw() {
-    const R = 25, svg = sv('svg', { viewBox: '0 -50 470 310', role: 'img', 'aria-label': 'State diagram', style: { width: '100%', maxWidth: '620px' } });
+    const R = 25, svg = sv('svg', { viewBox: '-34 -50 504 310', role: 'img', 'aria-label': 'State diagram', style: { width: '100%', maxWidth: 'calc(504 * var(--u))' } });
     const all = edges(), has = (a, b) => all.some((e) => e.from === a && e.to === b);
     all.forEach((e) => {
       const hot = last && last.from === e.from && last.to === e.to, [x1, y1] = M.pos[e.from], [x2, y2] = M.pos[e.to];
@@ -588,13 +671,13 @@ DEMOS[8] = (root) => {
         lx = 0.25 * sx + 0.5 * cx + 0.25 * ex - uy * 13; ly = 0.25 * sy + 0.5 * cy + 0.25 * ey + ux * 13;
       }
       const tl = Math.hypot(tip[2], tip[3]) || 1, ux2 = tip[2] / tl, uy2 = tip[3] / tl, bx = tip[0] - ux2 * 11, by = tip[1] - uy2 * 11;
-      svg.append(sv('path', { d, fill: 'none', stroke, 'stroke-width': sw }), sv('polygon', { points: `${tip[0]},${tip[1]} ${bx - uy2 * 5.5},${by + ux2 * 5.5} ${bx + uy2 * 5.5},${by - ux2 * 5.5}`, fill: stroke }), sv('text', { x: lx, y: ly + 4, 'text-anchor': 'middle', class: 'lt m', style: { fill: hot ? 'var(--hi)' : 'var(--ink-2)' } }, label));
+      svg.append(sv('path', { d, fill: 'none', stroke, 'stroke-width': sw }), sv('polygon', { points: `${tip[0]},${tip[1]} ${bx - uy2 * 5.5},${by + ux2 * 5.5} ${bx + uy2 * 5.5},${by - ux2 * 5.5}`, fill: stroke }), sv('text', { x: lx, y: ly + 5, 'text-anchor': 'middle', class: 'lt m', style: { fontSize: '17px', fill: hot ? 'var(--hi)' : 'var(--ink-2)' } }, label));
     });
     M.st.forEach((s) => {
       const [x, y] = M.pos[s], on = s === cur;
       svg.append(sv('circle', { cx: x, cy: y, r: R, fill: on ? 'var(--hi)' : 'var(--sheet)', stroke: 'var(--ink)', 'stroke-width': 2.2 }),
-        sv('text', { x, y: y + 5, 'text-anchor': 'middle', class: 'lt big', style: { fill: on ? '#fff' : 'var(--ink)' } }, s));
-      if (M.kind === 'moore') svg.append(sv('text', { x, y: y + R + 15, 'text-anchor': 'middle', class: 'lt m' }, 'y=' + M.out[s]));
+        sv('text', { x, y: y + 7, 'text-anchor': 'middle', class: 'lt big', style: { fontSize: '19px', fill: on ? '#fff' : 'var(--ink)' } }, s));
+      if (M.kind === 'moore') svg.append(sv('text', { x, y: y + R + 18, 'text-anchor': 'middle', class: 'lt m', style: { fontSize: '16px' } }, 'y=' + M.out[s]));
     });
     clear(dia).append(svg);
   }
@@ -627,11 +710,15 @@ DEMOS[8] = (root) => {
   const ks = seg([{ v: 'moore', l: 'Moore machine (4 states)' }, { v: 'mealy', l: 'Mealy machine (3 states)' }], 'moore', (v) => { kind = v; rebuild(); });
   const os = seg([{ v: 1, l: 'Overlapping' }, { v: 0, l: 'Non-overlapping' }], 1, (v) => { overlap = !!v; rebuild(); });
   root.append(panel('Sequence detector: 101', 'Feed bits into the machine and watch the current state and the transition taken. Moore outputs sit on states (y=…), Mealy outputs sit on the arrows (input/output). Try 1 0 1 0 1 in both overlap modes.',
-    h('div', { class: 'row', style: { marginBottom: '12px' } }, ks.el, os.el),
-    dia,
-    h('div', { class: 'row tight' }, h('button', { type: 'button', class: 'btn pri', onclick: () => feed(0) }, 'Input 0'), h('button', { type: 'button', class: 'btn pri', onclick: () => feed(1) }, 'Input 1'),
-      h('button', { type: 'button', class: 'btn sm', onclick: () => { [1, 0, 1, 0, 1].forEach(feed); } }, 'Feed 1 0 1 0 1'), h('button', { type: 'button', class: 'btn sm', onclick: () => { cur = 'S0'; last = null; stream = []; draw(); paintStream(); } }, 'Reset')),
-    strm, tbl, eqs));
+    h('div', { class: 'row', style: { marginBottom: '8px' } }, ks.el, os.el),
+    // diagram (with the design equations under it) beside the controls and state table, so the
+    // whole detector fits one screen instead of stacking
+    h('div', { class: 'cols sim-cols' },
+      h('div', null, dia, eqs),
+      h('div', null,
+        h('div', { class: 'row tight' }, h('button', { type: 'button', class: 'btn pri', onclick: () => feed(0) }, 'Input 0'), h('button', { type: 'button', class: 'btn pri', onclick: () => feed(1) }, 'Input 1'),
+          h('button', { type: 'button', class: 'btn sm', onclick: () => { [1, 0, 1, 0, 1].forEach(feed); } }, 'Feed 1 0 1 0 1'), h('button', { type: 'button', class: 'btn sm', onclick: () => { cur = 'S0'; last = null; stream = []; draw(); paintStream(); } }, 'Reset')),
+        strm, tbl))));
   rebuild();
 };
 

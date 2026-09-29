@@ -186,7 +186,7 @@ const revealEl = (label, html) => h('details', { class: 'reveal' }, h('summary',
 function waveSvg(traces, opts = {}) {
   const step = opts.step || 26, rowH = opts.rowH || 30, lw = opts.labelW || 46, n = opts.n || Math.max(8, ...traces.map((t) => t.data.length));
   const H = traces.length * rowH + 6, W = lw + n * step + 6;
-  const svg = sv('svg', { class: 'wave', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Timing diagram', style: { maxHeight: (H * 1.4) + 'px' } });
+  const svg = sv('svg', { class: 'wave', viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Timing diagram', style: { maxHeight: `min(calc(${H} * var(--u)), 32vh)` } });
   for (let i = 0; i <= n; i++) svg.append(sv('line', { class: 'wg', x1: lw + i * step, x2: lw + i * step, y1: 0, y2: H }));
   traces.forEach((t, r) => {
     const y0 = r * rowH + 4, hi = y0 + 5, lo = y0 + rowH - 9;

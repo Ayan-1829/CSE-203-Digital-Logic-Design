@@ -1,0 +1,21 @@
+{
+  "name": "Digital Logic Design (CSE 203)",
+  "short_name": "CSE 203",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#F5F7FA",
+  "theme_color": "#1E4E8C",
+  "icons": [
+    {
+      "src": "img/favicon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "img/favicon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

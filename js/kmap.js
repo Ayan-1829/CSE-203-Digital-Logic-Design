@@ -85,13 +85,13 @@ function mountKMap(root, opts = {}) {
     const exSel = h('select', { 'aria-label': 'Example functions', onchange: (e) => { const ex = K_EXAMPLES[+e.target.value]; if (ex) setCells(ex.n, ex.ones, ex.dcs); } },
       h('option', { value: '' }, 'Load an example'), K_EXAMPLES.map((ex, i) => h('option', { value: i }, ex.label)));
     const controls = h('div', null,
-      h('div', { class: 'row', style: { marginBottom: '10px' } }, nSeg.el, modeSeg.el, viewSeg.el),
-      h('div', { class: 'row tight', style: { marginBottom: '14px' } }, exprField('Minterms or expression', inp, { canonical: true }), h('button', { type: 'button', class: 'btn sm pri', onclick: () => fromText(inp.value) }, 'Fill map'), exSel,
+      h('div', { class: 'row', style: { marginBottom: '8px' } }, nSeg.el, modeSeg.el, viewSeg.el),
+      h('div', { class: 'row tight', style: { marginBottom: '10px', alignItems: 'flex-end' } }, exprField('Minterms or expression', inp, { canonical: true }), h('button', { type: 'button', class: 'btn sm pri', onclick: () => fromText(inp.value) }, 'Fill map'), exSel,
         h('button', { type: 'button', class: 'btn sm', onclick: () => { st.cells = Array(N).fill(0); st.step = 0; st.msg = ''; render(); } }, 'Clear map')),
       st.msg ? h('p', { class: 'bad small', role: 'alert' }, st.msg) : null);
 
     // ----- map
-    const grid = h('div', { class: 'kmap', role: 'grid', 'aria-label': n + ' variable Karnaugh map', style: { gridTemplateColumns: `auto repeat(${C}, 66px)` } });
+    const grid = h('div', { class: 'kmap', role: 'grid', 'aria-label': n + ' variable Karnaugh map', style: { gridTemplateColumns: `auto repeat(${C}, auto)` } });
     grid.append(h('div', { class: 'kcorner' }, L.rv.join('') + ' \\ ' + L.cv.join('')));
     for (let ci = 0; ci < C; ci++) grid.append(h('div', { class: 'kh' }, bin(L.cg[ci], L.cb)));
     for (let ri = 0; ri < R; ri++) {
@@ -169,7 +169,7 @@ function mountKMap(root, opts = {}) {
     const swRow = h('div', { class: 'row' }, vars.map((vn) => { const s = tsw(vn, st.env[vn], (x) => { st.env[vn] = x; st.showCur = true; render(); }); return s.el; }),
       h('span', { class: 'row tight' }, outLed.el, h('span', { class: 'mono' }, 'F = ' + (val === null ? '–' : val))),
       h('span', { class: 'small muted' }, `Input ${bin(cur, n)} is cell m${cur}, which holds ${cv === 2 ? 'X (don\u2019t care)' : cv}.`));
-    const tester = h('div', { style: { marginTop: '18px' } }, h('h3', null, 'Test the result with switches'),
+    const tester = h('div', { class: 'ktester' }, h('h4', null, 'Test the result with switches'),
       h('p', { class: 'small muted', style: { margin: '0 0 8px', maxWidth: '68ch' } }, 'Flip the input switches. The yellow outline shows which cell the inputs select, and the LED shows what the simplified expression outputs.'),
       swRow,
       h('div', { class: 'row', style: { marginTop: '12px' } }, h('button', { type: 'button', class: 'btn pri', onclick: () => { st.showCirc = !st.showCirc; render(); } }, st.showCirc ? 'Hide the circuit' : 'Show this as a circuit'),
@@ -177,7 +177,10 @@ function mountKMap(root, opts = {}) {
       circBox);
 
     clear(box);
-    box.append(controls, h('div', { class: 'kwrap' }, h('div', { class: 'scrollx' }, grid), side), tester);
+    // the switch tester sits under the results in the right-hand column, so the map, the answer and
+    // the tester all share one screen instead of stacking
+    side.append(tester);
+    box.append(controls, h('div', { class: 'kwrap' }, h('div', { class: 'scrollx' }, grid), side));
     if (focusM !== null) { const f = box.querySelector(`[data-m="${focusM}"]`); if (f && f.focus) f.focus(); focusM = null; }
   }
   render();

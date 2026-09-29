@@ -74,10 +74,26 @@
   const overlay = sv('svg', { id: 'annoOverlay', style: { position: 'absolute', inset: '0', width: '100%', height: '100%' } });
   deck.appendChild(overlay);
 
+  /* Points are stored in the slide's own content coordinates, so a drawing stays on the thing it
+     marks when the slide scrolls: x and y are both fractions of the deck WIDTH (the slide text
+     scales with width, so marks stay near their content after a resize too), and y is measured
+     from the top of the slide's scrolled content, not from the top of the screen. */
   function rect() { return deck.getBoundingClientRect(); }
-  function toFrac(clientX, clientY) { const r = rect(); return { x: (clientX - r.left) / r.width, y: (clientY - r.top) / r.height }; }
+  function activeSlide() { return deck.querySelector('.slide.active'); }
+  function scrollY() { const s = activeSlide(); return s ? s.scrollTop : 0; }
+  function toFrac(clientX, clientY) { const r = rect(); return { x: (clientX - r.left) / r.width, y: (clientY - r.top + scrollY()) / r.width }; }
   function px(fx) { return fx * rect().width; }
-  function py(fy) { return fy * rect().height; }
+  function py(fy) { return fy * rect().width - scrollY(); }
+  // notes saved before this change used y as a fraction of the deck height, with no scroll offset
+  (function migrate() {
+    const r = rect(); if (!r.width || !r.height) return;
+    let changed = false;
+    Object.values(store).forEach((list) => list.forEach((a) => {
+      if (a.v === 2) return;
+      a.points = a.points.map((p) => ({ x: p.x, y: p.y * r.height / r.width })); a.v = 2; changed = true;
+    }));
+    if (changed) persist();
+  })();
 
   /* ===================== toolbar ===================== */
   const ICONS = {
@@ -209,8 +225,11 @@
     const f = toFrac(e.clientX, e.clientY);
     if (tool === 'eraser') { snapshot(); erasing = true; eraseNear(e.clientX - rect().left, e.clientY - rect().top); return; }
     snapshot();
-    active = { id: nextId++, kind: (tool === 'rect' || tool === 'circle' || tool === 'arrow') ? tool : undefined, temp: tool === 'highlight', points: [f, f], color: drawColor, createdAt: Date.now() };
+    active = { id: nextId++, v: 2, kind: (tool === 'rect' || tool === 'circle' || tool === 'arrow') ? tool : undefined, temp: tool === 'highlight', points: [f, f], color: drawColor, createdAt: Date.now() };
   });
+  // while a drawing tool is active the overlay sits on top of the slide, so pass the mouse wheel /
+  // trackpad scroll through to the slide underneath (the drawings follow via the scroll listener below)
+  overlay.addEventListener('wheel', (e) => { const s = activeSlide(); if (s) s.scrollTop += e.deltaY; }, { passive: true });
   overlay.addEventListener('pointermove', (e) => {
     if (tool === 'eraser' && erasing) { eraseNear(e.clientX - rect().left, e.clientY - rect().top); return; }
     if (active) {
@@ -275,6 +294,8 @@
     if (i !== lastSlide) { lastSlide = i; render(); paintHistory(); }
   }).observe(deck, { attributes: true, attributeFilter: ['class'], subtree: true });
   window.addEventListener('resize', render);
+  // scroll events don't bubble, so listen in the capture phase for any slide scrolling inside the deck
+  deck.addEventListener('scroll', render, true);
 
   setTool('off');
   paintHistory();

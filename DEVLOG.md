@@ -8,6 +8,125 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-09-29 17:56 UTC
+
+**Prompt given to the AI:**
+
+> In my github repo, change the Digital-logic-design to CSE-203 Digital Logic Design. Also push two new repo for CSE-201 and CSE-308. Also publish it.
+
+**Changes made:**
+
+1. **Repository renamed** on GitHub: `Ayan-1829/digital-logic-design` → `Ayan-1829/CSE-203-Digital-Logic-Design`
+   (GitHub does not allow spaces in repository names, so they became hyphens).
+2. **New site address:** `https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/`. Every canonical link,
+   `og:url`, `og:image`, JSON-LD URL, `sitemap.xml`, `robots.txt`, `README.txt` and the social-share cards
+   (`img/og/*.png`) were switched from `/digital-logic-design/` to the new address. Older entries below keep
+   the old address as history.
+3. The portfolio site's links to these slides were updated to the new address.
+
+---
+
+## 2026-09-29 13:59 UTC
+
+**Prompt given to the AI:**
+
+> Like the CSE-201, add necessary images, robots.txt etc for better SEO for CSE-203, CSE-308. Enhance the overall performance for SEO in all three courses
+
+**Changes made:**
+
+1. **Absolute canonical URLs** (every page)
+   - `<link rel="canonical">` was relative (e.g. `topics/03-boolean-algebra-and-gates.html`), which on a
+     topic page resolved to `topics/topics/...`. All canonicals and `og:url` values are now absolute:
+     `https://ayan-1829.github.io/digital-logic-design/...`.
+2. **Social-share images** (`img/og/*.png`, new)
+   - One 1200×630 card per page (home, practice, reference, projects and all 13 topics) with the logo,
+     topic number and title. `og:image` / `twitter:image` now point to these (absolute URLs) instead of the
+     512-px favicon, with `og:image:width/height/alt`; `twitter:card` is now `summary_large_image`.
+3. **Extra head tags** (every page): `robots` (index, follow, large image previews), `theme-color`,
+   `og:site_name`, `og:locale`, sized PNG favicons and a web-app manifest link.
+4. **Structured data (JSON-LD)**: all URLs made absolute; topics gained `url`, `image`, `inLanguage`,
+   `isAccessibleForFree` and `courseCode`; the Course on the home page gained `courseCode` (CSE 203),
+   `url`, `offers` (free), `inLanguage`; a `WebSite` object was added; practice/reference/projects gained a
+   `BreadcrumbList`.
+5. **New / rewritten files**: `sitemap.xml` (all 17 pages, `lastmod`, priority and image entries),
+   `robots.txt` (points to the sitemap), `site.webmanifest`, `404.html` (noindex, for GitHub Pages).
+6. No change to titles, descriptions, keywords, slide content, CSS or JavaScript.
+
+---
+
+
+## 2026-09-29 06:45 UTC
+
+**Prompt given to the AI:** "use different colours for the texts. If nothing can be retrived then dark orange. if less dangerous then light orange. if it can be retrived then light blue etc."
+
+**Changes made:**
+- New signal-quality colour scale in `css/style.css`, with tokens `--sev-*-bg`/`--sev-*-ink` for the light theme and both dark-theme blocks, used through the classes `.sev .sev-ok|low|mid|high`:
+  - **Light blue** (`sev-ok`): fully recovered
+  - **Light orange** (`sev-low`): minor damage
+  - **Orange** (`sev-mid`): clear damage
+  - **Dark orange** (`sev-high`): nothing can be recovered
+- Each colour is a filled box with dark text (white on dark orange), not coloured text on the grey panel. Light-orange text on a light background would be unreadable from the back of a classroom. Checked in both light and dark mode.
+- Topic 1 noise demo (`js/demos.js`):
+  - Analog: no noise uses light blue, slight uses light orange, noticeable uses orange, and heavy/severe use dark orange.
+  - Digital: all bits recovered uses light blue, 1 wrong bit uses light orange, 2–3 wrong use orange, and 4 or more of 8 wrong use dark orange.
+- Fixed the Digital-mode wording, which said "marked red" and "green dots" although those marks are actually orange (wrong) and blue/amber (right).
+
+---
+
+## 2026-09-29 06:20 UTC
+
+**Prompt given to the AI:** "For chapter 1, page 10, adding noise to analog signal is not changing the text (RMS error: 14.9% of full scale, and it stays in the signal.) It should be updated (don't stay in signal..)"
+
+**Changes made** (`js/demos.js`, Topic 1 noise demo, Analog mode):
+- The status text used to be one fixed sentence ("The analog value itself moved… RMS error: X% of full scale, and it stays in the signal."), and only the number changed. It was also wrong at zero noise, where nothing had moved.
+- It now changes with the noise level, and both lines update as the slider moves:
+  - **0%:** "No noise added: the received signal is exactly the signal that was sent." (green)
+  - **Below 5% RMS:** slight distortion. Values are a little off but can't be separated from the signal.
+  - **5–15%:** noticeable distortion. The shape is recognisable, but the exact values are lost.
+  - **15–35%:** heavy distortion. Suggests switching to Digital signal to compare.
+  - **Above 35%:** severe distortion. The signal is effectively lost, while a digital signal usually still recovers most bits.
+- Checked in the browser at slider values 0, 2, 10, 25, 50 and 100: the correct message appears each time, with no script errors.
+
+---
+
+## 2026-09-29 05:57 UTC
+
+**Prompt given to the AI:** "Try to maintain consistent font sizes. Use 4 different types of fonts throughout the whole website. Keep the minimum font size visible enough from a distance (as slides will be played in a classroom, students from back should see)"
+
+**Before:** 3 font families, about 40 different hard-coded px sizes in `css/style.css` plus inline sizes in the HTML/JS. Measured in a real browser at 1280×720 (a common projector resolution): 67 distinct rendered sizes, smallest 8.5px, and most labels, tables and buttons on the slides were 13–16px.
+
+**Changes made:**
+
+1. **Four font families, one job each** (tokens at the top of `css/style.css`):
+   - `--f-display`: **Bricolage Grotesque** for headings and titles
+   - `--f-body`: **Literata** for reading text (paragraphs, lists, notes, quiz options)
+   - `--f-ui`: **Atkinson Hyperlegible Next** (new) for buttons, tabs, labels, tables, captions and diagram labels. It was designed by the Braille Institute for legibility at small sizes and at a distance.
+   - `--f-mono`: **IBM Plex Mono** for bits, truth tables, equations and inputs
+   - The old `--f-head` token is gone. Its uses were split into display and UI. The Google Fonts link in all 17 pages now loads Atkinson Hyperlegible Next as well.
+
+2. **Five font sizes, used everywhere.** Every `font-size` in the stylesheet is now one of `--fs-sm`, `--fs-base`, `--fs-md`, `--fs-lg` or `--fs-xl`. Browser-default sizes (`small`, `sub`, `sup`, `h5`, `summary`, buttons…) are pinned to the scale as well. A browser check across every page and slide found that all regular text lands exactly on one of the five sizes.
+   - Normal pages (index, practice, reference, projects): 16 / 18 / 21 / 26–32 / 34–52px. **Minimum 16px.**
+   - Slide decks: the sizes scale with screen width, like a real slide, so text is the same fraction of the projected image on any projector. **Minimum (`--fs-sm`) = 1.72vw**: 18px at 1024 wide, 22px at 1280, 32px at 1920. Body text is 25px at 1280.
+   - Widgets that hold text (bit boxes, K-map cells, toggles, PLA grid, badges, slide menu, tooltips, keypad) are now sized in `em`, so they grow with their text.
+   - Removed inline sizes: `projects.html` `h2` (24px) and `practice.html` `summary` (16px).
+   - Slide side padding reduced from 6vw to 4vw and the slide column cap changed from 1120px to 58em, so the larger text and diagrams have room.
+
+3. **Diagrams scale with the text.** A new token `--u` (= `--fs-sm` ÷ 12.5) sizes every SVG, so a standard 12.5-unit label renders at exactly the minimum text size:
+   - Static SVGs in the topic pages: `max-width: calc(<viewBox width> * var(--u))`. Labels below 12.5 units (10/11/12) were raised to 12.5, and 13–18 were unified to 15.
+   - Circuit-lab canvases (`js/lab.js`): `max-height: min(calc(h * var(--u)), 72vh)`, so a circuit never gets taller than the screen. Timing diagrams (`js/core.js`), block and state diagrams (`js/demos.js`) and switch analogies (`js/reallife.js`) use the same rule.
+   - Diagrams that are wider than the slide can't grow any further, so their labels were raised in diagram units instead: Topic 4 AOI/NAND comparison (×1.25), both Topic 5 ripple-carry adders (×1.3), Topic 9 up/down counter (×1.2), Topic 12 ROM/PLA/PAL (×1.2), circuit-lab labels (14 units), switch-analogy labels (17 units).
+
+4. **Label collisions fixed** (most were already present at the old tiny sizes):
+   - Topic 4, slide 15: circuit titles moved up out of the gates, "C′" labels moved off the wires, and viewBox widened so the C/B/A input labels are no longer clipped.
+   - Topic 12, slide 6: I1–I3 labels were clipped at the left edge (viewBox widened). "AND"/"OR" labels moved off the grid lines.
+   - Topic 3, XOR/XNOR switch analogy: "battery" label moved below the bottom row (`batteryX()` takes an optional label position).
+   - Topic 8, state-diagram demo: the S0 self-loop was clipped on the left (viewBox widened).
+   - Laws table cells vertically centred. Short justified paragraphs inside the Topic 2 conversion cards are now left-aligned.
+
+**Result (browser-measured):** all normal text is at least `--fs-sm` everywhere. Diagram labels reach `--fs-sm` wherever the diagram fits the width. On the widest diagrams they sit at about 90% of it (20px at 1280). The one exception is the Topic 3 XOR/XNOR slide, where two diagrams share the width and labels are about 17.5px at 1280.
+
+---
+
 ## 2026-09-23 06:00 UTC
 
 **Prompt given to the AI:** "Recheck the counters circuit diagrams, there are many inconsistencies in the wiring up. fix them all." / (mid-turn) "For the register parts too, the wiring is not done correctly. The clock connections specially."

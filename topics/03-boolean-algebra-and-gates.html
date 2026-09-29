@@ -6,26 +6,34 @@
 <meta name="description" content="The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms. Free interactive slides, worked examples and a quiz for Topic 3 of the Digital Logic Design course.">
 <meta name="keywords" content="boolean algebra & logic gates, digital logic design, DLD notes, digital electronics, topic 3, boolean expression simplifier">
 <meta name="author" content="Digital Logic Design Notes">
+<meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="theme-color" content="#1E4E8C">
+<link rel="canonical" href="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/03-boolean-algebra-and-gates.html">
 <link rel="icon" type="image/svg+xml" href="../img/logo-mark.svg">
-<link rel="alternate icon" type="image/png" href="../img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="32x32" href="../img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="../img/favicon-16.png">
 <link rel="apple-touch-icon" href="../img/apple-touch-icon.png">
-<link rel="canonical" href="topics/03-boolean-algebra-and-gates.html">
+<link rel="manifest" href="../site.webmanifest">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Boolean Algebra & Logic Gates – Topic 3 | Digital Logic Design Notes">
+<meta property="og:site_name" content="Digital Logic Design (CSE 203)">
+<meta property="og:locale" content="en_US">
+<meta property="og:title" content="Boolean Algebra &amp; Logic Gates – Topic 3 | Digital Logic Design Notes">
 <meta property="og:description" content="The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms. Free interactive slides, worked examples and a quiz for Topic 3 of the Digital Logic Design course.">
-<meta property="og:url" content="topics/03-boolean-algebra-and-gates.html">
-<meta property="og:image" content="../img/favicon-512.png">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Boolean Algebra & Logic Gates – Topic 3 | Digital Logic Design Notes">
+<meta property="og:url" content="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/03-boolean-algebra-and-gates.html">
+<meta property="og:image" content="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/img/og/03-boolean-algebra-and-gates.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Boolean Algebra &amp; Logic Gates – Topic 3 | Digital Logic Design Notes">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Boolean Algebra &amp; Logic Gates – Topic 3 | Digital Logic Design Notes">
 <meta name="twitter:description" content="The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms. Free interactive slides, worked examples and a quiz for Topic 3 of the Digital Logic Design course.">
-<meta name="twitter:image" content="../img/favicon-512.png">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Boolean Algebra & Logic Gates", "description": "The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms.", "position": 3, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "../index.html"}, "numberOfItems": 33}</script>
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Digital Logic Design", "item": "../index.html"}, {"@type": "ListItem", "position": 2, "name": "Topic 3: Boolean Algebra & Logic Gates", "item": "03-boolean-algebra-and-gates.html"}]}</script>
-
+<meta name="twitter:image" content="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/img/og/03-boolean-algebra-and-gates.png">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "LearningResource", "name": "Boolean Algebra & Logic Gates", "description": "The algebra behind every circuit: laws, DeMorgan, gates, minterms and canonical forms.", "position": 3, "educationalLevel": "Undergraduate", "learningResourceType": "Lecture slides", "about": "Digital Logic Design", "isPartOf": {"@type": "Course", "name": "Digital Logic Design", "url": "https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/", "courseCode": "CSE 203"}, "numberOfItems": 33, "url": "https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/03-boolean-algebra-and-gates.html", "image": "https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/img/og/03-boolean-algebra-and-gates.png", "inLanguage": "en", "isAccessibleForFree": true}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Digital Logic Design", "item": "https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/index.html"}, {"@type": "ListItem", "position": 2, "name": "Topic 3: Boolean Algebra & Logic Gates", "item": "https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/03-boolean-algebra-and-gates.html"}]}</script>
 <title>Boolean Algebra & Logic Gates – Topic 3 | Digital Logic Design Notes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible+Next:wght@400..800&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&family=IBM+Plex+Mono:wght@400;500;600&family=Literata:ital,opsz,wght@0,7..72,400..700;1,7..72,400..700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../css/style.css">
 </head>
 <body class="deck-page">

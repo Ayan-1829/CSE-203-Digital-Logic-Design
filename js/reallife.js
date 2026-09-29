@@ -70,7 +70,7 @@ function realLife(root, gate) {
     clear(gateBox).append(gateSvg(gate, { ins, out: y, scale: 1.15 }));
     clear(outBox).append(h('span', { class: 'led big' + (y ? ' on' : '') }), h('div', null, h('div', { class: 'rl-outname' }, cfg.y.label), h('div', { class: 'rl-outstate' }, y ? cfg.y.on : cfg.y.off, h('b', null, ' = ' + y))));
     clear(ttBox).append(h('table', { class: 'tt' }, h('thead', null, h('tr', null, (one ? ['A'] : ['A', 'B']).map((x) => h('th', null, x)), h('th', null, 'Y'), h('th', { style: { textAlign: 'left' } }, 'In words'))),
-      h('tbody', null, rows.map((r) => h('tr', { class: r[0] === a && (one || r[1] === b) ? 'act' : '' }, r.map((x) => h('td', null, x)), h('td', null, gateEval(gate, r)), h('td', { style: { textAlign: 'left', fontFamily: 'var(--f-head)' } }, words(r)))))));
+      h('tbody', null, rows.map((r) => h('tr', { class: r[0] === a && (one || r[1] === b) ? 'act' : '' }, r.map((x) => h('td', null, x)), h('td', null, gateEval(gate, r)), h('td', { style: { textAlign: 'left', fontFamily: 'var(--f-ui)' } }, words(r)))))));
   }
   root.append(h('div', { class: 'rl' },
     h('div', { class: 'rl-story' }, h('div', { class: 'rl-scene' }, cfg.scene), h('p', null, cfg.story),
@@ -97,10 +97,10 @@ function switchAnalogy(root) {
   const battery = (x, y) => { const g = sv('g'); g.append(sv('line', { x1: x - 14, y1: y, x2: x + 14, y2: y, stroke: 'var(--ink)', 'stroke-width': 2.5 }), sv('line', { x1: x - 8, y1: y + 10, x2: x + 8, y2: y + 10, stroke: 'var(--ink)', 'stroke-width': 6 }), sv('text', { x: x + 22, y: y + 10, class: 'lt' }, 'battery')); return g; };
   function draw() {
     const so = st.s[0] && st.s[1], po = st.p[0] || st.p[1], on1 = po && st.p[0], on2 = po && st.p[1];
-    const a = sv('svg', { viewBox: '0 0 460 190', style: { width: '100%', maxWidth: '460px' }, role: 'img', 'aria-label': 'Two switches in series with a lamp' });
+    const a = sv('svg', { viewBox: '0 0 460 190', style: { width: '100%', maxWidth: 'calc(460 * var(--u))' }, role: 'img', 'aria-label': 'Two switches in series with a lamp' });
     a.append(wire('M40,50 H100', so), wire('M172,50 H240', so), wire('M312,50 H420 V78', so), wire('M420,114 V150 H40 V110', so), wire('M40,90 V50', so),
       battery(40, 92), sw(100, 50, st.s[0], so, 0, 'series'), sw(240, 50, st.s[1], so, 1, 'series'), lamp(420, 96, so));
-    const p = sv('svg', { viewBox: '0 0 460 235', style: { width: '100%', maxWidth: '460px' }, role: 'img', 'aria-label': 'Two switches in parallel with a lamp' });
+    const p = sv('svg', { viewBox: '0 0 460 235', style: { width: '100%', maxWidth: 'calc(460 * var(--u))' }, role: 'img', 'aria-label': 'Two switches in parallel with a lamp' });
     p.append(wire('M40,140 V50 H110', on1), wire('M182,50 H330', on1), wire('M330,50 V95', on1), wire('M40,140 H110', on2), wire('M182,140 H330', on2), wire('M330,140 V95', on2),
       wire('M330,95 H400 V132', po), wire('M400,168 V215 H40 V180', po), wire('M40,160 V140', po),
       battery(40, 160), sw(110, 50, st.p[0], on1, 0, 'parallel'), sw(110, 140, st.p[1], on2, 1, 'parallel'), lamp(400, 150, po));
@@ -120,9 +120,9 @@ function lampX(x, y, on) {
     sv('path', { d: `M${x - 12},${y - 12} L${x + 12},${y + 12} M${x + 12},${y - 12} L${x - 12},${y + 12}`, stroke: 'var(--ink)', 'stroke-width': 2 }));
   return g;
 }
-function batteryX(x, y) {
+function batteryX(x, y, labelY = y + 10) {
   const g = sv('g');
-  g.append(sv('line', { x1: x - 14, y1: y, x2: x + 14, y2: y, stroke: 'var(--ink)', 'stroke-width': 2.5 }), sv('line', { x1: x - 8, y1: y + 10, x2: x + 8, y2: y + 10, stroke: 'var(--ink)', 'stroke-width': 6 }), sv('text', { x: x + 22, y: y + 10, class: 'lt' }, 'battery'));
+  g.append(sv('line', { x1: x - 14, y1: y, x2: x + 14, y2: y, stroke: 'var(--ink)', 'stroke-width': 2.5 }), sv('line', { x1: x - 8, y1: y + 10, x2: x + 8, y2: y + 10, stroke: 'var(--ink)', 'stroke-width': 6 }), sv('text', { x: x + 22, y: labelY, class: 'lt' }, 'battery'));
   return g;
 }
 /* visClosed: whether the contact is drawn made (this is what the wire highlighting follows). wireOn: whether current actually reaches this point. labelText is shown verbatim, so callers control whether it reads as the raw input or its complement. */
@@ -141,7 +141,7 @@ function bufferNotAnalogy(root) {
   const box = h('div', { class: 'scrollx' });
   function bufferSvg(val, onclick) {
     const on = !!val;
-    const svg = sv('svg', { viewBox: '0 0 360 190', style: { width: '100%', maxWidth: '360px' }, role: 'img', 'aria-label': 'One switch with a lamp' });
+    const svg = sv('svg', { viewBox: '0 0 360 190', style: { width: '100%', maxWidth: 'calc(360 * var(--u))' }, role: 'img', 'aria-label': 'One switch with a lamp' });
     svg.append(wireX('M40,50 H100', on), wireX('M172,50 H310 V78', on), wireX('M310,114 V150 H40 V110', on), wireX('M40,90 V50', on),
       batteryX(40, 92), swX(100, 50, on, on, `A = ${val}`, onclick), lampX(310, 96, on));
     return { svg, on };
@@ -150,7 +150,7 @@ function bufferNotAnalogy(root) {
      (current takes the easy path through the switch instead), so the lamp goes off exactly when A turns on. */
   function notSvg(val, onclick) {
     const branchOn = !!val, mainOn = !branchOn;
-    const svg = sv('svg', { viewBox: '0 0 360 220', style: { width: '100%', maxWidth: '360px' }, role: 'img', 'aria-label': 'A switch wired in parallel with the lamp, to short it out' });
+    const svg = sv('svg', { viewBox: '0 0 360 220', style: { width: '100%', maxWidth: 'calc(360 * var(--u))' }, role: 'img', 'aria-label': 'A switch wired in parallel with the lamp, to short it out' });
     svg.append(
       // current always reaches the split point and always returns to the battery afterward,
       // whichever of the two paths (lamp or short) it actually took in between
@@ -177,7 +177,7 @@ function nandNorAnalogy(root) {
   const box = h('div', { class: 'scrollx' });
   function nandSvg(a, b, onA, onB) {
     const branchOn = !!(a && b), mainOn = !branchOn;
-    const svg = sv('svg', { viewBox: '0 0 460 220', style: { width: '100%', maxWidth: '460px' }, role: 'img', 'aria-label': 'Two switches in series, wired as a shorting branch around the lamp' });
+    const svg = sv('svg', { viewBox: '0 0 460 220', style: { width: '100%', maxWidth: 'calc(460 * var(--u))' }, role: 'img', 'aria-label': 'Two switches in series, wired as a shorting branch around the lamp' });
     svg.append(
       wireX('M40,110 V50 H120', true), wireX('M120,50 H232', mainOn), wireX('M268,50 H420', mainOn), wireX('M420,50 V170 H40 V130', true),
       wireX('M120,50 V140 H140', branchOn), wireX('M212,140 H280', branchOn), wireX('M352,140 H420 V50', branchOn),
@@ -190,7 +190,7 @@ function nandNorAnalogy(root) {
     // (stacked in the middle of the diagram), and both rejoin the same wire on the way to the
     // battery — the same shape as two switches in parallel across a lamp in a textbook diagram.
     const vcA = !!a, vcB = !!b, branchOn = vcA || vcB, onA_ = branchOn && vcA, onB_ = branchOn && vcB, mainOn = !branchOn;
-    const svg = sv('svg', { viewBox: '0 0 460 230', style: { width: '100%', maxWidth: '460px' }, role: 'img', 'aria-label': 'Two switches in parallel, tapped off the middle of a branch that shorts the lamp' });
+    const svg = sv('svg', { viewBox: '0 0 460 230', style: { width: '100%', maxWidth: 'calc(460 * var(--u))' }, role: 'img', 'aria-label': 'Two switches in parallel, tapped off the middle of a branch that shorts the lamp' });
     svg.append(
       wireX('M40,190 V50 H120', true), wireX('M120,50 H262', mainOn), wireX('M298,50 H420', mainOn),
       wireX('M420,50 V110', mainOn), wireX('M420,110 V230 H40 V190', true),
@@ -221,11 +221,11 @@ function xorXnorAnalogy(root) {
     const lampOn = r1 || r2;
     const labA = (inv) => `${inv ? "A′" : 'A'} = ${inv ? (aVal ? 0 : 1) : aVal}`;
     const labB = (inv) => `${inv ? "B′" : 'B'} = ${inv ? (bVal ? 0 : 1) : bVal}`;
-    const svg = sv('svg', { viewBox: '0 0 560 235', style: { width: '100%', maxWidth: '560px' }, role: 'img', 'aria-label': 'Bridge circuit with four switches and a lamp' });
+    const svg = sv('svg', { viewBox: '0 0 560 235', style: { width: '100%', maxWidth: 'calc(560 * var(--u))' }, role: 'img', 'aria-label': 'Bridge circuit with four switches and a lamp' });
     svg.append(wireX('M40,140 V50 H110', r1), wireX('M182,50 H250', r1), wireX('M322,50 H420 V95', r1),
       wireX('M40,140 H110', r2), wireX('M182,140 H250', r2), wireX('M322,140 H420 V95', r2),
       wireX('M420,95 H480 V132', lampOn), wireX('M480,168 V215 H40 V180', lampOn), wireX('M40,160 V140', lampOn),
-      batteryX(40, 160),
+      batteryX(40, 160, 198),
       swX(110, 50, r1a, r1, labA(row1.aInv), onA), swX(250, 50, r1b, r1, labB(row1.bInv), onB),
       swX(110, 140, r2a, r2, labA(row2.aInv), onA), swX(250, 140, r2b, r2, labB(row2.bInv), onB),
       lampX(480, 150, lampOn));

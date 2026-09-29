@@ -13,7 +13,7 @@
     n = Math.max(1, Math.min(total, n));
     cur = n - 1;
     slides.forEach(function (s, i) { var on = i === cur; s.classList.toggle('active', on); s.setAttribute('aria-hidden', on ? 'false' : 'true'); });
-    slides[cur].scrollTop = 0;
+    slides[cur].scrollTop = 0; paintScrolled();
     counter.textContent = n + ' / ' + total;
     bar.style.width = (n / total * 100) + '%';
     prevBtn.textContent = n === 1 ? (cfg.prev ? 'Previous topic' : 'Start') : 'Previous';
@@ -24,6 +24,11 @@
     if (!fromHash) { try { history.replaceState(null, '', '#s=' + n); } catch (e) { location.hash = 's=' + n; } }
     document.querySelectorAll('#slide-menu a').forEach(function (a, i) { a.classList.toggle('cur', i === cur); });
   }
+  /* dark shadow under the top bar once the current slide has been scrolled, so the bar reads as
+     sitting above the content (scroll events don't bubble, hence the capture-phase listener) */
+  function paintScrolled() { document.body.classList.toggle('deck-scrolled', !!slides[cur] && slides[cur].scrollTop > 2); }
+  var deckEl = document.getElementById('deck');
+  if (deckEl) deckEl.addEventListener('scroll', paintScrolled, true);
   function next() { if (cur < total - 1) go(cur + 2); else if (cfg.next) location.href = cfg.next; }
   function prev() { if (cur > 0) go(cur); else if (cfg.prev) location.href = cfg.prev + '#s=last'; }
 

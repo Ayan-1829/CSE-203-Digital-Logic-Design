@@ -243,7 +243,7 @@ function createLab(root, opts) {
     const w = Math.max(x1 - x0, 300), hh = Math.max(y1 - y0, 140);
     svg.setAttribute('viewBox', `${x0} ${y0} ${w} ${hh}`);
     bg.setAttribute('x', x0); bg.setAttribute('y', y0); bg.setAttribute('width', w); bg.setAttribute('height', hh);
-    svg.style.maxHeight = Math.min(340, hh * 1.25) + 'px';
+    svg.style.maxHeight = `min(calc(${hh} * var(--u)), 50vh)`;
   }
   function labelFor(type) {
     const used = new Set(comps.map((c) => c.label));
