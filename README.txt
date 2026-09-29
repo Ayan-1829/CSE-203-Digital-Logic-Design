@@ -21,6 +21,8 @@ js/reallife.js                 real-life gate examples and the series/parallel s
 js/quiz.js                     quiz widget
 js/slides.js                   slide engine: keys, swipe, slide list, progress, full screen
 js/extras.js                   drills, quick reference and project helpers
+js/analytics.js                shared cookieless analytics tracker (do not edit; same file in every project)
+js/course-events.js            course events for the Course analytics Sheet: slide titles, quizzes, tools, answers
 robots.txt, sitemap.xml        SEO crawling files for https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/
 site.webmanifest, 404.html     web-app manifest and GitHub Pages "not found" page
 img/og/                        1200x630 social-share image for every page

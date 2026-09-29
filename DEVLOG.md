@@ -8,6 +8,28 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-09-29 19:45 UTC
+
+**Prompt given to the AI:**
+
+> Like the google sheet analytics for my other projects. I want to build a new sheet for the courses only. Add necessaary sections for each courses and summary report. Guide me at the end what to do.
+
+**Changes made:**
+
+1. **Analytics added to every page** (index, practice, reference, projects, 404 and all 13 topics):
+   `js/analytics.js` (the shared, unchanged tracker used by the other projects; cookieless, respects
+   Do Not Track / Global Privacy Control) with `data-project="CSE-203 DLD"`, sending to the
+   `analytics-proxy` Cloudflare Worker.
+2. **New `js/course-events.js`** (shared by all three course sites, loaded after analytics.js):
+   shows the current slide in the browser tab title ("Slide title · Topic title") so the Sheet can
+   name each slide, and reports quiz results (`quiz_complete`), first use of each interactive tool
+   (`demo_use`), answers opened (`answer_reveal`), checklist ticks, full-screen use and the pen.
+3. The events go to a separate **Course analytics** Google Sheet (not the projects' Sheet), with a
+   Summary report and a Report tab per course. The Worker and Apps Script live in
+   `Projects/analytics-backend` (not in this repo).
+
+---
+
 ## 2026-09-29 17:56 UTC
 
 **Prompt given to the AI:**
