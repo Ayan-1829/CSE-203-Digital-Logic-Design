@@ -8,6 +8,28 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-09-29 20:31 UTC
+
+**Prompt given to the AI:**
+
+> For the annotation part for the slides, add a new option, Page, It will pop-up a window that will be blank, scrollable, horizonally and verically. I will be for quick drawing. All other button should be same. Take two rows height to make a page icon in the annotation tool bar at the left.
+
+**Changes made:**
+
+1. **New "Page" button** (`js/annotate.js`, `css/style.css`): a tall button with a page icon at the left of
+   the annotation toolbar, spanning both toolbar rows. All other buttons are unchanged.
+2. **Scratch page pop-up:** clicking Page opens a blank page in a window over the slide. It scrolls
+   horizontally and vertically and grows by 800 px whenever you draw within 300 px of an edge. Every
+   toolbar button works on it as on a slide: select, pencil, highlighter (with fade), rectangle,
+   circle, arrow, eraser, colours, undo/redo and Clear. It opens straight into the pencil.
+   ✕, Esc, pressing Page again or closing the toolbar closes it. Each topic keeps its own page (saved in
+   the browser like the slide notes). While it is open, the slide keys (arrows, Space, F, M, Home, End) don't
+   move the slides behind it.
+3. `annotate.js` is now one shared file for all three course sites (it picks the topic object and
+   storage prefix itself), so CSE-201 and CSE-308 also got this version's scroll-aware drawing.
+
+---
+
 ## 2026-09-29 19:45 UTC
 
 **Prompt given to the AI:**
