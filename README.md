@@ -1,59 +1,76 @@
+<div align="center">
+
+<img src="img/logo.svg" alt="CSE 203 logo" height="76">
+
 # CSE 203 · Digital Logic Design
 
-Interactive slide-deck course notes for Digital Logic Design.
+**Interactive slide-deck course notes for Digital Logic Design.**
 
-### 🌐 Live site: **[https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/)**
+<a href="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/"><img alt="Live site: open" src="https://img.shields.io/badge/Live_site-open-1E3A5F?style=for-the-badge&logo=githubpages&logoColor=white"></a>
+<img alt="Topics: 13" src="https://img.shields.io/badge/Topics-13-555555?style=for-the-badge">
+<img alt="Slides: 277" src="https://img.shields.io/badge/Slides-277-555555?style=for-the-badge">
+<img alt="Build step: none" src="https://img.shields.io/badge/Build_step-none-555555?style=for-the-badge&logo=html5&logoColor=white">
 
-Also on the site: [Practice and drills](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/practice.html) · [Quick reference](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/reference.html) · [Projects](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/projects.html)
+### [🌐 Open the live site →](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/)
 
-## What’s inside
+</div>
 
-- 13 topic decks, from number systems and Boolean algebra to counters, memory and programmable logic
-- Clickable circuits, K-map and Quine–McCluskey tools, and a live circuit simulator (Gate Forge)
-- Worked examples, real-life gate examples and a quiz in every topic
-- Drills, practice problems, a searchable reference and project checklists
+<br>
 
-## Topics
+<p align="center"><img src="docs/screenshots/home.png" alt="Home page" width="49%"> <img src="docs/screenshots/slide.png" alt="An interactive slide" width="49%"></p>
 
-13 decks, 277 slides. Each link opens the live deck.
+<p align="center"><a href="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/practice.html">Practice and drills</a> · <a href="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/reference.html">Quick reference</a> · <a href="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/projects.html">Projects</a></p>
+
+## ✨ Highlights
+
+<table>
+<tr><td width="50%" valign="top">🧭&nbsp; 13 topic decks, from number systems and Boolean algebra to counters, memory and programmable logic</td><td width="50%" valign="top">🔍&nbsp; Clickable circuits, K-map and Quine–McCluskey tools, and a live circuit simulator (Gate Forge)</td></tr>
+<tr><td width="50%" valign="top">🧩&nbsp; Worked examples, real-life gate examples and a quiz in every topic</td><td width="50%" valign="top">📝&nbsp; Drills, practice problems, a searchable reference and project checklists</td></tr>
+</table>
+
+## 📚 Topics
+
+13 decks · 277 slides. Each title opens the live deck.
 
 | # | Topic | Slides |
-|---|---|---|
-| 1 | [Introduction to Digital Logic](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/01-introduction.html) | 17 |
-| 2 | [Number Systems & Binary Codes](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/02-number-systems.html) | 26 |
-| 3 | [Boolean Algebra & Logic Gates](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/03-boolean-algebra-and-gates.html) | 33 |
-| 4 | [Universal Gates & Karnaugh Maps](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/04-universal-gates-and-k-maps.html) | 21 |
-| 5 | [Combinational Logic & Arithmetic Circuits](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/05-combinational-logic.html) | 27 |
-| 6 | [Decoders, Encoders & Data Selectors](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/06-decoders-encoders-mux.html) | 19 |
-| 7 | [Sequential Logic: Latches & Flip-Flops](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/07-latches-and-flip-flops.html) | 23 |
-| 8 | [State Machines & Sequential Circuit Design](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/08-state-machines.html) | 18 |
-| 9 | [Counters](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/09-counters.html) | 27 |
-| 10 | [Registers](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/10-registers.html) | 16 |
-| 11 | [Memory & Error Correction](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/11-memory.html) | 17 |
-| 12 | [ROM & Programmable Logic](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/12-rom-and-programmable-logic.html) | 17 |
-| 13 | [Digital Systems & Practice](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/13-digital-systems.html) | 16 |
+|:--:|---|:--:|
+| **1** | [Introduction to Digital Logic](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/01-introduction.html) | 17 |
+| **2** | [Number Systems & Binary Codes](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/02-number-systems.html) | 26 |
+| **3** | [Boolean Algebra & Logic Gates](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/03-boolean-algebra-and-gates.html) | 33 |
+| **4** | [Universal Gates & Karnaugh Maps](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/04-universal-gates-and-k-maps.html) | 21 |
+| **5** | [Combinational Logic & Arithmetic Circuits](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/05-combinational-logic.html) | 27 |
+| **6** | [Decoders, Encoders & Data Selectors](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/06-decoders-encoders-mux.html) | 19 |
+| **7** | [Sequential Logic: Latches & Flip-Flops](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/07-latches-and-flip-flops.html) | 23 |
+| **8** | [State Machines & Sequential Circuit Design](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/08-state-machines.html) | 18 |
+| **9** | [Counters](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/09-counters.html) | 27 |
+| **10** | [Registers](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/10-registers.html) | 16 |
+| **11** | [Memory & Error Correction](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/11-memory.html) | 17 |
+| **12** | [ROM & Programmable Logic](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/12-rom-and-programmable-logic.html) | 17 |
+| **13** | [Digital Systems & Practice](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/13-digital-systems.html) | 16 |
 
-## Using the slides
+## ⌨️ Using the slides
 
 | Key | Action |
-|---|---|
-| <kbd>←</kbd> <kbd>→</kbd> / <kbd>Space</kbd> | previous / next slide |
-| <kbd>Home</kbd> / <kbd>End</kbd> | first / last slide |
-| <kbd>F</kbd> | full screen |
+|:--:|---|
+| <kbd>←</kbd> <kbd>→</kbd> · <kbd>Space</kbd> | previous / next slide |
+| <kbd>Home</kbd> · <kbd>End</kbd> | first / last slide |
+| <kbd>F</kbd> | full screen for teaching |
 | <kbd>M</kbd> | slide list |
-| ✏️ button | draw on the slide |
+| ✏️ | draw on any slide |
 
-The address bar shows `#s=N` for slide N, so you can link straight to any slide. Light and dark themes are built in.
+The address bar shows `#s=N`, so you can link straight to a slide. Light and dark themes follow your system, with a toggle in the header.
 
-## Run it locally
+## 🚀 Run it locally
 
-No build step or server is needed: download or clone the repository and open `index.html` in a browser.
+No build step, no server: clone the repository and open `index.html` in any modern browser.
 
 ```bash
 git clone https://github.com/Ayan-1829/CSE-203-Digital-Logic-Design.git
+open CSE-203-Digital-Logic-Design/index.html      # macOS · use start on Windows, xdg-open on Linux
 ```
 
-## Developer notes
+<details>
+<summary><b>🛠 Developer notes: folder layout and how the pages are built</b></summary>
 
 ```text
 Folder layout
@@ -127,15 +144,17 @@ Placeholders that become interactive
 <div class="quiz-host" data-quiz-key="3"></div> + <script type="application/json" class="quiz-json">[...]</script>
 ```
 
-## All courses
+</details>
 
-| Course | Live site | Repository |
-|---|---|---|
-| CSE 201 · Object Oriented Programming | [https://ayan-1829.github.io/CSE-201-Object-Oriented-Programming/](https://ayan-1829.github.io/CSE-201-Object-Oriented-Programming/) | [CSE-201-Object-Oriented-Programming](https://github.com/Ayan-1829/CSE-201-Object-Oriented-Programming) |
-| CSE 202 · Object Oriented Programming Lab | [https://ayan-1829.github.io/CSE-202-Object-Oriented-Programming-Lab/](https://ayan-1829.github.io/CSE-202-Object-Oriented-Programming-Lab/) | [CSE-202-Object-Oriented-Programming-Lab](https://github.com/Ayan-1829/CSE-202-Object-Oriented-Programming-Lab) |
-| CSE 203 · Digital Logic Design (this one) | [https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/) | [CSE-203-Digital-Logic-Design](https://github.com/Ayan-1829/CSE-203-Digital-Logic-Design) |
-| CSE 308 · Design Project I | [https://ayan-1829.github.io/CSE-308-Design-Project-I/](https://ayan-1829.github.io/CSE-308-Design-Project-I/) | [CSE-308-Design-Project-I](https://github.com/Ayan-1829/CSE-308-Design-Project-I) |
+## 🎓 All courses
+
+| | Course | Live site | Repository |
+|:--:|---|:--:|:--:|
+| <img src="https://raw.githubusercontent.com/Ayan-1829/CSE-201-Object-Oriented-Programming/main/img/logo-mark.svg" height="28"> | **CSE 201** · Object Oriented Programming | [Open](https://ayan-1829.github.io/CSE-201-Object-Oriented-Programming/) | [GitHub](https://github.com/Ayan-1829/CSE-201-Object-Oriented-Programming) |
+| <img src="https://raw.githubusercontent.com/Ayan-1829/CSE-202-Object-Oriented-Programming-Lab/main/img/logo-mark.svg" height="28"> | **CSE 202** · Object Oriented Programming Lab | [Open](https://ayan-1829.github.io/CSE-202-Object-Oriented-Programming-Lab/) | [GitHub](https://github.com/Ayan-1829/CSE-202-Object-Oriented-Programming-Lab) |
+| <img src="https://raw.githubusercontent.com/Ayan-1829/CSE-203-Digital-Logic-Design/main/img/logo-mark.svg" height="28"> | **CSE 203** · Digital Logic Design **(this one)** | [Open](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/) | [GitHub](https://github.com/Ayan-1829/CSE-203-Digital-Logic-Design) |
+| <img src="https://raw.githubusercontent.com/Ayan-1829/CSE-308-Design-Project-I/main/img/logo-mark.svg" height="28"> | **CSE 308** · Design Project I | [Open](https://ayan-1829.github.io/CSE-308-Design-Project-I/) | [GitHub](https://github.com/Ayan-1829/CSE-308-Design-Project-I) |
 
 ---
 
-© Ayan Sarkar · Green University of Bangladesh
+<p align="center">Made by <b>Ayan Sarkar</b> · Green University of Bangladesh</p>
