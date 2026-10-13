@@ -8,7 +8,7 @@
 
 <a href="https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/"><img alt="Live site: open" src="https://img.shields.io/badge/Live_site-open-1E3A5F?style=for-the-badge&logo=githubpages&logoColor=white"></a>
 <img alt="Topics: 13" src="https://img.shields.io/badge/Topics-13-555555?style=for-the-badge">
-<img alt="Slides: 307" src="https://img.shields.io/badge/Slides-307-555555?style=for-the-badge">
+<img alt="Slides: 311" src="https://img.shields.io/badge/Slides-311-555555?style=for-the-badge">
 <img alt="Build step: none" src="https://img.shields.io/badge/Build_step-none-555555?style=for-the-badge&logo=html5&logoColor=white">
 
 ### [🌐 Open the live site →](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/)
@@ -30,15 +30,15 @@
 
 ## 📚 Topics
 
-13 decks · 307 slides. Each title opens the live deck.
+13 decks · 311 slides. Each title opens the live deck.
 
 | # | Topic | Slides |
 |:--:|---|:--:|
 | **1** | [Introduction to Digital Logic](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/01-introduction.html) | 18 |
-| **2** | [Number Systems & Binary Codes](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/02-number-systems.html) | 29 |
-| **3** | [Boolean Algebra & Logic Gates](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/03-boolean-algebra-and-gates.html) | 34 |
+| **2** | [Number Systems & Binary Codes](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/02-number-systems.html) | 30 |
+| **3** | [Boolean Algebra & Logic Gates](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/03-boolean-algebra-and-gates.html) | 35 |
 | **4** | [Universal Gates & Karnaugh Maps](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/04-universal-gates-and-k-maps.html) | 21 |
-| **5** | [Combinational Logic & Arithmetic Circuits](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/05-combinational-logic.html) | 34 |
+| **5** | [Combinational Logic & Arithmetic Circuits](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/05-combinational-logic.html) | 35 |
 | **6** | [Decoders, Encoders & Data Selectors](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/06-decoders-encoders-mux.html) | 25 |
 | **7** | [Sequential Logic: Latches & Flip-Flops](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/07-latches-and-flip-flops.html) | 25 |
 | **8** | [State Machines & Sequential Circuit Design](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/08-state-machines.html) | 20 |
@@ -46,7 +46,7 @@
 | **10** | [Registers](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/10-registers.html) | 18 |
 | **11** | [Memory & Error Correction](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/11-memory.html) | 18 |
 | **12** | [ROM & Programmable Logic](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/12-rom-and-programmable-logic.html) | 18 |
-| **13** | [Digital Systems & Practice](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/13-digital-systems.html) | 16 |
+| **13** | [Digital Systems & Practice](https://ayan-1829.github.io/CSE-203-Digital-Logic-Design/topics/13-digital-systems.html) | 17 |
 
 ## ⌨️ Using the slides
 
