@@ -607,7 +607,7 @@ function createLab(root, opts) {
     el.append(pal, acts, acts2, acts3, h('div', { class: 'scrollx' }, svg), status, h('p', { class: 'small muted', style: { margin: '2px 0 8px' } }, 'Drag a component to move it. Drag from an output pin (right side) to an input pin (left side) to draw a wire. Click a switch to toggle it. Select a wire or component and press Delete to remove it.'), waveBox, analysis, io);
   } else {
     runBtn = h('button', { type: 'button', class: 'btn sm', onclick: () => setRun(!running) }, 'Run clock');
-    const bar = h('div', { class: 'row tight', style: { marginTop: '8px' } });
+    const bar = h('div', { class: 'row tight lab-ctl', style: { marginBottom: '8px' } });
     let tabOpen = false;
     const tblBtn = h('button', { type: 'button', class: 'btn sm', onclick: () => { tabOpen = !tabOpen; if (tabOpen) showTruth(); else clear(analysis); tblBtn.textContent = tabOpen ? 'Hide truth table' : 'Show truth table'; } }, 'Show truth table');
     const barKids = [runBtn,
@@ -617,7 +617,7 @@ function createLab(root, opts) {
     if (!LEGACY && !opts.noTable) barKids.push(tblBtn);
     bar.append(...barKids);
     const hasClk = () => hasClock();
-    el.append(svg, waveBox, bar, status, analysis);
+    el.append(bar, svg, waveBox, status, analysis);
     const upd = () => { const seqC = comps.some((c) => isFF(c.type) || c.type === 'CLOCK'); runBtn.style.display = hasClk() ? '' : 'none'; bar.children[1].style.display = hasClk() ? '' : 'none'; bar.children[2].style.display = hasClk() ? '' : 'none'; tblBtn.style.display = seqC ? 'none' : ''; if (tabOpen) showTruth(); };
     const _load = load; load = (nl, k) => { _load(nl, k); upd(); };
   }
