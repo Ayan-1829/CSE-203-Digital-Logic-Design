@@ -39,7 +39,7 @@ function mountDrills(root) {
   let cur = DRILLS[0], item = null, streak = 0;
   const st = Store.get('drills', { done: 0, right: 0 });
   const qEl = h('div', { class: 'qtext' }), inp = h('input', { type: 'text', size: 26, 'aria-label': 'Your answer', autocomplete: 'off', onkeydown: (e) => { if (e.key === 'Enter') check(); } }), fb = h('div', { style: { minHeight: '28px', margin: '10px 0' }, role: 'status' }), tally = h('span', { class: 'muted small' });
-  function newQ() { item = cur.gen(); qEl.textContent = item.q; inp.value = ''; clear(fb); inp.focus(); paintTally(); }
+  function newQ() { item = cur.gen(); qEl.textContent = item.q; inp.value = ''; clear(fb); inp.focus({ preventScroll: true }); paintTally(); }
   const paintTally = () => { tally.textContent = `Streak ${streak}   ·   ${st.right} correct of ${st.done} answered`; };
   function check() {
     if (!inp.value.trim()) return;

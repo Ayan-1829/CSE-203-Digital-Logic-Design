@@ -181,7 +181,7 @@ function mountKMap(root, opts = {}) {
     // the tester all share one screen instead of stacking
     side.append(tester);
     box.append(controls, h('div', { class: 'kwrap' }, h('div', { class: 'scrollx' }, grid), side));
-    if (focusM !== null) { const f = box.querySelector(`[data-m="${focusM}"]`); if (f && f.focus) f.focus(); focusM = null; }
+    if (focusM !== null) { const f = box.querySelector(`[data-m="${focusM}"]`); if (f && f.focus) f.focus({ preventScroll: true }); focusM = null; }
   }
   render();
   return { render, setCells };
