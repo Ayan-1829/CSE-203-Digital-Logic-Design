@@ -49,6 +49,9 @@ const PRESETS = {
   'full-adder': ['Full adder (two half adders + OR)', () => NL([['a', 'SWITCH', 30, 30, 'A'], ['b', 'SWITCH', 30, 110, 'B'], ['ci', 'SWITCH', 30, 200, 'Cin'],
     ['x1', 'XOR', 150, 40], ['a1', 'AND', 150, 110], ['x2', 'XOR', 290, 70], ['a2', 'AND', 290, 160], ['o', 'OR', 430, 130], ['s', 'LED', 440, 70, 'S'], ['co', 'LED', 540, 134, 'Cout']],
     [['a', 0, 'x1', 0], ['b', 0, 'x1', 1], ['a', 0, 'a1', 0], ['b', 0, 'a1', 1], ['x1', 0, 'x2', 0], ['ci', 0, 'x2', 1], ['x1', 0, 'a2', 0], ['ci', 0, 'a2', 1], ['a1', 0, 'o', 0], ['a2', 0, 'o', 1], ['x2', 0, 's', 0], ['o', 0, 'co', 0]])],
+  'half-sub': ['Half subtractor', () => NL([['a', 'SWITCH', 30, 20, 'A'], ['b', 'SWITCH', 30, 140, 'B'], ['x', 'XOR', 200, 20], ['na', 'NOT', 110, 80], ['n', 'AND', 280, 140],
+    ['d', 'LED', 330, 24, 'D'], ['bo', 'LED', 430, 144, 'Bout']],
+    [['a', 0, 'x', 0], ['b', 0, 'x', 1], ['a', 0, 'na', 0], ['na', 0, 'n', 0], ['b', 0, 'n', 1], ['x', 0, 'd', 0], ['n', 0, 'bo', 0]])],
   'full-sub': ['Full subtractor (two half subtractors + OR)', () => NL([
     ['a', 'SWITCH', 30, 20, 'A'], ['b', 'SWITCH', 30, 140, 'B'], ['bi', 'SWITCH', 30, 260, 'Bin'],
     ['na', 'NOT', 160, 140], ['x1', 'XOR', 160, 20],
@@ -104,7 +107,7 @@ const PRESETS = {
       ['n2', 0, 'p', 0], ['d1', 0, 'p', 1], ['d3', 0, 'a0', 0], ['p', 0, 'a0', 1],
       ['o1', 0, 'v', 0], ['a1', 0, 'v', 1], ['v', 0, 'lv', 0], ['a1', 0, 'la1', 0], ['a0', 0, 'la0', 0]])]
 };
-const PRESET_ORDER = ['demorgan', 'not-nand', 'and-nand', 'or-nand', 'not-nor', 'or-nor', 'and-nor', 'half-adder', 'full-adder', 'full-sub', 'comparator-1bit', 'mux-2to1', 'decoder-2to4', 'priority-enc-4to2', 'sr-latch', 'd-ff', 'jk-ff', 'div2', 'ripple-3', 'sync-3', 'shift-4'];
+const PRESET_ORDER = ['demorgan', 'not-nand', 'and-nand', 'or-nand', 'not-nor', 'or-nor', 'and-nor', 'half-adder', 'full-adder', 'half-sub', 'full-sub', 'comparator-1bit', 'mux-2to1', 'decoder-2to4', 'priority-enc-4to2', 'sr-latch', 'd-ff', 'jk-ff', 'div2', 'ripple-3', 'sync-3', 'shift-4'];
 const presetNetlist = (k) => PRESETS[k][1]();
 
 /* ---------- expression -> netlist ---------- */

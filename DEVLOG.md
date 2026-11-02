@@ -8,6 +8,77 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-11-02 15:06 UTC
+
+**Prompt given to the AI:**
+
+> the subtractor is fine now. Do the similar for adder comperators too
+>
+> for slides play buttons, keep them in top for better visibility. also for page 18 keep block diagram and the explanation side by side instead of up down (make the diagram a bit short for adjusting)
+>
+> Push the changes
+
+**Changes made:**
+
+1. **Adders** (`topics/05-combinational-logic.html`), in the same style as the subtractor slides:
+   - *Combinational circuits*: key points, plus the design and analysis procedures as chips that light up in order.
+   - *Adding bits needs a carry* (four cases, 1 + 1 pulses) and *Watch a carry happen* (01 + 01 step by step).
+   - *Half adder*: truth table with the sum worked on each row, equations one step per line; circuit slide with the equations beside the instructions.
+   - *Full adder*: click a row (or Play) to see A + B + Cin worked out; *Deriving Sum* (5 steps); *Deriving Cout* with a K-map whose loops are drawn one by one;
+     *Two half adders + OR* (animated block diagram, with a reveal proving AB + (A ⊕ B)Cin = AB + A·Cin + B·Cin); circuit slide.
+   - *4-bit ripple-carry adder*: key points and a multi-line delay estimate; *Watch the carry ripple: 11 + 6* (animated FA chain).
+2. **Comparators:** 1-bit comparator (table, equations, a reveal deriving E = (G + L)′ = A XNOR B), circuit slide, *Compare from the top bit down*
+   (0110 vs 0101 scanned bit by bit), *2-bit comparator: building A > B* (7-step derivation), *2-bit comparator: every case* (16-row explorer),
+   *4-bit comparator equations* (one term per line) and *Cascading comparator chips* (two 74LS85s, animated).
+3. **BCD adder:** key points with the correction rule Cout = K + Z8Z4 + Z8Z2 one term per line; *BCD correction: every sum* (pick any sum 0–19);
+   an animated circuit for 7 + 8 (adder → correction → second adder); the Topic 2 BCD adder demo is now also on this deck. The old 20-row
+   correction table that ran past the screen is gone.
+4. **Step controls on top:** Back / Next / Play / Show all now sit above each animation, and Play sits above each row explorer (`js/steps.js`, `css/style.css`).
+5. **Chain diagrams side by side:** the subtractor chain (8 − 3), the ripple-carry chain (11 + 6), the comparator cascade and the BCD circuit show
+   the diagram and its steps next to each other; the chain diagram is narrower.
+6. Outline links, slide count (48) and the summary (new comparator line) updated; 272 new Bengali strings added.
+
+Checked in headless Chrome at 1920×1080: all 48 slides fit on one screen, no horizontal scrolling, no script errors; Bengali renders.
+
+---
+
+## 2026-11-02 14:35 UTC
+
+**Prompt given to the AI:**
+
+> for the CSE-203 course, inside the combinational circuits, the subtractor part is very unclear. Make them more engaging, easy to understand and avoid paragraph style texts. For equations, equation simplifications, use multiple lines for better visibility. add annimations if possible to make the topic more understable.
+
+**Changes made:**
+
+1. **Subtractor section rebuilt** (`topics/05-combinational-logic.html`): the 4 paragraph-heavy slides became
+   10 short ones, all in key points instead of paragraphs:
+   - *Subtraction needs a borrow*: carry vs borrow, the four 1-bit cases as cards (0 − 1 pulses).
+   - *Watch a borrow happen*: 10 − 01 worked step by step; the borrowed bits are crossed out and the active column lights up.
+   - *Half subtractor*: truth table with the column maths on each row, equations one step per line.
+   - *Circuit: Half subtractor*: new interactive `half-sub` circuit (`js/lab.js`).
+   - *Full subtractor*: click any truth-table row (or Play) to see that row worked out line by line (A − B − Bin, borrow or not, D and Bout).
+   - *Deriving D*: 5-step derivation, one line per step, each with the reason under it.
+   - *Deriving Bout with a K-map*: the three pairs are drawn one at a time beside the matching term; memory trick (Bout = Cout with A flipped).
+   - *Two half subtractors + OR*: animated block diagram (blocks light up, wires flow); a hidden answer shows why A′B + (A ⊕ B)′Bin = A′B + A′Bin + B·Bin.
+   - *Circuit: Full subtractor*: the interactive circuit, equations on two lines beside the instructions.
+   - *Chaining full subtractors: 8 − 3*: four FS blocks; the borrow moves from FS0 to FS3 one step at a time.
+2. **Correction:** the old "(cont.)" slide derived Bout as A′(B ⊕ Bin) + B·Bin, which does not match the two-half-subtractor
+   circuit on the next slide. That slide now uses the circuit's own form, Bout = A′B + (A ⊕ B)′Bin.
+3. **4-bit adder/subtractor slide:** the paragraph became key points, a 3-line A − B = A + B′ + 1 derivation and an M = 0 / M = 1 table.
+4. **New `js/steps.js`:** a small step-by-step engine (Back / Next / Play / Show all, "Step k of n") driven by
+   `data-at` / `data-on` / `data-x` / `data-hl` attributes, plus the clickable truth-table explorer (`data-rows`).
+   Without JavaScript everything is shown; with reduced motion the steps still work but nothing animates.
+5. **CSS** (`css/style.css`, new block at the end): key-point lists, multi-line equation grid (`.eq`), cases, stepper and
+   diagram animations, K-map group colours for light and dark mode. Sizes follow the projector type scale.
+6. **Outline links** on slide 3 updated to the new slide numbers (several were already out of date); slide count
+   metadata updated (41 slides); the summary gained a subtractor line.
+7. **Bengali:** 107 new strings added to `_tools/i18n/bn-master.json` and `js/i18n/bn/05-combinational-logic.js` rebuilt.
+
+Checked in headless Chrome at 1920×1080 and phone width: none of the new slides overflow, no horizontal scrolling, no
+script errors, light, dark and Bengali modes render.
+
+---
+
 ## 2026-09-29 20:31 UTC
 
 **Prompt given to the AI:**
