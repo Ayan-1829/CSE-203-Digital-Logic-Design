@@ -14,9 +14,9 @@
   /* Four font families, one job each:
      display = headings and titles; body = reading text;
      ui = buttons, labels, tables, captions and diagram labels; mono = bits, code, equations */
-  --f-display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;
-  --f-body:'Literata',Georgia,'Times New Roman',serif;
-  --f-ui:'Atkinson Hyperlegible Next','Atkinson Hyperlegible',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-display:Georgia,'Times New Roman',Times,serif;
+  --f-body:Georgia,'Times New Roman',Times,serif;
+  --f-ui:Georgia,'Times New Roman',Times,serif;
   --f-mono:'IBM Plex Mono',ui-monospace,Menlo,Consolas,monospace;
   /* Five font sizes. Every font-size in this file uses one of these.
      --fs-sm is the smallest text anywhere on the site.

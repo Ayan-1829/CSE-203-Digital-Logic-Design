@@ -9,6 +9,6 @@
     <circle cx="57" cy="32" r="3.4" fill="#F59E0B"/>
     <path d="M19,16 H30 A16,16 0 0 1 30,48 H19 Z" fill="#FFFFFF"/>
   </g>
-  <text x="78" y="27" font-family="'Bricolage Grotesque',system-ui,sans-serif" font-weight="700" font-size="15" letter-spacing="1.5" fill="#44536A">DIGITAL LOGIC</text>
-  <text x="77" y="52" font-family="'Bricolage Grotesque',system-ui,sans-serif" font-weight="800" font-size="27" fill="#F59E0B">Design</text>
+  <text x="78" y="27" font-family="Georgia,'Times New Roman',serif" font-weight="700" font-size="15" letter-spacing="1.5" fill="#44536A">DIGITAL LOGIC</text>
+  <text x="77" y="52" font-family="Georgia,'Times New Roman',serif" font-weight="800" font-size="27" fill="#F59E0B">Design</text>
 </svg>

@@ -114,8 +114,8 @@ The address bar shows #s=N for slide N, so you can link straight to a slide.
 
 Fonts and text sizes
 --------------------
-Four fonts, one job each: Bricolage Grotesque (headings), Literata (reading text),
-Atkinson Hyperlegible Next (buttons, labels, tables, diagram labels), IBM Plex Mono (bits, code, equations).
+Two fonts: Georgia for all text (headings, reading text, buttons, labels, tables, diagram labels) and
+IBM Plex Mono for bits, code and equations.
 Use only the five size tokens: var(--fs-sm) (smallest allowed), --fs-base, --fs-md, --fs-lg, --fs-xl.
 On slides they scale with screen width so the back row can read them (--fs-sm is about 22px at 1280 wide).
 In SVG diagrams give labels class="lt" (12.5 units) and size the <svg> with

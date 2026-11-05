@@ -8,6 +8,22 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-11-05 19:09 UTC
+
+**Prompt given to the AI:**
+
+> Continue the previous works.
+>
+> Can you make the UI more realistic? Change the font to Georgia for all the courses.
+
+**Changes made:**
+
+1. **Georgia everywhere except code:** `css/style.css` now sets `--f-display`, `--f-body` and `--f-ui` to Georgia (code and bits stay in IBM Plex Mono).
+2. The Google Fonts link on every page now loads only IBM Plex Mono; Bricolage Grotesque, Literata and Atkinson Hyperlegible Next are no longer downloaded.
+3. `img/logo.svg` draws its wordmark in Georgia. README font notes updated.
+
+---
+
 ## 2026-11-02 15:06 UTC
 
 **Prompt given to the AI:**
