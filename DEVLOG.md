@@ -8,6 +8,26 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-11-08 06:20 UTC
+
+**Prompt given to the AI:**
+
+> did you add the related link to other courses at bottoom of home page in Developers info section.
+>
+> The keyword This Site breaks into two beside OOP Lab as the title is long. Try to redure the left app info and adjust.
+>
+> ADD icons/og-image for the links in each section.
+>
+> Each section in the Developer's info
+
+**Changes made:**
+
+1. Developer section on the home page: icons on every profile link (portfolio, faculty profile, GitHub, LinkedIn, YouTube, email).
+2. Apps and course sites are listed with their share-card (og) images as thumbnails; app descriptions shortened and the apps column made narrower.
+3. The "this site" tag now sits beside the course code and never wraps.
+
+---
+
 ## 2026-11-08 06:03 UTC
 
 **Prompt given to the AI:**
