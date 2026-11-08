@@ -8,6 +8,21 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-11-08 06:03 UTC
+
+**Prompt given to the AI:**
+
+> Inside a topic: ← → or Space to move, F for full screen, M for the slide list. Code tracers: Next ▶ runs one line and shows the stack, heap and console.
+>
+> remove these texts from all courses and publish all updated codes to the github including thesis
+
+**Changes made:**
+
+1. Removed the keyboard hint under the topic list on the home page ("Inside a topic: ← → or Space to move …").
+2. Removed the hint line "← → move between slides · F full screen · M slide list" from the title slide of every topic.
+
+---
+
 ## 2026-11-05 19:09 UTC
 
 **Prompt given to the AI:**
