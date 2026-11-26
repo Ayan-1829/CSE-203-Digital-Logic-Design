@@ -8,6 +8,18 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-11-26 14:04 UTC
+
+**Prompt:**
+> I have added a new course 'CSE-315 Artificial Intelligence'. I need to make a website for this too like others. Make git and create new repo in github for this and publish this after completion. Also add link to other courses for this too.
+>
+> Follow the book for proper contents. Take the slides' help for contents
+
+**Changes:**
+- The developer section on the home page lists the new course site, CSE 315 Artificial Intelligence (https://ayan-1829.github.io/CSE-315-Artificial-Intelligence/), under “All course sites” (`_tools/devfooter/devfooter.py`).
+
+---
+
 ## 2026-11-26 09:14 UTC
 
 **Prompt:**
