@@ -907,3 +907,11 @@ ol.st-log li{text-align:left;padding:4px 8px;border-radius:6px;transition:backgr
 .sumb.on{outline:3px solid var(--ac);outline-offset:1px;background:var(--blue-soft);color:var(--ac-ink)}
 .sumb.fix.on{background:var(--accent);color:#1b1200}
 table.tt.tight td,table.tt.tight th{padding:2px 10px}
+
+/* help: header tools */
+.site-header .brand{order:1}
+.site-header .head-tools{order:2;display:flex;align-items:center;gap:8px;margin-left:auto}
+.site-header .topnav{order:3;flex:1 1 100%}
+.site-header{row-gap:14px}
+@media (max-width:480px){.head-tools .btn{padding-left:9px;padding-right:9px}.head-tools .btn span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}
+/* /help */

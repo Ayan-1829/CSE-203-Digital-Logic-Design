@@ -8,6 +8,18 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-11-26 05:39 UTC
+
+**Prompt:**
+> Take the Dark mode and the help button at the top right of the page (level to the logo, title) and push all changes to github
+
+**Changes:**
+- On every page with the site header (home, practice, reference, projects, course outline, 404), the Dark mode button moved out of the page links into a new `.head-tools` group at the top right, on the same row as the logo; the Help button now goes there too. The page links get their own row below.
+- On screens 480px wide or less the two buttons show only their icons (their names stay as accessible labels) so they fit beside the logo.
+- Done by the shared `_tools/help/help.py`, which also appends a marked "help: header tools" block to `css/style.css`; slide decks keep both buttons in their top bar.
+
+---
+
 ## 2026-11-26 04:21 UTC
 
 **Prompt given to the AI:**
