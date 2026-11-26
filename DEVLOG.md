@@ -8,6 +8,68 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-11-26 09:14 UTC
+
+**Prompt:**
+> Sent with it: this page and slide, your device, and your approximate location (city and country). Please don’t include passwords or other private details.
+>
+> Remove text from feedback
+
+**Follow-up prompt (same session):**
+> push to git and github
+
+**Changes:**
+- The Feedback form no longer shows the "Sent with it: …" notice (English and Bengali). What is sent with a message is unchanged (`js/feedback.js`, from `_tools/help/feedback.js`).
+- Pushed this session's changes to GitHub.
+
+---
+
+## 2026-11-26 07:35 UTC
+
+**Prompt:**
+> Use icons for Dark/light, full screen, help, feedback in the slide presentation.
+
+**Changes:**
+- In every deck's top bar, Dark/Light mode, Full screen, Help and Feedback are now icon buttons on every screen size (বাংলা and Slides keep their labels). Each button keeps its name for screen readers and shows it as a tooltip that follows the current state and language ("Light mode", "লাইট মোড"). Styles in the shared look block (`_tools/look/look.py`), tooltips in `js/help.js`.
+
+---
+
+## 2026-11-26 07:31 UTC
+
+**Prompt:**
+> Instead of sending feedback to the github, add a button for feedback and send to the connected google sheet. add location info in a column for the feedback.
+> Try
+
+**Follow-up prompt (same session):**
+> Add slide progress for all the courses like Thesis
+
+**Changes:**
+- A **Feedback** button beside Help on every page (top right of ordinary pages, in the top bar of every deck; icon only on phones). It opens a form: kind (mistake, suggestion, question, something else), message, optional e-mail for a reply. Sent with the page, the slide number and title, language, theme and phone/computer. Shared file `js/feedback.js`, installed with the Help panel by `_tools/help/help.py`; the Help panel's "report a mistake" line now opens this form instead of GitHub.
+- It posts to the analytics Worker (address and course name read from the `analytics.js` tag). The Worker adds the approximate location (city, region, country), time zone and browser and stores the message in a new **Feedback** tab of the Course Analytics Sheet, with a Location column. The form only sends once the Worker reports `courseFeedback:true`; until then it shows the e-mail address. (The Worker change is in `Projects/analytics-backend/worker.js`, the Sheet script in `Courses/GUB/_analytics/apps-script-courses.gs`; both are deployed by hand: see `_analytics/COURSE-ANALYTICS-SETUP.md`.)
+- Reading progress on the home page: each topic card shows "Read 9 / 21", "Read ✓" and "Quiz best 4 / 5" once a topic has been opened. Shared file `js/progress.js`; it keeps progress per page address under one localStorage key, `course-progress-v1`, because all the course sites share one origin. Nothing is sent anywhere.
+
+---
+
+## 2026-11-26 06:33 UTC
+
+**Prompt:**
+> The webpages for all courses looks more alike claude generated (left side with coulour for cards, curved side for cards, colour combinations, buttons with rounded sides).
+>
+> Change these for more professional looks. Maintain enough gaps between paragraphs (some has no/less space, don't use gap for alll)
+
+**Follow-up prompt (same session):**
+> There are too much information for the cards. As the cards is in the Research Process section, no need to mention that. Then 27 slides . thesis-or-project game ... this section is ambiguous and no need to repeat what's inside. Just add Title, small description and you can add the progress. Keep the image. Keep the homepage precise for all courses. Change all the courses homepage card with minimal information look.
+>
+> For Journey sections in each courses use vertical flow (or different flow instead of regular left to right, try to make it attractive, also remove repeatitive patterns in a same page)
+
+**Changes:**
+- New shared tool `_tools/look/look.py` appends a marked "look: plain styling" block to `css/style.css` (before the Help block). Generated from this stylesheet's own rules: every border-radius of 6px or more (and every pill) becomes 4px (3px for small tags); every coloured left bar of 3px or more, and every coloured top bar on demos, traces and step cards, becomes a 1px hairline (boxes that had only the bar get a full hairline border). Kept: code-line and current-step markers, round switches and LEDs.
+- By hand in the same block: no coloured bar beside slide and section titles; callouts as plain bordered boxes (course colour for information, accent for warnings); topic cards with one hairline, a plain number and a quiet meta line; the deck progress bar in the course colour; square-cornered buttons and the drawing button.
+- Spacing: text after a table, code block, console, list, figure or column block gets its own top margin; consecutive paragraphs inside callouts and answers are spaced; headings on ordinary pages get space under them. Margins collapse, so only places that had no gap change; demo output boxes keep their own spacing. Every deck was measured at 1920×1080 before and after: no slide that fitted now overflows.
+- New shared tool `_tools/look/home.py`: home-page topic cards show only the number, title, one line and the picture (this course's one-line descriptions were already short and are unchanged); the button row under the introduction keeps only "Start with topic 1" (Practice, Quick reference, Projects and Gate Forge were already in the navigation or in "More tools to explore").
+
+---
+
 ## 2026-11-26 05:39 UTC
 
 **Prompt:**
