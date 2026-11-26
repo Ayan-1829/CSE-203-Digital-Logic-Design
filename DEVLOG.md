@@ -8,6 +8,24 @@ was actually changed. New entries are added to the top.
 
 ---
 
+## 2026-11-26 04:21 UTC
+
+**Prompt given to the AI:**
+
+> Add help icon for every courses and add related shorcuts, key-hints and specific course related help for every course.
+>
+> Push the changes for every course to github. Also ensure local gits are maintained for each courses
+
+**Changes made:**
+
+1. A **Help** button on every page: in the slide bar of each topic and in the top navigation of the other pages. The **?** key opens it too.
+2. The Help panel lists the keyboard shortcuts (next / previous slide, Home / End, M slide list, F full screen, Esc, L English / বাংলা, ?), the drawing-tool keys (undo, redo, Esc), how to use this course's circuits and simulators (toggling switches, K-map cells 1 / X / 0, Step clock / Run clock / Pause clock / Reset), the site's pages, what is saved in the browser, and where to report a mistake.
+3. The panel follows the English / বাংলা switch; while it is open, the slide keys do not move the deck behind it.
+4. Shared with all GUB course sites: `GUB/_tools/help/help.py` (installer and course text) and `help.js` (button and panel). Re-run `python3 _tools/help/help.py "CSE-203 Digital Logic Design/v5" 203` after adding pages.
+5. This folder is now a git working copy of the GitHub repository (it had fallen 5 commits behind; the files already matched, so only the branch pointer was moved).
+
+---
+
 ## 2026-11-08 06:20 UTC
 
 **Prompt given to the AI:**
